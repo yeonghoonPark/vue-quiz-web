@@ -7,7 +7,7 @@ import Components from "unplugin-vue-components/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx(), Components({ dts: true })],
+  plugins: [vue(), vueJsx(), Components({ dts: false })],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
