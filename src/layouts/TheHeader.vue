@@ -4,7 +4,13 @@
   <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Quiz</a>
+        <RouterLink
+          to="/"
+          class="navbar-brand"
+          active-class="active"
+          aria-current="page"
+          >임시로고</RouterLink
+        >
         <button
           class="navbar-toggler"
           type="button"
@@ -24,9 +30,8 @@
                 class="nav-link"
                 active-class="active"
                 aria-current="page"
-                >Home</RouterLink
+                >Quiz</RouterLink
               >
-              <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
             </li>
             <li class="nav-item">
               <RouterLink
@@ -34,9 +39,8 @@
                 class="nav-link"
                 active-class="active"
                 aria-current="page"
-                >About</RouterLink
+                >Ranking</RouterLink
               >
-              <!-- <a class="nav-link" href="#">About</a> -->
             </li>
             <li class="nav-item">
               <RouterLink
@@ -44,7 +48,7 @@
                 class="nav-link"
                 active-class="active"
                 aria-current="page"
-                >Post</RouterLink
+                >Notice</RouterLink
               >
             </li>
             <li class="nav-item">
@@ -53,17 +57,13 @@
                 class="nav-link"
                 active-class="active"
                 aria-current="page"
-                >Nested</RouterLink
+                >Help</RouterLink
               >
             </li>
           </ul>
           <div class="d-flex" role="search">
-            <button
-              class="btn btn-outline-light"
-              type="button"
-              @click="goPagePostsCreate"
-            >
-              Write
+            <button class="btn btn-outline-light" type="button" @click="">
+              Login
             </button>
           </div>
         </div>

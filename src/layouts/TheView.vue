@@ -1,3 +1,5 @@
+<script setup></script>
+
 <template>
   <main>
     <div class="container py-4">
