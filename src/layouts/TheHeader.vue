@@ -4,13 +4,9 @@
   <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
       <div class="container-fluid">
-        <RouterLink
-          to="/"
-          class="navbar-brand"
-          active-class="active"
-          aria-current="page"
-          >임시로고</RouterLink
-        >
+        <RouterLink to="/">
+          <img src="@/assets/images/logo.png" alt="logo" style="width: 120px" />
+        </RouterLink>
         <button
           class="navbar-toggler"
           type="button"
@@ -26,7 +22,7 @@
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <RouterLink
-                to="/"
+                to="/quiz"
                 class="nav-link"
                 active-class="active"
                 aria-current="page"
@@ -35,7 +31,7 @@
             </li>
             <li class="nav-item">
               <RouterLink
-                to="/about"
+                to="/ranking"
                 class="nav-link"
                 active-class="active"
                 aria-current="page"
@@ -44,7 +40,7 @@
             </li>
             <li class="nav-item">
               <RouterLink
-                to="/posts"
+                to="/notice"
                 class="nav-link"
                 active-class="active"
                 aria-current="page"
@@ -53,9 +49,8 @@
             </li>
             <li class="nav-item">
               <RouterLink
-                to="/nested"
                 class="nav-link"
-                active-class="active"
+                active-class="none"
                 aria-current="page"
                 >Help</RouterLink
               >
@@ -63,7 +58,13 @@
           </ul>
           <div class="d-flex" role="search">
             <button class="btn btn-outline-light" type="button" @click="">
-              Login
+              <RouterLink
+                to="/login"
+                class="nav-link"
+                active-class="active"
+                aria-current="page"
+                >Login</RouterLink
+              >
             </button>
           </div>
         </div>
@@ -71,3 +72,5 @@
     </nav>
   </header>
 </template>
+
+<style scoped></style>
