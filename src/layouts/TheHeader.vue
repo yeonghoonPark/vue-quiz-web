@@ -49,6 +49,7 @@
             </li>
             <li class="nav-item">
               <RouterLink
+                to=""
                 class="nav-link"
                 active-class="none"
                 aria-current="page"
