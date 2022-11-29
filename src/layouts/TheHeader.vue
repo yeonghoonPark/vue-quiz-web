@@ -1,22 +1,29 @@
-<script setup></script>
+<script setup>
+import IconHamburger from "@/components/icons/IconHamburger.vue";
+</script>
 
 <template>
   <header>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
-      <div class="container-fluid">
-        <RouterLink to="/">
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient px-4 py-1"
+    >
+      <div class="container-xxl">
+        <RouterLink to="/" class="pe-3">
           <img src="@/assets/images/logo.png" alt="logo" style="width: 120px" />
         </RouterLink>
         <button
-          class="navbar-toggler"
+          class="navbar-toggler px-0"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
-          aria-expanded="false"
           aria-label="Toggle navigation"
+          aria-expanded="true"
+          style="border: none"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span class="db-navbar-toggler">
+            <IconHamburger />
+          </span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
@@ -58,7 +65,11 @@
             </li>
           </ul>
           <div class="d-flex" role="search">
-            <button class="btn btn-outline-light" type="button" @click="">
+            <button
+              class="btn btn-md btn-outline-light my-2"
+              type="button"
+              @click=""
+            >
               <RouterLink
                 to="/login"
                 class="nav-link"
@@ -74,4 +85,11 @@
   </header>
 </template>
 
-<style scoped></style>
+<style scoped>
+img {
+  transition: var(--base-transition);
+}
+img:hover {
+  transform: rotate(-5deg);
+}
+</style>
