@@ -1,5 +1,16 @@
-<script setup></script>
+<script setup>
+import BaseButton from "@/components/base/BaseButton.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const goLoginView = () => router.push({ name: "LoginView" });
+</script>
 
 <template>
-  <main></main>
+  <div id="HomeView">
+    <BaseButton class="btn-lg" :message="'Start'" @click="goLoginView" />
+  </div>
 </template>
+
+<style scoped></style>

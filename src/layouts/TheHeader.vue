@@ -1,15 +1,25 @@
 <script setup>
 import IconHamburger from "@/components/icons/IconHamburger.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const goLoginView = () => router.push({ name: "LoginView" });
 </script>
 
 <template>
-  <header>
+  <header class="fixed-top">
     <nav
       class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient px-4 py-1"
     >
       <div class="container-xxl">
         <RouterLink to="/" class="pe-3">
-          <img src="@/assets/images/logo.png" alt="logo" style="width: 120px" />
+          <img
+            class="img"
+            src="@/assets/images/logo.png"
+            alt="logo"
+            style="width: 120px"
+          />
         </RouterLink>
         <button
           class="navbar-toggler px-0"
@@ -68,7 +78,7 @@ import IconHamburger from "@/components/icons/IconHamburger.vue";
             <button
               class="btn btn-md btn-outline-light my-2"
               type="button"
-              @click=""
+              @click="goLoginView"
             >
               <RouterLink
                 to="/login"
@@ -86,10 +96,21 @@ import IconHamburger from "@/components/icons/IconHamburger.vue";
 </template>
 
 <style scoped>
-img {
+.img {
   transition: var(--base-transition);
 }
-img:hover {
+.img:hover {
   transform: rotate(-5deg);
+}
+.btn {
+  opacity: 0.5;
+  border-radius: var(--base-btn-radius);
+}
+.btn:hover {
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+.navbar-toggler:focus {
+  box-shadow: none;
 }
 </style>
