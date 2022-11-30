@@ -8,11 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <button class="btn btn-primary" type="button">{{ message }}</button>
+  <button class="btn" type="button">{{ message }}</button>
 </template>
 
-<style scoped>
-.btn {
-  transition: var(--base-transition);
-}
-</style>
+<style scoped></style>

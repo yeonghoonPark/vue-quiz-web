@@ -12,7 +12,6 @@ import "@/assets/css/common.css";
 import "@/assets/css/reset.css";
 
 const app = createApp(App);
-
 app.use(createPinia());
 app.use(router);
 

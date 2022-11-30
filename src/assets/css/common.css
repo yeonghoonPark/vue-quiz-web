@@ -4,16 +4,12 @@
   font-family: "Noto Sans KR", sans-serif;
 }
 
-/* btn */
 :root {
-  --base-btn-radius: 2px;
+  --btn-radius: 2px;
+  --base-transition: 0.3s;
 }
 
 .btn {
-  border-radius: var(--base-btn-radius);
-}
-
-/* animation */
-:root {
-  --base-transition: 0.3s;
+  border-radius: var(--btn-radius);
+  transition: var(--base-transition);
 }

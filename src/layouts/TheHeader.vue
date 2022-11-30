@@ -104,10 +104,9 @@ const goLoginView = () => router.push({ name: "LoginView" });
 }
 .btn {
   opacity: 0.5;
-  border-radius: var(--base-btn-radius);
 }
 .btn:hover {
-  opacity: 1;
+  opacity: 0.9;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 .navbar-toggler:focus {
