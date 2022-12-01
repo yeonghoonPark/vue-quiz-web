@@ -1,10 +1,30 @@
+<script>
+// const logoutWithKakao = () => {
+//   console.log("로그아웃");
+//   Kakao.Auth.logout({
+//     success: function (authObj) {
+//       console.log(authObj, "authObj");
+//       Kakao.API.request({
+//         url: "/v1/user/unlink",
+//         success: (res) => {
+//           const kakao_account = res.kakao_account;
+//           console.log(kakao_account, "kakao_account");
+//         },
+//       });
+//     },
+//   });
+// };
+</script>
+
 <script setup>
 import IconHamburger from "@/components/icons/IconHamburger.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
 const goLoginView = () => router.push({ name: "LoginView" });
+const goHomeView = () => router.push({ name: "HomeView" });
 </script>
 
 <template>
@@ -75,19 +95,18 @@ const goLoginView = () => router.push({ name: "LoginView" });
             </li>
           </ul>
           <div class="d-flex" role="search">
-            <button
+            <BaseButton
+              v-if="false"
               class="btn btn-md btn-outline-light my-2"
-              type="button"
+              :message="'Login'"
               @click="goLoginView"
-            >
-              <RouterLink
-                to="/login"
-                class="nav-link"
-                active-class="active"
-                aria-current="page"
-                >Login</RouterLink
-              >
-            </button>
+            />
+            <BaseButton
+              v-else="true"
+              class="btn btn-md btn-outline-light my-2"
+              :message="'Logout'"
+              @click=""
+            />
           </div>
         </div>
       </div>
