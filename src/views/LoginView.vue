@@ -1,8 +1,21 @@
 <script setup>
 import { ref } from "vue";
-import BaseButton from "../components/base/BaseButton.vue";
+import { useKakaoStore } from "@/stores/kakao";
+import { storeToRefs } from "pinia";
+import BaseButton from "@/components/base/BaseButton.vue";
 
+// 토큰 state, 차후 pinia state로 변경
 const ACCESS_TOKEN = ref(null);
+
+const store = useKakaoStore();
+
+// store's state
+const { test } = storeToRefs(store);
+console.log(test.value);
+
+// store's method
+const { testFunction } = store;
+testFunction();
 
 // const loginWithKakao = () => {
 //   console.log("로그인");
@@ -27,7 +40,7 @@ const getUserInfo = () => {
   Kakao.API.request({
     url: "/v2/user/me",
     success: function (response) {
-      console.log(response);
+      console.log(response, "response");
     },
     fail: function (error) {
       alert(
@@ -43,13 +56,13 @@ const loginWithKakao = () => {
   Kakao.Auth.loginForm({
     success: function (auth) {
       console.log(auth);
-      console.log(auth.access_token, "토큰 값");
+      console.log(auth.access_token, "auth.access_token");
 
       Kakao.Auth.setAccessToken(auth.access_token);
-      console.log("setAccessToken", "토큰 저장");
+      console.log("setAccessToken", "setAccessToken");
 
       ACCESS_TOKEN.value = auth.access_token;
-      console.log(ACCESS_TOKEN.value, "ACCESS_TOKEN 값 할당");
+      console.log(ACCESS_TOKEN.value, "ACCESS_TOKEN.value");
 
       getUserInfo();
     },
@@ -60,6 +73,7 @@ const loginWithKakao = () => {
 };
 
 const logoutWithKakao = () => {
+  console.log("[logoutWithKakao]");
   if (!Kakao.Auth.getAccessToken()) {
     console.log("Not logged in.");
     return;
