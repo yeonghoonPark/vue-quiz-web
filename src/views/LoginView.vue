@@ -10,7 +10,7 @@ import BaseButton from "@/components/base/BaseButton.vue";
 const store = useKakaoStore();
 
 // store's state
-const { access_token } = storeToRefs(store);
+const { access_token, account_email } = storeToRefs(store);
 
 // store's method
 const { loginWithKakao, logoutWithKakao } = store;
@@ -65,22 +65,26 @@ const { loginWithKakao, logoutWithKakao } = store;
 // };
 
 onMounted(() => {
-  console.log(access_token.value, "밸류");
+  // console.log(access_token.value, "밸류");
 });
 </script>
 
 <template>
   <div id="LoginView">
     <BaseButton
+      v-if="!access_token"
       class="btn btn-warning btn-sm"
       :message="'Kakao Login'"
       @click="loginWithKakao"
     />
 
     <BaseButton
+      v-else
       class="btn btn-primary btn-sm"
       :message="'Logout'"
       @click="logoutWithKakao"
     />
+    <h1>access_token: {{ access_token }}</h1>
+    <h1>account_email: {{ account_email }}</h1>
   </div>
 </template>
