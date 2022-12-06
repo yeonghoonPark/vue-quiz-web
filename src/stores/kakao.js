@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-Kakao.init("2a420577808d1110c6e68c1149d212af");
 
 export const useKakaoStore = defineStore("kakao", () => {
   const access_token = ref(null);
@@ -29,7 +28,7 @@ export const useKakaoStore = defineStore("kakao", () => {
 
   const loginWithKakao = () => {
     console.log("[loginWithKakao]");
-
+    Kakao.init("2a420577808d1110c6e68c1149d212af");
     Kakao.Auth.loginForm({
       scope: "account_email gender profile_nickname",
       success: function (auth) {
