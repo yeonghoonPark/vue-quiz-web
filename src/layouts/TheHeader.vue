@@ -17,11 +17,19 @@
 </script>
 
 <script setup>
+import { useRouter } from "vue-router";
+import { useKakaoStore } from "@/stores/kakao";
+import { storeToRefs } from "pinia";
 import IconHamburger from "@/components/icons/IconHamburger.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
-import { useRouter } from "vue-router";
 
 const router = useRouter();
+const kakaoStore = useKakaoStore();
+
+const { access_token, account_email, profile_nickname } =
+  storeToRefs(kakaoStore);
+
+const { logoutWithKakao } = kakaoStore;
 
 const goLoginView = () => router.push({ name: "LoginView" });
 const goHomeView = () => router.push({ name: "HomeView" });
@@ -96,16 +104,16 @@ const goHomeView = () => router.push({ name: "HomeView" });
           </ul>
           <div class="d-flex" role="search">
             <BaseButton
-              v-if="false"
+              v-if="!access_token"
               class="btn btn-md btn-outline-light my-2"
               :message="'Login'"
               @click="goLoginView"
             />
             <BaseButton
-              v-else="true"
+              v-else
               class="btn btn-md btn-outline-light my-2"
               :message="'Logout'"
-              @click=""
+              @click="logoutWithKakao"
             />
           </div>
         </div>

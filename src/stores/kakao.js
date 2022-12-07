@@ -4,8 +4,13 @@ import { ref } from "vue";
 export const useKakaoStore = defineStore("kakao", () => {
   const access_token = ref(null);
   const account_email = ref(null);
-  const gender = ref(null);
   const profile_nickname = ref(null);
+
+  const resetUserInfo = () => {
+    (access_token.value = null),
+      (account_email.value = null),
+      (profile_nickname.value = null);
+  };
 
   const getUserInfo = () => {
     console.log("[getUserInfo]");
@@ -16,6 +21,8 @@ export const useKakaoStore = defineStore("kakao", () => {
 
         account_email.value = response.kakao_account.email;
         console.log(response.kakao_account.email, "@@이메일");
+
+        localStorage.setItem("account_email", `${account_email}`);
       },
       fail: function (error) {
         alert(
@@ -28,9 +35,9 @@ export const useKakaoStore = defineStore("kakao", () => {
 
   const loginWithKakao = () => {
     console.log("[loginWithKakao]");
-    Kakao.init("2a420577808d1110c6e68c1149d212af");
+
     Kakao.Auth.loginForm({
-      scope: "account_email gender profile_nickname",
+      scope: "account_email profile_nickname",
       success: function (auth) {
         console.log(auth);
         console.log(auth.access_token, "auth.access_token");
@@ -59,7 +66,7 @@ export const useKakaoStore = defineStore("kakao", () => {
     }
 
     Kakao.Auth.logout(function () {
-      access_token.value = null;
+      resetUserInfo();
       console.log(`logout ok\nAccessToken = ${Kakao.Auth.getAccessToken()}`);
     });
   };
@@ -67,7 +74,6 @@ export const useKakaoStore = defineStore("kakao", () => {
   return {
     access_token,
     account_email,
-    gender,
     profile_nickname,
     loginWithKakao,
     logoutWithKakao,

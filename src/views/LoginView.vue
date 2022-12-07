@@ -7,13 +7,14 @@ import BaseButton from "@/components/base/BaseButton.vue";
 // 토큰 state, 차후 pinia state로 변경
 // const ACCESS_TOKEN = ref(null);
 
-const store = useKakaoStore();
+const kakaoStore = useKakaoStore();
 
 // store's state
-const { access_token, account_email } = storeToRefs(store);
+const { access_token, account_email, profile_nickname } =
+  storeToRefs(kakaoStore);
 
 // store's method
-const { loginWithKakao, logoutWithKakao } = store;
+const { loginWithKakao, logoutWithKakao } = kakaoStore;
 
 // const getUserInfo = () => {
 //   console.log("[getUserInfo]");
@@ -86,5 +87,6 @@ onMounted(() => {
     />
     <h1>access_token: {{ access_token }}</h1>
     <h1>account_email: {{ account_email }}</h1>
+    <h1>profile_nickname: {{ profile_nickname }}</h1>
   </div>
 </template>
