@@ -22,6 +22,9 @@ export const useKakaoStore = defineStore("kakao", () => {
         account_email.value = response.kakao_account.email;
         console.log(response.kakao_account.email, "@@이메일");
 
+        profile_nickname.value = response.properties?.nickname;
+        console.log(response.properties.nickname, "@@닉네임");
+
         localStorage.setItem("account_email", `${account_email}`);
       },
       fail: function (error) {
