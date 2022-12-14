@@ -12,7 +12,8 @@
 
 <style scoped>
 .test {
+  width: auto;
   height: calc(100vh - 68px);
-  background: url(@/assets/images/test04.png);
+  /* background: url(@/assets/images/test04.png); */
 }
 </style>
