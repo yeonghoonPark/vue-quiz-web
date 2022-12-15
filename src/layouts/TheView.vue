@@ -1,13 +1,13 @@
 <script setup></script>
 
 <template>
-  <div class="test">
-    <main class="px-4 pt-3" style="margin-top: 68px">
-      <div class="container-xxl">
-        <RouterView />
-      </div>
-    </main>
-  </div>
+  <!-- <div class="test"> -->
+  <main class="px-4 pt-3" style="margin-top: 68px">
+    <div class="container-xxl">
+      <RouterView />
+    </div>
+  </main>
+  <!-- </div> -->
 </template>
 
 <style scoped>
