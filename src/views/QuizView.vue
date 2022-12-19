@@ -2,89 +2,59 @@
 import BaseButton from "@/components/base/BaseButton.vue";
 import { ref } from "vue";
 
-const startingPoint = ref(0);
+import quizzes from "@/data/quizzes";
+
+console.log(quizzes[0]);
+
+const startingPoint = ref(null);
 const minute = ref("00");
 const second = ref("00");
-const milisecond = ref("00");
-const timerStart2 = ref();
+const millisecond = ref("00");
+const timerInterval = ref(null);
 
-let stTime = 0;
-let timerStart;
+/**
+ * 매개변수가 10보다 작을 경우 앞자리에 "0"을 추가하여 두자리를 만드는 함수
+ *
+ * @param {number} number
+ *
+ * @returns {string}
+ */
+const addZero = (number) => (number < 10 ? "0" + number : "" + number);
 
-let min;
-let sec;
-let milisec;
-
-const addZero = (number) => {
-  return number < 10 ? "0" + number : "" + number;
-};
-
-const testStart2 = () => {
-  console.log("[testStart2]");
-  if (startingPoint.value === 0) {
-    startingPoint.value = Date.now();
-    console.log(startingPoint.value, "[startPoint.value]");
-  } else {
-    console.log(startingPoint.value, "[startPoint.value] is not zero");
-  }
-
-  timerStart2.value = setInterval(function () {
+// 밀리세컨즈 인터벌 함수
+const startTimerInterval = () => {
+  console.log("[startTimerInterval]");
+  timerInterval.value = setInterval(function () {
     let currentPoint = new Date(Date.now() - startingPoint.value);
     minute.value = addZero(currentPoint.getMinutes());
     second.value = addZero(currentPoint.getSeconds());
-    milisecond.value = addZero(Math.floor(currentPoint.getMilliseconds() / 10));
+    millisecond.value = addZero(
+      Math.floor(currentPoint.getMilliseconds() / 10),
+    );
   }, 1);
 };
 
-const testStop2 = () => {
-  console.log("[testStop2]");
-  clearInterval(timerStart2.value);
+// 스타트버튼 함수
+const startTimeAttack = () => {
+  console.log("[startTimeAttack]");
+  startingPoint.value = startingPoint.value ?? Date.now();
+  startTimerInterval();
 };
 
-const testReset2 = () => {
-  console.log("[testReset2]");
-  startingPoint.value = 0;
+// 스탑버튼 함수
+const stopTimeAttack = () => {
+  console.log("[stopTimeAttack]");
+  clearInterval(timerInterval.value);
+};
+
+// 리셋버튼 함수
+const resetTimer = () => {
+  console.log("[resetTimer]");
+  startingPoint.value = null;
   minute.value = "00";
   second.value = "00";
-  milisecond.value = "00";
+  millisecond.value = "00";
 };
-
-// const testStart = () => {
-//   console.log("[testStart]");
-
-//   if (!stTime) {
-//     stTime = Date.now();
-//     console.log(stTime);
-//   }
-
-//   timerStart = setInterval(function () {
-//     let nowTime = new Date(Date.now() - stTime);
-
-//     min = addZero(nowTime.getMinutes());
-//     sec = addZero(nowTime.getSeconds());
-//     milisec = addZero(Math.floor(nowTime.getMilliseconds() / 10));
-
-//     document.getElementById("postTestMin").innerText = min;
-//     document.getElementById("postTestSec").innerText = sec;
-//     document.getElementById("postTestMilisec").innerText = milisec;
-//   }, 1);
-// };
-
-// const testStop = () => {
-//   console.log("[testStop]");
-//   clearInterval(timerStart);
-// };
-
-// const testReset = () => {
-//   console.log("[testReset]");
-//   stTime = 0;
-//   min = 0;
-//   sec = 0;
-//   milisec = 0;
-//   document.getElementById("postTestMin").innerText = "00";
-//   document.getElementById("postTestSec").innerText = "00";
-//   document.getElementById("postTestMilisec").innerText = "00";
-// };
 </script>
 
 <template>
@@ -96,13 +66,35 @@ const testReset2 = () => {
     <span>:</span>
     <span id="postTestSec">{{ second }}</span>
     <span>.</span>
-    <span id="postTestMilisec">{{ milisecond }}</span>
+    <span id="postTestMilisec">{{ millisecond }}</span>
     <hr />
 
-    <button class="btn btn-primary btn-sm me-2" @click="testStart2">
+    <button class="btn btn-primary btn-sm me-2" @click="startTimeAttack">
       Start
     </button>
-    <button class="btn btn-primary btn-sm me-2" @click="testStop2">Stop</button>
-    <button class="btn btn-primary btn-sm" @click="testReset2">Reset</button>
+    <button class="btn btn-primary btn-sm me-2" @click="stopTimeAttack">
+      Stop
+    </button>
+    <button class="btn btn-primary btn-sm" @click="resetTimer">Reset</button>
+
+    <hr />
+    <div>
+      <template v-if="startingPoint">
+        <div>
+          <h2>문제.</h2>
+          <h3>{{ quizzes[19].question }}</h3>
+          <ol>
+            <li>{{ quizzes[19].example1 }}</li>
+            <li>{{ quizzes[19].example2 }}</li>
+            <li>{{ quizzes[19].example3 }}</li>
+          </ol>
+        </div>
+      </template>
+      <template v-else>
+        <div>
+          <span>Are You Ready?</span>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
