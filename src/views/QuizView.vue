@@ -4,8 +4,6 @@ import { ref } from "vue";
 
 import quizzes from "@/data/quizzes";
 
-console.log(quizzes[0]);
-
 const startingPoint = ref(null);
 const minute = ref("00");
 const second = ref("00");
@@ -54,6 +52,35 @@ const resetTimer = () => {
   minute.value = "00";
   second.value = "00";
   millisecond.value = "00";
+
+  // 나중에 pinia 부분으로 옮길 것
+  testCount.value = 0;
+};
+
+// 나중에 pinia 에서 선언
+const testCount = ref(0);
+// 정답 클릭 테스트
+const testAnswer = (a, b) => {
+  console.log(`a = ${a} , b = ${b}`);
+  a === b ? console.log("같다") : console.log("다르다");
+
+  if (a === b) testCount.value++;
+};
+
+const testCopy = () => {
+  console.log(document.getElementById("test"));
+  const testDiv = document.getElementById("test");
+
+  // testDiv.innerHTML = `<h1>안녕하세요</h1>`;
+
+  for (let i = 0; i < 10; i++) {
+    const testCreat = document.createElement("div");
+    testDiv.append(testCreat);
+    testCreat.innerHTML = `
+    <h3>${quizzes[i].count}. 문제  </h3>
+    <h3>${quizzes[i].question}</h3>
+    `;
+  }
 };
 </script>
 
@@ -66,7 +93,9 @@ const resetTimer = () => {
     <span>:</span>
     <span id="postTestSec">{{ second }}</span>
     <span>.</span>
-    <span id="postTestMilisec">{{ millisecond }}</span>
+    <span id="postTestMilisec" class="me-4">{{ millisecond }}</span>
+
+    <span>맞춘 갯수 : {{ testCount }}</span>
     <hr />
 
     <button class="btn btn-primary btn-sm me-2" @click="startTimeAttack">
@@ -78,16 +107,45 @@ const resetTimer = () => {
     <button class="btn btn-primary btn-sm" @click="resetTimer">Reset</button>
 
     <hr />
+    <div id="test">
+      <button @click="testCopy">버튼</button>
+    </div>
     <div>
       <template v-if="startingPoint">
         <div>
           <h2>문제.</h2>
-          <h3>{{ quizzes[19].question }}</h3>
-          <ol>
-            <li>{{ quizzes[19].example1 }}</li>
-            <li>{{ quizzes[19].example2 }}</li>
-            <li>{{ quizzes[19].example3 }}</li>
-          </ol>
+          <div>
+            <h3>{{ quizzes[19].question }}</h3>
+            <ol>
+              <li>
+                <span
+                  class="px-2"
+                  @click="
+                    testAnswer(quizzes[19]?.example1, quizzes[19]?.correct)
+                  "
+                  >{{ quizzes[19].example1 }}</span
+                >
+              </li>
+              <li>
+                <span
+                  class="px-2"
+                  @click="
+                    testAnswer(quizzes[19]?.example2, quizzes[19]?.correct)
+                  "
+                  >{{ quizzes[19].example2 }}</span
+                >
+              </li>
+              <li>
+                <span
+                  class="px-2"
+                  @click="
+                    testAnswer(quizzes[19]?.example3, quizzes[19]?.correct)
+                  "
+                  >{{ quizzes[19].example3 }}</span
+                >
+              </li>
+            </ol>
+          </div>
         </div>
       </template>
       <template v-else>
@@ -98,3 +156,15 @@ const resetTimer = () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+li {
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: var(--base-transition);
+}
+
+span:hover {
+  background-color: bisque;
+}
+</style>
