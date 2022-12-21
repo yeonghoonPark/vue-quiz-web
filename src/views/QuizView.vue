@@ -1,6 +1,6 @@
 <script setup>
 import BaseButton from "@/components/base/BaseButton.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import quizzes from "@/data/quizzes";
 
@@ -62,7 +62,7 @@ const testCount = ref(0);
 // 정답 클릭 테스트
 const testAnswer = (a, b) => {
   console.log(`a = ${a} , b = ${b}`);
-  a === b ? console.log("같다") : console.log("다르다");
+  a === b ? console.log("*정답, 같다") : console.log("*오답, 다르다");
 
   if (a === b) testCount.value++;
 };
@@ -71,17 +71,57 @@ const testCopy = () => {
   console.log(document.getElementById("test"));
   const testDiv = document.getElementById("test");
 
-  // testDiv.innerHTML = `<h1>안녕하세요</h1>`;
-
   for (let i = 0; i < 10; i++) {
     const testCreat = document.createElement("div");
     testDiv.append(testCreat);
     testCreat.innerHTML = `
-    <h3>${quizzes[i].count}. 문제  </h3>
+    <h2>${quizzes[i].count}. 문제  </h2>
     <h3>${quizzes[i].question}</h3>
+    <ol>
+      <li>
+        <span class="example1 px-2">
+          ${quizzes[i].example1}
+        </span>
+      </li>
+      <li>
+        <span class="example2 px-2">
+          ${quizzes[i].example2}
+        </span>
+      </li>
+      <li>
+        <span class="example3 px-2">
+          ${quizzes[i].example3}
+        </span>
+      </li>
+    </ol>
     `;
   }
+
+  const example1 = document.querySelectorAll(".example1");
+  const example2 = document.querySelectorAll(".example2");
+  const example3 = document.querySelectorAll(".example3");
+
+  // console.log(example1.length, "렝스");
+  example1.forEach((item, index) =>
+    item.addEventListener("click", () =>
+      testAnswer(quizzes[index]?.example1, quizzes[index]?.correct),
+    ),
+  );
+  example2.forEach((item, index) =>
+    item.addEventListener("click", () =>
+      testAnswer(quizzes[index]?.example2, quizzes[index]?.correct),
+    ),
+  );
+  example3.forEach((item, index) =>
+    item.addEventListener("click", () =>
+      testAnswer(quizzes[index]?.example3, quizzes[index]?.correct),
+    ),
+  );
 };
+
+onMounted(() => {
+  console.log("[onMounted]");
+});
 </script>
 
 <template>
@@ -97,8 +137,10 @@ const testCopy = () => {
 
     <span>맞춘 갯수 : {{ testCount }}</span>
     <hr />
-
-    <button class="btn btn-primary btn-sm me-2" @click="startTimeAttack">
+    <button
+      class="btn btn-primary btn-sm me-2"
+      @click="testCopy(), startTimeAttack()"
+    >
       Start
     </button>
     <button class="btn btn-primary btn-sm me-2" @click="stopTimeAttack">
@@ -107,12 +149,12 @@ const testCopy = () => {
     <button class="btn btn-primary btn-sm" @click="resetTimer">Reset</button>
 
     <hr />
+    <!-- <div id="test">
+      <button @click="testCopy(), startTimeAttack()">버튼</button>
+    </div> -->
     <div id="test">
-      <button @click="testCopy">버튼</button>
-    </div>
-    <div>
       <template v-if="startingPoint">
-        <div>
+        <!-- <div>
           <h2>문제.</h2>
           <div>
             <h3>{{ quizzes[19].question }}</h3>
@@ -146,7 +188,7 @@ const testCopy = () => {
               </li>
             </ol>
           </div>
-        </div>
+        </div> -->
       </template>
       <template v-else>
         <div>
@@ -157,14 +199,18 @@ const testCopy = () => {
   </div>
 </template>
 
-<style scoped>
+<style>
 li {
-  cursor: pointer;
   margin-bottom: 12px;
   transition: var(--base-transition);
 }
 
 span:hover {
+  cursor: pointer;
   background-color: bisque;
+}
+
+.px-2:hover {
+  /* background-color: bisque; */
 }
 </style>
