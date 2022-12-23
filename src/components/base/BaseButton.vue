@@ -8,7 +8,9 @@ const props = defineProps({
 </script>
 
 <template>
-  <button class="btn" type="button">{{ message }}</button>
+  <button class="btn" type="button">
+    {{ message }}
+  </button>
 </template>
 
 <style scoped></style>
