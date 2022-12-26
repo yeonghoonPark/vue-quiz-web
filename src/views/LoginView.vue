@@ -1,8 +1,8 @@
 <script setup>
+import BaseButton from "@/components/base/BaseButton.vue";
 import { onMounted, ref, watch } from "vue";
 import { useKakaoStore } from "@/stores/kakao";
 import { storeToRefs } from "pinia";
-import BaseButton from "@/components/base/BaseButton.vue";
 
 // 토큰 state, 차후 pinia state로 변경
 // const ACCESS_TOKEN = ref(null);

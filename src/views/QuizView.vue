@@ -1,7 +1,7 @@
 <script setup>
 import BaseButton from "@/components/base/BaseButton.vue";
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import { onMounted, ref } from "vue";
-
 import quizzes from "@/data/quizzes";
 
 const startingPoint = ref(null);
@@ -10,16 +10,27 @@ const second = ref("00");
 const millisecond = ref("00");
 const timerInterval = ref(null);
 
+// 퀴즈 담는 어레이
+const quizArray = ref([]);
+
+// 나중에 pinia 에서 선언
+const correctNumber = ref(0);
+
+// 문제 끝나고 기록이 나오는 알럿
+const isRecord = ref(false);
+
+const newQuizChildBoxes = ref([]);
+
 /**
  * 매개변수가 10보다 작을 경우 앞자리에 "0"을 추가하여 두자리를 만드는 함수
- *
  * @param {number} number
- *
  * @returns {string}
  */
 const addZero = (number) => (number < 10 ? "0" + number : "" + number);
 
-// 밀리세컨즈 인터벌 함수
+/**
+ * 스타트타이머인터벌
+ */
 const startTimerInterval = () => {
   console.log("[startTimerInterval]");
   timerInterval.value = setInterval(function () {
@@ -32,20 +43,26 @@ const startTimerInterval = () => {
   }, 1);
 };
 
-// 스타트버튼 함수
+/**
+ * 스타트타임어택
+ */
 const startTimeAttack = () => {
   console.log("[startTimeAttack]");
   startingPoint.value = startingPoint.value ?? Date.now();
   startTimerInterval();
 };
 
-// 스탑버튼 함수
+/**
+ * 스탑타임어택, 타이머인터벌을 클리어인터벌하는 역할
+ */
 const stopTimeAttack = () => {
   console.log("[stopTimeAttack]");
   clearInterval(timerInterval.value);
 };
 
-// 리셋버튼 함수
+/**
+ * 타이머를 리셋하는 역할
+ */
 const resetTimer = () => {
   console.log("[resetTimer]");
   startingPoint.value = null;
@@ -53,70 +70,203 @@ const resetTimer = () => {
   second.value = "00";
   millisecond.value = "00";
 
-  // 나중에 pinia 부분으로 옮길 것
-  testCount.value = 0;
+  // 정답갯수, 나중에 pinia 부분으로 옮길 것
+  correctNumber.value = 0;
 };
 
-// 나중에 pinia 에서 선언
-const testCount = ref(0);
-// 정답 클릭 테스트
-const testAnswer = (a, b) => {
-  console.log(`a = ${a} , b = ${b}`);
-  a === b ? console.log("*정답, 같다") : console.log("*오답, 다르다");
-
-  if (a === b) testCount.value++;
+/**
+ * 태그를 삭제하고 다음형제의 클래스네임 "hidden"을 제거하여 디스플레이를 조정해주는 함수
+ * @param {any} element
+ */
+const removeElement = (element) => {
+  console.log("[removeElement]");
+  const nextSibling = element.nextSibling;
+  element.remove();
+  nextSibling?.classList.remove("hidden");
+  if (!nextSibling) {
+    stopTimeAttack();
+    isRecord.value = true;
+  }
 };
 
-const testCopy = () => {
-  console.log(document.getElementById("test"));
-  const testDiv = document.getElementById("test");
+/**
+ * 클릭시에 클릭된 보기와 정답이 동일한지 확인하는 함수
+ * @param {any} clickedView
+ * @param {any} correct
+ */
+const countCorrectAnswers = (clickedView, correct) => {
+  console.log("[countCorrectAnswers]");
+  console.log(`선택 = ${clickedView}\n정답 = ${correct}`);
+  clickedView === correct
+    ? console.log("*정답입니다.")
+    : console.log("*틀렸습니다.");
+  if (clickedView === correct) correctNumber.value++;
+};
 
-  for (let i = 0; i < 10; i++) {
-    const testCreat = document.createElement("div");
-    testDiv.append(testCreat);
-    testCreat.innerHTML = `
-    <h2>${quizzes[i].count}. 문제  </h2>
-    <h3>${quizzes[i].question}</h3>
+/**
+ * 배열요소의 순서를 랜덤하게 섞어주고 섞은 배열을 변수에 담는 함수
+ * @param {array} array
+ */
+const mixArrayRandomly = (array) => {
+  console.log("[mixArrayRandomly]");
+  array.sort(() => Math.random() - 0.5);
+  quizArray.value = array;
+};
+
+const displayItems = () => {
+  console.log("[displayItems]");
+  mixArrayRandomly(quizzes);
+  const quizBox = document.getElementById("quizBox");
+  for (let index = 0; index < 10; index++) {
+    const quizChildBox = document.createElement("div");
+    quizBox.append(quizChildBox);
+    quizChildBox.classList.add("quizChildBox");
+    quizChildBox.innerHTML = createHTMLString(quizArray.value[index], index);
+  }
+  const quizChildBoxes = document.querySelectorAll(".quizChildBox");
+  newQuizChildBoxes.value = quizChildBoxes;
+  newQuizChildBoxes.value.forEach((item, index) => {
+    if (index !== 0) {
+      item.classList.add("hidden");
+    }
+  });
+  onClickMultipleChoiceView();
+};
+
+const onClickMultipleChoiceView = () => {
+  console.log("[onClickMultipleChoiceView]");
+  const view1 = document.querySelectorAll(".multiple_choice_view1");
+  const view2 = document.querySelectorAll(".multiple_choice_view2");
+  const view3 = document.querySelectorAll(".multiple_choice_view3");
+  view1.forEach((item, index) =>
+    item.addEventListener("click", () => {
+      countCorrectAnswers(
+        quizArray.value[index]?.multiple_choice_view1,
+        quizArray.value[index]?.correct,
+      );
+      removeElement(newQuizChildBoxes.value[index]);
+    }),
+  );
+  view2.forEach((item, index) =>
+    item.addEventListener("click", () => {
+      countCorrectAnswers(
+        quizArray.value[index]?.multiple_choice_view2,
+        quizArray.value[index]?.correct,
+      );
+      removeElement(newQuizChildBoxes.value[index]);
+    }),
+  );
+  view3.forEach((item, index) =>
+    item.addEventListener("click", () => {
+      countCorrectAnswers(
+        quizArray.value[index]?.multiple_choice_view3,
+        quizArray.value[index]?.correct,
+      );
+      removeElement(newQuizChildBoxes.value[index]);
+    }),
+  );
+};
+
+const createHTMLString = (itemList, index) => {
+  console.log("[createHTMLString]");
+  return `
+  <h3 class="user-select-none">${index + 1}.  ${itemList?.question}</h3>
     <ol>
       <li>
-        <span class="example1 px-2">
-          ${quizzes[i].example1}
+        <span class="multiple_choice_view1 px-2 pointer">
+          ${itemList?.multiple_choice_view1}
         </span>
       </li>
       <li>
-        <span class="example2 px-2">
-          ${quizzes[i].example2}
+        <span class="multiple_choice_view2 px-2 pointer">
+          ${itemList.multiple_choice_view2}
         </span>
       </li>
       <li>
-        <span class="example3 px-2">
-          ${quizzes[i].example3}
+        <span class="multiple_choice_view3 px-2 pointer">
+          ${itemList.multiple_choice_view3}
         </span>
       </li>
     </ol>
-    `;
-  }
+  `;
+};
 
-  const example1 = document.querySelectorAll(".example1");
-  const example2 = document.querySelectorAll(".example2");
-  const example3 = document.querySelectorAll(".example3");
+// 원본
+// const createHTMLString = () => {
+//   mixArrayRandomly(quizzes);
+//   const quizBox = document.getElementById("quizBox");
+//   for (let index = 0; index < 10; index++) {
+//     const quizChildBox = document.createElement("div");
+//     quizBox.append(quizChildBox);
+//     quizChildBox.classList.add("quizChildBox");
+//     quizChildBox.innerHTML = `
+//     <h3 class="user-select-none">${index + 1}.  ${
+//       quizArray.value[index].question
+//     }</h3>
+//     <ol>
+//       <li>
+//         <span class="multiple_choice_view1 px-2 pointer">
+//           ${quizArray.value[index].multiple_choice_view1}
+//         </span>
+//       </li>
+//       <li>
+//         <span class="multiple_choice_view2 px-2 pointer">
+//           ${quizArray.value[index].multiple_choice_view2}
+//         </span>
+//       </li>
+//       <li>
+//         <span class="multiple_choice_view3 px-2 pointer">
+//           ${quizArray.value[index].multiple_choice_view3}
+//         </span>
+//       </li>
+//     </ol>
+//     `;
+//   }
 
-  // console.log(example1.length, "렝스");
-  example1.forEach((item, index) =>
-    item.addEventListener("click", () =>
-      testAnswer(quizzes[index]?.example1, quizzes[index]?.correct),
-    ),
-  );
-  example2.forEach((item, index) =>
-    item.addEventListener("click", () =>
-      testAnswer(quizzes[index]?.example2, quizzes[index]?.correct),
-    ),
-  );
-  example3.forEach((item, index) =>
-    item.addEventListener("click", () =>
-      testAnswer(quizzes[index]?.example3, quizzes[index]?.correct),
-    ),
-  );
+//   const quizChildBoxes = document.querySelectorAll(".quizChildBox");
+//   newQuizChildBoxes.value = quizChildBoxes;
+//   newQuizChildBoxes.value.forEach((item, index) => {
+//     if (index !== 0) {
+//       item.classList.add("hidden");
+//     }
+//   });
+
+//   const view1 = document.querySelectorAll(".multiple_choice_view1");
+//   const view2 = document.querySelectorAll(".multiple_choice_view2");
+//   const view3 = document.querySelectorAll(".multiple_choice_view3");
+
+//   view1.forEach((item, index) =>
+//     item.addEventListener("click", () => {
+//       onClickMultipleChoiceView(
+//         quizArray.value[index]?.multiple_choice_view1,
+//         quizArray.value[index]?.correct,
+//       );
+//       removeElement(newQuizChildBoxes.value[index]);
+//     }),
+//   );
+//   view2.forEach((item, index) =>
+//     item.addEventListener("click", () => {
+//       onClickMultipleChoiceView(
+//         quizArray.value[index]?.multiple_choice_view2,
+//         quizArray.value[index]?.correct,
+//       );
+//       removeElement(newQuizChildBoxes.value[index]);
+//     }),
+//   );
+//   view3.forEach((item, index) =>
+//     item.addEventListener("click", () => {
+//       onClickMultipleChoiceView(
+//         quizArray.value[index]?.multiple_choice_view3,
+//         quizArray.value[index]?.correct,
+//       );
+//       removeElement(newQuizChildBoxes.value[index]);
+//     }),
+//   );
+// };
+
+const closeAlert = () => {
+  console.log("[closeAlert]");
+  isRecord.value = false;
 };
 
 onMounted(() => {
@@ -126,6 +276,8 @@ onMounted(() => {
 
 <template>
   <div id="QuizView">
+    <!-- alert부분 텔레포트 적용할 예정 -->
+    <BaseAlert v-if="isRecord" @buttonClick="closeAlert" />
     <BaseButton class="btn-primary btn-lg" :message="'Quiz'" @click="" />
 
     <hr />
@@ -135,11 +287,11 @@ onMounted(() => {
     <span>.</span>
     <span id="postTestMilisec" class="me-4">{{ millisecond }}</span>
 
-    <span>맞춘 갯수 : {{ testCount }}</span>
+    <span>맞춘 갯수 : {{ correctNumber }}</span>
     <hr />
     <button
       class="btn btn-primary btn-sm me-2"
-      @click="testCopy(), startTimeAttack()"
+      @click="displayItems(), startTimeAttack()"
     >
       Start
     </button>
@@ -149,47 +301,9 @@ onMounted(() => {
     <button class="btn btn-primary btn-sm" @click="resetTimer">Reset</button>
 
     <hr />
-    <!-- <div id="test">
-      <button @click="testCopy(), startTimeAttack()">버튼</button>
-    </div> -->
-    <div id="test">
-      <template v-if="startingPoint">
-        <!-- <div>
-          <h2>문제.</h2>
-          <div>
-            <h3>{{ quizzes[19].question }}</h3>
-            <ol>
-              <li>
-                <span
-                  class="px-2"
-                  @click="
-                    testAnswer(quizzes[19]?.example1, quizzes[19]?.correct)
-                  "
-                  >{{ quizzes[19].example1 }}</span
-                >
-              </li>
-              <li>
-                <span
-                  class="px-2"
-                  @click="
-                    testAnswer(quizzes[19]?.example2, quizzes[19]?.correct)
-                  "
-                  >{{ quizzes[19].example2 }}</span
-                >
-              </li>
-              <li>
-                <span
-                  class="px-2"
-                  @click="
-                    testAnswer(quizzes[19]?.example3, quizzes[19]?.correct)
-                  "
-                  >{{ quizzes[19].example3 }}</span
-                >
-              </li>
-            </ol>
-          </div>
-        </div> -->
-      </template>
+
+    <div id="quizBox">
+      <template v-if="startingPoint"></template>
       <template v-else>
         <div>
           <span>Are You Ready?</span>
@@ -206,8 +320,12 @@ li {
 }
 
 span:hover {
-  cursor: pointer;
   background-color: bisque;
+}
+
+.hidden {
+  /* color: rgb(177, 174, 174); */
+  display: none;
 }
 
 .px-2:hover {
