@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+li {
+  transition: var(--base-transition);
+}
+
 img {
   vertical-align: top;
   width: 100%;
