@@ -6,12 +6,17 @@
 }
 
 :root {
-  --btn-radius: 2px;
+  --color-font: #212529;
+  --color-border: #c8c9ca;
+  /* --color-border: #444444; */
+  --color-MCV-hover-bg: rgba(113, 44, 249, 0.1);
+
+  --base-radius: 0.175rem;
   --base-transition: 0.3s;
 }
 
 .btn {
-  border-radius: var(--btn-radius);
+  border-radius: var(--base-radius);
   transition: var(--base-transition);
 }
 

@@ -4,7 +4,12 @@
   padding: 0;
 }
 
+ol {
+  all: unset;
+}
+
 li {
+  list-style: none;
   transition: var(--base-transition);
 }
 

@@ -36,7 +36,7 @@ const goHomeView = () => router.push({ name: "HomeView" });
 </script>
 
 <template>
-  <header class="fixed-top">
+  <header id="header" class="fixed-top">
     <nav
       class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient px-4 py-1"
     >
