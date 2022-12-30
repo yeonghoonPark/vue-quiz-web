@@ -18,7 +18,7 @@ const props = defineProps({
 <template>
   <div class="position-fixed top-50 start-50 translate-middle">
     <Transition name="slide">
-      <div v-if="isShow" role="alert" class="alert" :class="classType">
+      <div v-if="isShow" role="alert" class="alert fs-5" :class="classType">
         {{ message }}
       </div>
     </Transition>
