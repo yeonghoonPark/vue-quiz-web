@@ -1,18 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,500;0,700;1,300;1,500;1,700&display=swap");
 * {
-  font-family: "Noto Sans KR", "Sunflower", sans-serif;
+  font-family: "Roboto Mono", "Sunflower", sans-serif;
 }
 
 :root {
-  --color-font: #212529;
+  --color-black: #212529;
+  --color-pink: #d63384;
   --color-border: #c8c9ca;
   /* --color-border: #444444; */
   --color-MCV-hover-bg: rgba(113, 44, 249, 0.1);
 
   --base-radius: 0.175rem;
   --base-transition: 0.3s;
+}
+
+.center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .btn {
