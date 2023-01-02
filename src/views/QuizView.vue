@@ -1,92 +1,70 @@
 <script setup>
-import BaseButton from "@/components/base/BaseButton.vue";
+/* import */
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import { onMounted, ref } from "vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseCard from "@/components/base/BaseCard.vue";
 import quizzes from "@/data/quizzes";
+import { onMounted, ref } from "vue";
+import { useKakaoStore } from "@/stores/kakao";
+import { useRecordStore } from "@/stores/record";
+import { storeToRefs } from "pinia";
 
-const startingPoint = ref(null);
-const minute = ref("00");
-const second = ref("00");
-const millisecond = ref("00");
-const timerInterval = ref(null);
+/* state */
+const recordStore = useRecordStore();
+const kakaoStore = useKakaoStore();
+
+// kakaoStore's state
+const { access_token, account_email, profile_nickname } =
+  storeToRefs(kakaoStore);
+
+// recordStore's state
+const {
+  startingPoint,
+  minute,
+  second,
+  millisecond,
+  correctAnswerNumber,
+  timeTaken,
+} = storeToRefs(recordStore);
+
+// recordStore's method
+const { startTimeAttack, stopTimeAttack, resetTimer, getTimeTaken } =
+  recordStore;
 
 // 퀴즈 담는 어레이
 const quizArray = ref([]);
-
-// 나중에 pinia 에서 선언
-const correctNumber = ref(0);
-
-// 문제 끝나고 기록이 나오는 알럿
-const isRecord = ref(false);
-
 const newQuizChildBoxes = ref([]);
 
-/**
- * 매개변수가 10보다 작을 경우 앞자리에 "0"을 추가하여 두자리를 만드는 함수
- * @param {number} number
- * @returns {string}
- */
-const addZero = (number) => (number < 10 ? "0" + number : "" + number);
+// 문제 끝나고 기록이 나오는 알럿
+const isRecordShow = ref(false);
 
-/**
- * 스타트타이머인터벌
- */
-const startTimerInterval = () => {
-  console.log("[startTimerInterval]");
-  timerInterval.value = setInterval(function () {
-    let currentPoint = new Date(Date.now() - startingPoint.value);
-    minute.value = addZero(currentPoint.getMinutes());
-    second.value = addZero(currentPoint.getSeconds());
-    millisecond.value = addZero(
-      Math.floor(currentPoint.getMilliseconds() / 10),
-    );
-  }, 1);
-};
+// quiz시작 모달 부분관련
+const isStartShow = ref(false);
+const startCount = ref(3);
+const countInterval = ref(null);
 
-/**
- * 스타트타임어택
- */
-const startTimeAttack = () => {
-  console.log("[startTimeAttack]");
-  startingPoint.value = startingPoint.value ?? Date.now();
-  startTimerInterval();
-};
+// alert 관련
+const alertClassType = ref("");
+const alertMessage = ref("");
+const isAlertShow = ref(false);
 
-/**
- * 스탑타임어택, 타이머인터벌을 클리어인터벌하는 역할
- */
-const stopTimeAttack = () => {
-  console.log("[stopTimeAttack]");
-  clearInterval(timerInterval.value);
-};
-
-/**
- * 타이머를 리셋하는 역할
- */
-const resetTimer = () => {
-  console.log("[resetTimer]");
-  startingPoint.value = null;
-  minute.value = "00";
-  second.value = "00";
-  millisecond.value = "00";
-
-  // 정답갯수, 나중에 pinia 부분으로 옮길 것
-  correctNumber.value = 0;
-};
-
+/* function */
 /**
  * 태그를 삭제하고 다음형제의 클래스네임 "hidden"을 제거하여 디스플레이를 조정해주는 함수
  * @param {any} element
  */
 const removeElement = (element) => {
   console.log("[removeElement]");
-  const nextSibling = element.nextSibling;
-  element.remove();
-  nextSibling?.classList.remove("hidden");
-  if (!nextSibling) {
-    stopTimeAttack();
-    isRecord.value = true;
-  }
+  setTimeout(function () {
+    const nextSibling = element.nextSibling;
+    element.remove();
+    nextSibling?.classList.remove("hidden");
+    if (!nextSibling) {
+      stopTimeAttack();
+      getTimeTaken();
+      isRecordShow.value = true;
+    }
+  }, 1000);
 };
 
 /**
@@ -94,13 +72,22 @@ const removeElement = (element) => {
  * @param {any} clickedView
  * @param {any} correct
  */
+
 const countCorrectAnswers = (clickedView, correct) => {
   console.log("[countCorrectAnswers]");
   console.log(`선택 = ${clickedView}\n정답 = ${correct}`);
   clickedView === correct
     ? console.log("*정답입니다.")
     : console.log("*틀렸습니다.");
-  if (clickedView === correct) correctNumber.value++;
+
+  if (clickedView === correct) {
+    correctAnswerNumber.value++;
+    alertClassType.value = "alert-success";
+    alertMessage.value = "정답입니다. 😊";
+  } else {
+    alertClassType.value = "alert-danger";
+    alertMessage.value = "오답이에요. 😡";
+  }
 };
 
 /**
@@ -138,135 +125,111 @@ const onClickMultipleChoiceView = () => {
   const view1 = document.querySelectorAll(".multiple_choice_view1");
   const view2 = document.querySelectorAll(".multiple_choice_view2");
   const view3 = document.querySelectorAll(".multiple_choice_view3");
-  view1.forEach((item, index) =>
+  view1.forEach((item, index) => {
     item.addEventListener("click", () => {
       countCorrectAnswers(
         quizArray.value[index]?.multiple_choice_view1,
         quizArray.value[index]?.correct,
       );
       removeElement(newQuizChildBoxes.value[index]);
-    }),
-  );
-  view2.forEach((item, index) =>
+    });
+    item.addEventListener("mouseup", onAlert);
+  });
+  view2.forEach((item, index) => {
     item.addEventListener("click", () => {
       countCorrectAnswers(
         quizArray.value[index]?.multiple_choice_view2,
         quizArray.value[index]?.correct,
       );
       removeElement(newQuizChildBoxes.value[index]);
-    }),
-  );
-  view3.forEach((item, index) =>
+    });
+    item.addEventListener("mouseup", onAlert);
+  });
+  view3.forEach((item, index) => {
     item.addEventListener("click", () => {
       countCorrectAnswers(
         quizArray.value[index]?.multiple_choice_view3,
         quizArray.value[index]?.correct,
       );
       removeElement(newQuizChildBoxes.value[index]);
-    }),
-  );
+    });
+    item.addEventListener("mouseup", onAlert);
+  });
 };
 
 const createHTMLString = (itemList, index) => {
   console.log("[createHTMLString]");
   return `
-  <h3 class="user-select-none">${index + 1}.  ${itemList?.question}</h3>
+  <h4 class="quiz user-select-none">${index + 1}.  ${itemList?.question}</h4>
     <ol>
-      <li>
-        <span class="multiple_choice_view1 px-2 pointer">
-          ${itemList?.multiple_choice_view1}
+      <li class="my-2">
+        <span class="multiple_choice_view multiple_choice_view1 px-2 pointer user-select-none">
+          ① ${itemList?.multiple_choice_view1}
         </span>
       </li>
-      <li>
-        <span class="multiple_choice_view2 px-2 pointer">
-          ${itemList.multiple_choice_view2}
+      <li class="my-2">
+        <span class="multiple_choice_view multiple_choice_view2 px-2 pointer user-select-none">
+          ② ${itemList.multiple_choice_view2}
         </span>
       </li>
-      <li>
-        <span class="multiple_choice_view3 px-2 pointer">
-          ${itemList.multiple_choice_view3}
+      <li class="my-2">
+        <span class="multiple_choice_view multiple_choice_view3 px-2 pointer user-select-none">
+          ③ ${itemList.multiple_choice_view3}
         </span>
       </li>
     </ol>
   `;
 };
 
-// 원본
-// const createHTMLString = () => {
-//   mixArrayRandomly(quizzes);
-//   const quizBox = document.getElementById("quizBox");
-//   for (let index = 0; index < 10; index++) {
-//     const quizChildBox = document.createElement("div");
-//     quizBox.append(quizChildBox);
-//     quizChildBox.classList.add("quizChildBox");
-//     quizChildBox.innerHTML = `
-//     <h3 class="user-select-none">${index + 1}.  ${
-//       quizArray.value[index].question
-//     }</h3>
-//     <ol>
-//       <li>
-//         <span class="multiple_choice_view1 px-2 pointer">
-//           ${quizArray.value[index].multiple_choice_view1}
-//         </span>
-//       </li>
-//       <li>
-//         <span class="multiple_choice_view2 px-2 pointer">
-//           ${quizArray.value[index].multiple_choice_view2}
-//         </span>
-//       </li>
-//       <li>
-//         <span class="multiple_choice_view3 px-2 pointer">
-//           ${quizArray.value[index].multiple_choice_view3}
-//         </span>
-//       </li>
-//     </ol>
-//     `;
-//   }
+const returnText = (correctAnswerNumber) => {
+  // 0~1문제
+  if (correctAnswerNumber < 2) {
+    return `...위로의 말을 전합니다. 💩`;
+    // 2~5문제
+  } else if (correctAnswerNumber > 1 && correctAnswerNumber < 6) {
+    return `조금 더 분발해주세요 😭`;
+    // 6~7문제
+  } else if (correctAnswerNumber > 5 && correctAnswerNumber < 8) {
+    return `상식이 뛰어나시군요? 😁`;
+    // 8~9문제
+  } else if (correctAnswerNumber > 7 && correctAnswerNumber < 10) {
+    return `훌륭해요!! 똑똑하시군요!? 😎`;
+    // 10문제
+  } else {
+    return `축하합니다!! 완벽해요 🤩`;
+  }
+};
 
-//   const quizChildBoxes = document.querySelectorAll(".quizChildBox");
-//   newQuizChildBoxes.value = quizChildBoxes;
-//   newQuizChildBoxes.value.forEach((item, index) => {
-//     if (index !== 0) {
-//       item.classList.add("hidden");
-//     }
-//   });
+const onQuizCount = () => {
+  console.log("[onQuizCount]");
+  isStartShow.value = true;
+  countInterval.value = setInterval(function () {
+    startCount.value--;
+    if (startCount.value === 0) {
+      startCount.value = "Go!!";
+      clearInterval(countInterval.value);
+    }
+  }, 1000);
+  setTimeout(function () {
+    isStartShow.value = false;
+    startCount.value = 3;
+    displayItems(), startTimeAttack();
+  }, 4000);
+};
 
-//   const view1 = document.querySelectorAll(".multiple_choice_view1");
-//   const view2 = document.querySelectorAll(".multiple_choice_view2");
-//   const view3 = document.querySelectorAll(".multiple_choice_view3");
+const closeRecordCard = () => {
+  console.log("[closeRecordCard]");
+  isRecordShow.value = false;
+  correctAnswerNumber.value = 0;
+  resetTimer();
+};
 
-//   view1.forEach((item, index) =>
-//     item.addEventListener("click", () => {
-//       onClickMultipleChoiceView(
-//         quizArray.value[index]?.multiple_choice_view1,
-//         quizArray.value[index]?.correct,
-//       );
-//       removeElement(newQuizChildBoxes.value[index]);
-//     }),
-//   );
-//   view2.forEach((item, index) =>
-//     item.addEventListener("click", () => {
-//       onClickMultipleChoiceView(
-//         quizArray.value[index]?.multiple_choice_view2,
-//         quizArray.value[index]?.correct,
-//       );
-//       removeElement(newQuizChildBoxes.value[index]);
-//     }),
-//   );
-//   view3.forEach((item, index) =>
-//     item.addEventListener("click", () => {
-//       onClickMultipleChoiceView(
-//         quizArray.value[index]?.multiple_choice_view3,
-//         quizArray.value[index]?.correct,
-//       );
-//       removeElement(newQuizChildBoxes.value[index]);
-//     }),
-//   );
-// };
-
-const closeAlert = () => {
-  console.log("[closeAlert]");
-  isRecord.value = false;
+const onAlert = () => {
+  console.log("[onAlert]");
+  isAlertShow.value = true;
+  setTimeout(function () {
+    isAlertShow.value = false;
+  }, 800);
 };
 
 onMounted(() => {
@@ -275,19 +238,69 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="QuizView">
-    <!-- alert부분 텔레포트 적용할 예정 -->
-    <BaseAlert v-if="isRecord" @buttonClick="closeAlert" />
-    <BaseButton class="btn-primary btn-lg" :message="'Quiz'" @click="" />
+  <div id="QuizView" class="">
+    <!-- modal -->
+    <Teleport to="#alert">
+      <BaseAlert
+        :isShow="isAlertShow"
+        :classType="alertClassType"
+        :message="alertMessage"
+      />
+      <div
+        class="position-fixed top-50 start-50 translate-middle"
+        v-show="isStartShow"
+        style="
+          width: 100vw;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.3);
+        "
+      >
+        <span
+          class="user-select-none"
+          style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 700;
+            font-size: 5rem;
+            color: var(--bs-gray-100);
+            text-shadow: 2px 2px 12px var(--bs-gray-900);
+          "
+        >
+          {{ startCount }}
+        </span>
+      </div>
+    </Teleport>
+
+    <Teleport to="#recordCard">
+      <BaseCard
+        v-if="isRecordShow"
+        @buttonClick="closeRecordCard"
+        :header="`'${profile_nickname}'님 ${returnText(correctAnswerNumber)}`"
+        :title="`'${profile_nickname}'님의 결과`"
+        :isFirst="true"
+        :isSecond="true"
+        :isThird="true"
+        :firstContent="`맞춘 갯수: ${correctAnswerNumber} 문제`"
+        :secondContent="`소요 시간: ${minute}:${second}.${millisecond}`"
+        :thirdContent="`등수: 미정`"
+      />
+    </Teleport>
+    <!-- <BaseButton
+      class="btn-primary btn-lg"
+      :message="'Start'"
+      @click="onQuizCount"
+    />
 
     <hr />
+    <span class="me-4">맞춘 갯수 : {{ correctAnswerNumber }}</span>
+    <span>소요 시간 : </span>
     <span id="postTestMin">{{ minute }}</span>
     <span>:</span>
     <span id="postTestSec">{{ second }}</span>
     <span>.</span>
-    <span id="postTestMilisec" class="me-4">{{ millisecond }}</span>
-
-    <span>맞춘 갯수 : {{ correctNumber }}</span>
+    <span id="postTestMilisec">{{ millisecond }}</span>
     <hr />
     <button
       class="btn btn-primary btn-sm me-2"
@@ -300,13 +313,36 @@ onMounted(() => {
     </button>
     <button class="btn btn-primary btn-sm" @click="resetTimer">Reset</button>
 
-    <hr />
+    <hr /> -->
 
-    <div id="quizBox">
-      <template v-if="startingPoint"></template>
+    <div id="quizBox" class="position-fixed top-50 start-50 translate-middle">
+      <template v-if="startingPoint">
+        <h4 class="text-center fs-1 pb-2 mb-4">Quiz</h4>
+        <div class="d-md-flex justify-content-between fs-6">
+          <div class="mb-4">
+            <span class="correctAnswerNumberBox p-2"
+              >맞춘 갯수:<span class="font-pink">{{
+                correctAnswerNumber
+              }}</span></span
+            >
+          </div>
+          <div class="mb-4">
+            <span class="timeTakenBox p-2"
+              >소요 시간:{{ minute }}:{{ second }}.<span class="font-pink">{{
+                millisecond
+              }}</span></span
+            >
+          </div>
+        </div>
+      </template>
       <template v-else>
-        <div>
-          <span>Are You Ready?</span>
+        <div class="text-center">
+          <h4 class="fs-1 mb-4">준비되셨나요?</h4>
+          <BaseButton
+            class="btn-primary btn-lg"
+            :message="'Start'"
+            @click="onQuizCount"
+          />
         </div>
       </template>
     </div>
@@ -314,21 +350,60 @@ onMounted(() => {
 </template>
 
 <style>
-li {
-  margin-bottom: 12px;
+/* 임시 스타일 */
+.multiple_choice_view {
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  font-size: 1.2rem;
+  padding: 4px;
   transition: var(--base-transition);
 }
 
-span:hover {
-  background-color: bisque;
+.multiple_choice_view:hover {
+  /* border: 1px solid rgba(113, 44, 249, 0.1); */
+  background-color: var(--color-MCV-hover-bg);
 }
 
-.hidden {
-  /* color: rgb(177, 174, 174); */
-  display: none;
+.font-pink {
+  color: var(--color-pink);
 }
 
-.px-2:hover {
-  /* background-color: bisque; */
+.correctAnswerNumberBox,
+.timeTakenBox {
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+}
+
+#quizBox {
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  /* width: 100%; */
+  max-width: 624px;
+  min-width: 348px;
+  margin: 0 auto;
+  padding: 2rem;
+  word-break: break-all;
+}
+
+#testBox {
+  /* border: 1px solid var(--color-border); */
+  /* border-radius: 0.375rem; */
+  /* max-width: 600px; */
+  /* margin: 0 auto; */
+}
+
+.quiz {
+  padding: 1rem 0.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  line-height: 2rem;
+  /* background-color: var(--color-box-bg); */
+  /* text-align: center; */
+  background-color: #f8f9fa;
+}
+
+hr {
+  /* color: var(--color-border); */
 }
 </style>

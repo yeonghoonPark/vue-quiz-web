@@ -3,8 +3,8 @@
 <template>
   <main
     id="main"
-    class="px-4 pt-3"
-    style="color: var(--color-font); margin-top: 68px"
+    class="px-4 pt-3 position-relative"
+    style="color: var(--color-black); margin-top: 68px"
   >
     <div class="container-xxl">
       <RouterView />
