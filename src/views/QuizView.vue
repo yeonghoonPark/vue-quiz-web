@@ -160,20 +160,22 @@ const onClickMultipleChoiceView = () => {
 const createHTMLString = (itemList, index) => {
   console.log("[createHTMLString]");
   return `
-  <h4 class="quiz user-select-none">${index + 1}.  ${itemList?.question}</h4>
+  <h4 class="box box-bg mb-4 py-3 px-2 lh-base word-break">${index + 1}. ${
+    itemList?.question
+  }</h4>
     <ol>
       <li class="my-2">
-        <span class="multiple_choice_view multiple_choice_view1 px-2 pointer user-select-none">
+        <span class="box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
           ① ${itemList?.multiple_choice_view1}
         </span>
       </li>
       <li class="my-2">
-        <span class="multiple_choice_view multiple_choice_view2 px-2 pointer user-select-none">
+        <span class="box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
           ② ${itemList.multiple_choice_view2}
         </span>
       </li>
       <li class="my-2">
-        <span class="multiple_choice_view multiple_choice_view3 px-2 pointer user-select-none">
+        <span class="box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
           ③ ${itemList.multiple_choice_view3}
         </span>
       </li>
@@ -238,17 +240,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="QuizView">
+  <div id="QuizView" class="user-select-none">
     <!-- 정답, 오답 확인 메세지 -->
     <Teleport to="#alert">
       <BaseAlert
+        class="user-select-none"
         :isShow="isAlertShow"
         :classType="alertClassType"
         :message="alertMessage"
       />
       <div
-        class="position-fixed top-50 start-50 translate-middle"
-        v-show="isStartShow"
+        class="position-fixed top-50 start-50 translate-middle user-select-none"
+        v-if="isStartShow"
         style="
           width: 100vw;
           height: 100vh;
@@ -277,7 +280,7 @@ onMounted(() => {
     <Teleport to="#recordCard">
       <!-- v-if="isRecordShow" -->
       <div
-        class="position-fixed top-50 start-50 translate-middle"
+        class="position-fixed top-50 start-50 translate-middle user-select-none"
         v-if="isRecordShow"
         style="
           width: 100vw;
@@ -301,19 +304,24 @@ onMounted(() => {
       </div>
     </Teleport>
 
-    <div id="quizBox" class="position-fixed top-50 start-50 translate-middle">
+    <div
+      id="quizBox"
+      class="position-fixed top-50 start-50 translate-middle box p-4"
+      style="max-width: 624px; min-width: 348px; margin: 0 auto"
+    >
+      <!-- v-if -->
       <template v-if="startingPoint">
         <h4 class="text-center fs-1 pb-2 mb-4">Quiz</h4>
         <div class="d-md-flex justify-content-between fs-6">
           <div class="mb-4">
-            <span class="correctAnswerNumberBox p-2"
+            <span class="box p-2"
               >맞춘 갯수:<span class="font-pink">{{
                 correctAnswerNumber
               }}</span></span
             >
           </div>
           <div class="mb-4">
-            <span class="timeTakenBox p-2"
+            <span class="box p-2"
               >소요 시간:{{ minute }}:{{ second }}.<span class="font-pink">{{
                 millisecond
               }}</span></span
@@ -321,6 +329,7 @@ onMounted(() => {
           </div>
         </div>
       </template>
+      <!-- v-else -->
       <template v-else>
         <div class="text-center">
           <h4 class="fs-1 mb-4">준비되셨나요?</h4>
@@ -335,61 +344,4 @@ onMounted(() => {
   </div>
 </template>
 
-<style>
-/* 임시 스타일 */
-.multiple_choice_view {
-  border: 1px solid transparent;
-  border-radius: 0.375rem;
-  font-size: 1.2rem;
-  padding: 4px;
-  transition: var(--base-transition);
-}
-
-.multiple_choice_view:hover {
-  /* border: 1px solid rgba(113, 44, 249, 0.1); */
-  background-color: var(--color-MCV-hover-bg);
-}
-
-.font-pink {
-  color: var(--color-pink);
-}
-
-.correctAnswerNumberBox,
-.timeTakenBox {
-  border: 1px solid var(--color-border);
-  border-radius: 0.375rem;
-}
-
-#quizBox {
-  border: 1px solid var(--color-border);
-  border-radius: 0.375rem;
-  /* width: 100%; */
-  max-width: 624px;
-  min-width: 348px;
-  margin: 0 auto;
-  padding: 2rem;
-  word-break: break-all;
-}
-
-#testBox {
-  /* border: 1px solid var(--color-border); */
-  /* border-radius: 0.375rem; */
-  /* max-width: 600px; */
-  /* margin: 0 auto; */
-}
-
-.quiz {
-  padding: 1rem 0.5rem;
-  margin-bottom: 2rem;
-  border: 1px solid var(--color-border);
-  border-radius: 0.375rem;
-  line-height: 2rem;
-  /* background-color: var(--color-box-bg); */
-  /* text-align: center; */
-  background-color: #f8f9fa;
-}
-
-hr {
-  /* color: var(--color-border); */
-}
-</style>
+<style scoped></style>
