@@ -65,7 +65,7 @@ const emits = defineEmits(["buttonClick", "keydownEsc"]);
 
 <template>
   <div class="position-fixed top-50 start-50 translate-middle">
-    <div class="card text-center" style="max-width: 26rem; min-width: 20rem">
+    <div class="card text-center">
       <div class="card-header">{{ header }}</div>
       <div class="card-body">
         <h5 class="card-title">{{ title }}</h5>

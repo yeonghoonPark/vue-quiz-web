@@ -238,8 +238,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="QuizView" class="">
-    <!-- modal -->
+  <div id="QuizView">
+    <!-- 정답, 오답 확인 메세지 -->
     <Teleport to="#alert">
       <BaseAlert
         :isShow="isAlertShow"
@@ -273,47 +273,33 @@ onMounted(() => {
       </div>
     </Teleport>
 
+    <!-- 퀴즈 끝나고 결과카드 부분 -->
     <Teleport to="#recordCard">
-      <BaseCard
+      <!-- v-if="isRecordShow" -->
+      <div
+        class="position-fixed top-50 start-50 translate-middle"
         v-if="isRecordShow"
-        @buttonClick="closeRecordCard"
-        :header="`'${profile_nickname}'님 ${returnText(correctAnswerNumber)}`"
-        :title="`'${profile_nickname}'님의 결과`"
-        :isFirst="true"
-        :isSecond="true"
-        :isThird="true"
-        :firstContent="`맞춘 갯수: ${correctAnswerNumber} 문제`"
-        :secondContent="`소요 시간: ${minute}:${second}.${millisecond}`"
-        :thirdContent="`등수: 미정`"
-      />
+        style="
+          width: 100vw;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.3);
+        "
+      >
+        <BaseCard
+          v-if="isRecordShow"
+          style="width: 25rem"
+          @buttonClick="closeRecordCard"
+          :header="`'${profile_nickname}'님 ${returnText(correctAnswerNumber)}`"
+          :title="`'${profile_nickname}'님의 결과`"
+          :isFirst="true"
+          :isSecond="true"
+          :isThird="true"
+          :firstContent="`맞춘 갯수: ${correctAnswerNumber} 문제`"
+          :secondContent="`소요 시간: ${minute}:${second}.${millisecond}`"
+          :thirdContent="`등수: 미정`"
+        />
+      </div>
     </Teleport>
-    <!-- <BaseButton
-      class="btn-primary btn-lg"
-      :message="'Start'"
-      @click="onQuizCount"
-    />
-
-    <hr />
-    <span class="me-4">맞춘 갯수 : {{ correctAnswerNumber }}</span>
-    <span>소요 시간 : </span>
-    <span id="postTestMin">{{ minute }}</span>
-    <span>:</span>
-    <span id="postTestSec">{{ second }}</span>
-    <span>.</span>
-    <span id="postTestMilisec">{{ millisecond }}</span>
-    <hr />
-    <button
-      class="btn btn-primary btn-sm me-2"
-      @click="displayItems(), startTimeAttack()"
-    >
-      Start
-    </button>
-    <button class="btn btn-primary btn-sm me-2" @click="stopTimeAttack">
-      Stop
-    </button>
-    <button class="btn btn-primary btn-sm" @click="resetTimer">Reset</button>
-
-    <hr /> -->
 
     <div id="quizBox" class="position-fixed top-50 start-50 translate-middle">
       <template v-if="startingPoint">
