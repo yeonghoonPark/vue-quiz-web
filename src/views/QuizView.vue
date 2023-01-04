@@ -4,7 +4,7 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseCard from "@/components/base/BaseCard.vue";
 import quizzes from "@/data/quizzes";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { useKakaoStore } from "@/stores/kakao";
 import { useRecordStore } from "@/stores/record";
 import { storeToRefs } from "pinia";
@@ -50,6 +50,9 @@ const isAlertShow = ref(false);
 
 // click block 관련
 const isBlock = ref(false);
+
+// progress bar 관련
+const progressCount = ref(0);
 
 /* function */
 /**
@@ -153,6 +156,7 @@ const onClickMultipleChoiceView = () => {
         );
         removeElement(newQuizChildBoxes.value[index]);
         onBlockClick();
+        progressCount.value++;
       },
       { once: true },
     );
@@ -168,6 +172,7 @@ const onClickMultipleChoiceView = () => {
         );
         removeElement(newQuizChildBoxes.value[index]);
         onBlockClick();
+        progressCount.value++;
       },
       { once: true },
     );
@@ -183,6 +188,7 @@ const onClickMultipleChoiceView = () => {
         );
         removeElement(newQuizChildBoxes.value[index]);
         onBlockClick();
+        progressCount.value++;
       },
       { once: true },
     );
@@ -198,17 +204,46 @@ const createHTMLString = (itemList, index) => {
   }</h4>
     <ol>
       <li class="my-2">
-        <span class="multiple_choice_view1 box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
+        <span class="
+          multiple_choice_view1 
+          box-radius 
+          hover 
+          fs-5 
+          p-1 
+          px-2 
+          transition 
+          pointer 
+          user-select-none"
+        >
           ① ${itemList?.multiple_choice_view1}
         </span>
       </li>
       <li class="my-2">
-        <span class="multiple_choice_view2 box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
+        <span class="
+          multiple_choice_view2 
+          box-radius hover 
+          fs-5 
+          p-1 
+          px-2 
+          transition 
+          pointer 
+          user-select-none"
+        >
           ② ${itemList.multiple_choice_view2}
         </span>
       </li>
       <li class="my-2">
-        <span class="multiple_choice_view3 box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
+        <span class="
+          multiple_choice_view3 
+          box-radius 
+          hover 
+          fs-5 
+          p-1 
+          px-2 
+          transition 
+          pointer 
+          user-select-none"
+        >
           ③ ${itemList.multiple_choice_view3}
         </span>
       </li>
@@ -252,15 +287,22 @@ const onQuizCount = () => {
   }, 4000);
 };
 
-const onCloseRocordCard = () => {
-  console.log("[onCloseRocordCard]");
+const resetStates = () => {
+  console.log("[resetStates]");
   isRecordShow.value = false;
   correctAnswerNumber.value = 0;
+  progressCount.value = 0;
+  stopTimeAttack();
   resetTimer();
 };
 
 onMounted(() => {
   console.log("[onMounted]");
+});
+
+onUnmounted(() => {
+  console.log("[onUnmounted]");
+  resetStates();
 });
 </script>
 
@@ -275,13 +317,9 @@ onMounted(() => {
         :message="alertMessage"
       />
       <div
-        class="position-fixed top-50 start-50 translate-middle user-select-none"
+        class="position-fixed w-100 h-100 top-50 start-50 translate-middle user-select-none"
         v-if="isStartShow"
-        style="
-          width: 100vw;
-          height: 100vh;
-          background-color: rgba(0, 0, 0, 0.3);
-        "
+        style="background-color: rgba(0, 0, 0, 0.3); z-index: 2000"
       >
         <span
           class="user-select-none"
@@ -316,7 +354,7 @@ onMounted(() => {
         <BaseCard
           v-if="isRecordShow"
           style="width: 25rem"
-          @buttonClick="onCloseRocordCard"
+          @buttonClick="resetStates"
           :header="`'${profile_nickname}'님 ${returnText(correctAnswerNumber)}`"
           :title="`'${profile_nickname}'님의 결과`"
           :isFirst="true"
@@ -352,13 +390,100 @@ onMounted(() => {
           </div>
           <div class="mb-4">
             <span class="box p-2"
-              >소요 시간:{{ minute }}:{{ second }}.
-              <span class="font-pink">
-                {{ millisecond }}
+              >소요 시간:{{ minute }}:{{ second }}.<span class="font-pink"
+                >{{ millisecond }}
               </span>
             </span>
           </div>
         </div>
+        <template v-if="progressCount == 0">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 0%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 1">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 10%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 2">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 20%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 3">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 30%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 4">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 40%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 5">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 50%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 6">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 60%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 7">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 70%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 8">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 80%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 9">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 90%"
+            />
+          </div>
+        </template>
+        <template v-if="progressCount == 10">
+          <div class="progress mb-3" role="progressbar">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              style="width: 100%"
+            />
+          </div>
+        </template>
       </template>
       <!-- v-else -->
       <template v-else>
