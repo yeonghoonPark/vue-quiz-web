@@ -12,10 +12,4 @@
   </main>
 </template>
 
-<style scoped>
-#main {
-  /* width: auto; */
-  /* height: calc(100vh - 68px); */
-  /* background: url(@/assets/images/test04.png); */
-}
-</style>
+<style scoped></style>

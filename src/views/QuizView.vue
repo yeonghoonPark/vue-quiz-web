@@ -48,6 +48,9 @@ const alertClassType = ref("");
 const alertMessage = ref("");
 const isAlertShow = ref(false);
 
+// click block 관련
+const isBlock = ref(false);
+
 /* function */
 /**
  * 태그를 삭제하고 다음형제의 클래스네임 "hidden"을 제거하여 디스플레이를 조정해주는 함수
@@ -67,12 +70,26 @@ const removeElement = (element) => {
   }, 1000);
 };
 
+const onBlockClick = () => {
+  isBlock.value = true;
+  setTimeout(function () {
+    isBlock.value = false;
+  }, 1000);
+};
+
+const onAlert = () => {
+  console.log("[onAlert]");
+  isAlertShow.value = true;
+  setTimeout(function () {
+    isAlertShow.value = false;
+  }, 800);
+};
+
 /**
  * 클릭시에 클릭된 보기와 정답이 동일한지 확인하는 함수
  * @param {any} clickedView
  * @param {any} correct
  */
-
 const countCorrectAnswers = (clickedView, correct) => {
   console.log("[countCorrectAnswers]");
   console.log(`선택 = ${clickedView}\n정답 = ${correct}`);
@@ -125,35 +142,51 @@ const onClickMultipleChoiceView = () => {
   const view1 = document.querySelectorAll(".multiple_choice_view1");
   const view2 = document.querySelectorAll(".multiple_choice_view2");
   const view3 = document.querySelectorAll(".multiple_choice_view3");
+
   view1.forEach((item, index) => {
-    item.addEventListener("click", () => {
-      countCorrectAnswers(
-        quizArray.value[index]?.multiple_choice_view1,
-        quizArray.value[index]?.correct,
-      );
-      removeElement(newQuizChildBoxes.value[index]);
-    });
-    item.addEventListener("mouseup", onAlert);
+    item.addEventListener(
+      "click",
+      () => {
+        countCorrectAnswers(
+          quizArray.value[index]?.multiple_choice_view1,
+          quizArray.value[index]?.correct,
+        );
+        removeElement(newQuizChildBoxes.value[index]);
+        onBlockClick();
+      },
+      { once: true },
+    );
+    item.addEventListener("mouseup", onAlert, { once: true });
   });
   view2.forEach((item, index) => {
-    item.addEventListener("click", () => {
-      countCorrectAnswers(
-        quizArray.value[index]?.multiple_choice_view2,
-        quizArray.value[index]?.correct,
-      );
-      removeElement(newQuizChildBoxes.value[index]);
-    });
-    item.addEventListener("mouseup", onAlert);
+    item.addEventListener(
+      "click",
+      () => {
+        countCorrectAnswers(
+          quizArray.value[index]?.multiple_choice_view2,
+          quizArray.value[index]?.correct,
+        );
+        removeElement(newQuizChildBoxes.value[index]);
+        onBlockClick();
+      },
+      { once: true },
+    );
+    item.addEventListener("mouseup", onAlert, { once: true });
   });
   view3.forEach((item, index) => {
-    item.addEventListener("click", () => {
-      countCorrectAnswers(
-        quizArray.value[index]?.multiple_choice_view3,
-        quizArray.value[index]?.correct,
-      );
-      removeElement(newQuizChildBoxes.value[index]);
-    });
-    item.addEventListener("mouseup", onAlert);
+    item.addEventListener(
+      "click",
+      () => {
+        countCorrectAnswers(
+          quizArray.value[index]?.multiple_choice_view3,
+          quizArray.value[index]?.correct,
+        );
+        removeElement(newQuizChildBoxes.value[index]);
+        onBlockClick();
+      },
+      { once: true },
+    );
+    item.addEventListener("mouseup", onAlert, { once: true });
   });
 };
 
@@ -165,17 +198,17 @@ const createHTMLString = (itemList, index) => {
   }</h4>
     <ol>
       <li class="my-2">
-        <span class="box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
+        <span class="multiple_choice_view1 box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
           ① ${itemList?.multiple_choice_view1}
         </span>
       </li>
       <li class="my-2">
-        <span class="box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
+        <span class="multiple_choice_view2 box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
           ② ${itemList.multiple_choice_view2}
         </span>
       </li>
       <li class="my-2">
-        <span class="box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
+        <span class="multiple_choice_view3 box-radius hover fs-5 p-1 transition px-2 pointer user-select-none">
           ③ ${itemList.multiple_choice_view3}
         </span>
       </li>
@@ -219,19 +252,11 @@ const onQuizCount = () => {
   }, 4000);
 };
 
-const closeRecordCard = () => {
-  console.log("[closeRecordCard]");
+const onCloseRocordCard = () => {
+  console.log("[onCloseRocordCard]");
   isRecordShow.value = false;
   correctAnswerNumber.value = 0;
   resetTimer();
-};
-
-const onAlert = () => {
-  console.log("[onAlert]");
-  isAlertShow.value = true;
-  setTimeout(function () {
-    isAlertShow.value = false;
-  }, 800);
 };
 
 onMounted(() => {
@@ -291,7 +316,7 @@ onMounted(() => {
         <BaseCard
           v-if="isRecordShow"
           style="width: 25rem"
-          @buttonClick="closeRecordCard"
+          @buttonClick="onCloseRocordCard"
           :header="`'${profile_nickname}'님 ${returnText(correctAnswerNumber)}`"
           :title="`'${profile_nickname}'님의 결과`"
           :isFirst="true"
@@ -304,9 +329,13 @@ onMounted(() => {
       </div>
     </Teleport>
 
+    <!-- 두번 클릭 방지 layer -->
+    <div v-if="isBlock" class="position-fixed w-100 h-100" style="z-index: 1" />
+
+    <!-- 본문 -->
     <div
       id="quizBox"
-      class="position-fixed top-50 start-50 translate-middle box p-4"
+      class="position-fixed top-50 start-50 translate-middle box p-4 z-0"
       style="max-width: 624px; min-width: 348px; margin: 0 auto"
     >
       <!-- v-if -->
@@ -315,17 +344,19 @@ onMounted(() => {
         <div class="d-md-flex justify-content-between fs-6">
           <div class="mb-4">
             <span class="box p-2"
-              >맞춘 갯수:<span class="font-pink">{{
-                correctAnswerNumber
-              }}</span></span
-            >
+              >맞춘 갯수:
+              <span class="font-pink">
+                {{ correctAnswerNumber }}
+              </span>
+            </span>
           </div>
           <div class="mb-4">
             <span class="box p-2"
-              >소요 시간:{{ minute }}:{{ second }}.<span class="font-pink">{{
-                millisecond
-              }}</span></span
-            >
+              >소요 시간:{{ minute }}:{{ second }}.
+              <span class="font-pink">
+                {{ millisecond }}
+              </span>
+            </span>
           </div>
         </div>
       </template>
