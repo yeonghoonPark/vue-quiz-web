@@ -1,21 +1,3 @@
-<script>
-// const logoutWithKakao = () => {
-//   console.log("로그아웃");
-//   Kakao.Auth.logout({
-//     success: function (authObj) {
-//       console.log(authObj, "authObj");
-//       Kakao.API.request({
-//         url: "/v1/user/unlink",
-//         success: (res) => {
-//           const kakao_account = res.kakao_account;
-//           console.log(kakao_account, "kakao_account");
-//         },
-//       });
-//     },
-//   });
-// };
-</script>
-
 <script setup>
 import { useRouter } from "vue-router";
 import { useKakaoStore } from "@/stores/kakao";
