@@ -23,45 +23,84 @@ if (test.value > 768) {
 <template>
   <div id="NoticeView" class="user-select-none">
     <h1>게시판페이지</h1>
-
-    <div class="table-responsive">
-      <table class="table table-striped table-hover text-center">
+    <!-- class="d-hidden" -->
+    <div class="py-4">
+      <table class="table align-middle table-striped table-hover text-center">
         <thead>
-          <tr class="">
+          <tr>
             <th scope="col" class="col-2">분류</th>
             <th scope="col" class="col-6">제목</th>
-            <th scope="col" class="col-2">작성자</th>
-            <th scope="col" class="col-2 col-sm-none">조회수</th>
+            <th scope="col" class="col-2 d-sm-hidden d-md-hidden">작성자</th>
+            <th scope="col" class="col-2 d-sm-hidden d-md-hidden">조회수</th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <tr class="">
-            <th scope="row"><span class="box py-1 px-3">공지</span></th>
-            <td class="text-start">Tooltips rr for positioning.</td>
-            <td>Otto</td>
-
-            <td>234</td>
+          <tr>
+            <th scope="row">
+              <span class="box py-1 px-3">공지</span>
+            </th>
+            <td class="text-start test">
+              가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가
+            </td>
+            <td class="d-sm-hidden d-md-hidden fw-light">Otto</td>
+            <td
+              class="d-sm-hidden d-md-hidden fw-light"
+              style="font-size: 12px"
+            >
+              234
+            </td>
           </tr>
           <tr>
             <th scope="row"><span class="box py-1 px-3">일반</span></th>
             <td class="text-start">Jacob</td>
-            <td>Thornton</td>
+            <td class="d-sm-hidden d-md-hidden fw-light">Thornton</td>
 
-            <td>59</td>
+            <td
+              class="d-sm-hidden d-md-hidden fw-light"
+              style="font-size: 12px"
+            >
+              59
+            </td>
           </tr>
           <tr>
             <th scope="row"><span class="box py-1 px-3">공지</span></th>
-            <td class="text-start">Jacob</td>
-            <td>Larry the Bird</td>
+            <td class="text-start">
+              가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가
+            </td>
+            <td class="d-sm-hidden d-md-hidden fw-light">
+              푸푸푸푸푸푸푸푸푸푸푸푸푸푸푸
+            </td>
 
-            <td>34</td>
+            <td
+              class="d-sm-hidden d-md-hidden fw-light"
+              style="font-size: 12px"
+            >
+              34
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="box py-1 px-3">잡담</span></th>
+            <td class="text-start">Jacob</td>
+            <td class="d-sm-hidden d-md-hidden fw-light">Larry the Bird</td>
+
+            <td
+              class="d-sm-hidden d-md-hidden fw-light"
+              style="font-size: 12px"
+            >
+              167
+            </td>
           </tr>
           <tr>
             <th scope="row"><span class="box py-1 px-3">질문</span></th>
             <td class="text-start">Jacob</td>
-            <td>Larry the Bird</td>
+            <td class="d-sm-hidden d-md-hidden fw-light">Larry the Bird</td>
 
-            <td>167</td>
+            <td
+              class="d-sm-hidden d-md-hidden fw-light"
+              style="font-size: 12px"
+            >
+              167
+            </td>
           </tr>
         </tbody>
       </table>
@@ -75,25 +114,7 @@ if (test.value > 768) {
 </template>
 
 <style>
-.test {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.table-responsive {
-  /* white-space: nowrap; */
-  /* text-overflow: ellipsis; */
-}
-
-.분류 {
-  width: 10%;
-}
-.제목 {
-  width: ;
-}
-.작성자 {
-  width: 10%;
-}
-.조회수 {
-  width: 10%;
+tr {
+  height: 65px;
 }
 </style>

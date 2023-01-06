@@ -25,10 +25,17 @@ img {
   * {
     font-size: 0.875rem;
   }
+
+  .d-sm-hidden {
+    display: none;
+  }
 }
 
 /* 480px(break poiont) ~ 767px */
 @media all and (min-width: 30rem) and (max-width: 47.9375rem) {
+  .d-md-hidden {
+    display: none;
+  }
 }
 
 /* 768px(break poiont) ~ 1023px */
