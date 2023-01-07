@@ -12,5 +12,3 @@ const props = defineProps({
     {{ message }}
   </button>
 </template>
-
-<style scoped></style>

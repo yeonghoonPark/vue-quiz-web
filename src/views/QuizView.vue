@@ -2,7 +2,7 @@
 /* import */
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
-import BaseCard from "@/components/base/BaseCard.vue";
+import QuizRecordCard from "@/components/quiz/QuizRecordCard.vue";
 import quizzes from "@/data/quizzes";
 import { onMounted, onUnmounted, ref } from "vue";
 import { useKakaoStore } from "@/stores/kakao";
@@ -351,19 +351,25 @@ onUnmounted(() => {
           background-color: rgba(0, 0, 0, 0.3);
         "
       >
-        <BaseCard
+        <QuizRecordCard
           v-if="isRecordShow"
           style="width: 25rem"
           @buttonClick="resetStates"
           :header="`'${profile_nickname}'님 ${returnText(correctAnswerNumber)}`"
           :title="`'${profile_nickname}'님의 결과`"
-          :isFirst="true"
-          :isSecond="true"
-          :isThird="true"
-          :firstContent="`맞춘 갯수: ${correctAnswerNumber} 문제`"
-          :secondContent="`소요 시간: ${minute}:${second}.${millisecond}`"
-          :thirdContent="`등수: 미정`"
-        />
+        >
+          <template #content>
+            <p class="text-start">
+              {{ `맞춘 갯수: ${correctAnswerNumber} 문제` }}
+            </p>
+            <p class="text-start">
+              {{ `소요 시간: ${minute}:${second}.${millisecond}` }}
+            </p>
+            <p class="text-start">
+              {{ `등수: 미정` }}
+            </p>
+          </template>
+        </QuizRecordCard>
       </div>
     </Teleport>
 
