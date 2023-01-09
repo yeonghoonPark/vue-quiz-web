@@ -3,6 +3,8 @@ import BaseButton from "@/components/base/BaseButton.vue";
 import BasePagination from "@/components/base/BasePagination.vue";
 import NoticeTable from "@/components/notice/noticeTable.vue";
 
+import BaseInput from "@/components/base/BaseInput.vue";
+
 import { onMounted, reactive, ref, watch } from "vue";
 import { computed } from "@vue/reactivity";
 import { useRouter } from "vue-router";
@@ -60,6 +62,8 @@ onMounted(() => {
       :message="'Write'"
       @click="goNoticeWriteView"
     />
+
+    <BaseInput></BaseInput>
   </div>
 </template>
 
