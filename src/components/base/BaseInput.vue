@@ -1,31 +1,30 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  // form-control-lg || form-control || form-control-sm
+  formControl: {
+    type: String,
+    default: "form-control",
+    required: false,
+  },
+  ariaLabel: {
+    type: String,
+    required: false,
+  },
+  inputType: {
+    type: String,
+    default: "text",
+    required: false,
+  },
+});
+
+const emits = defineEmits(["update:inputValue"]);
+</script>
 
 <template>
-  <label for=".form-control-lg example" class="col-sm-2 col-form-label"
-    >.form-control-lg example</label
-  >
   <input
-    class="form-control form-control-lg"
-    type="text"
-    placeholder=".form-control-lg"
-    aria-label=".form-control-lg example"
-  />
-  <label for="default input example" class="col-sm-2 col-form-label"
-    >default input example</label
-  >
-  <input
-    class="form-control"
-    type="text"
-    placeholder="Default input"
-    aria-label="default input example"
-  />
-  <label for=".form-control-sm example" class="col-sm-2 col-form-label"
-    >.form-control-lg example</label
-  >
-  <input
-    class="form-control form-control-sm"
-    type="text"
-    placeholder=".form-control-sm"
-    aria-label=".form-control-sm example"
+    :class="formControl"
+    :type="inputType"
+    :id="ariaLabel"
+    @input="$emit('update:inputValue', $event.target.value)"
   />
 </template>

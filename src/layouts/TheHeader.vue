@@ -19,9 +19,7 @@ const goHomeView = () => router.push({ name: "HomeView" });
 
 <template>
   <header id="header" class="fixed-top">
-    <nav
-      class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient px-4 py-1"
-    >
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark px-4 py-1">
       <div class="container-xxl">
         <RouterLink to="/" class="pe-3">
           <img
