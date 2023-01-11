@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  content: {
+  message: {
     type: [String, Number, Array],
     required: true,
   },
@@ -8,5 +8,5 @@ const props = defineProps({
 </script>
 
 <template>
-  <td>{{ content }}</td>
+  <td>{{ message }}</td>
 </template>

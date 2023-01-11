@@ -40,14 +40,14 @@ const props = defineProps({
             <span class="box py-1 px-3">{{ item?.article }}</span>
           </template>
         </BaseTh>
-        <BaseTd class="text-start" :content="item?.title" />
+        <BaseTd class="text-start" :message="item?.title" />
         <BaseTd
           class="d-sm-hidden d-md-hidden fw-light"
-          :content="item?.author"
+          :message="item?.author"
         />
         <BaseTd
           class="d-sm-hidden d-md-hidden fw-light"
-          :content="item?.hits"
+          :message="item?.hits"
           style="font-size: 12px"
         />
       </tr>

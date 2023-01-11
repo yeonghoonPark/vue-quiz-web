@@ -402,94 +402,98 @@ onUnmounted(() => {
             </span>
           </div>
         </div>
-        <template v-if="progressCount == 0">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 0%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 1">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 10%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 2">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 20%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 3">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 30%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 4">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 40%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 5">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 50%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 6">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 60%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 7">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 70%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 8">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 80%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 9">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 90%"
-            />
-          </div>
-        </template>
-        <template v-if="progressCount == 10">
-          <div class="progress mb-3" role="progressbar">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              style="width: 100%"
-            />
-          </div>
-        </template>
+
+        <!-- 프로그레스 -->
+        <div>
+          <template v-if="progressCount == 0">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 0%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 1">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 10%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 2">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 20%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 3">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 30%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 4">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 40%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 5">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 50%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 6">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 60%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 7">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 70%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 8">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 80%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 9">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 90%"
+              />
+            </div>
+          </template>
+          <template v-if="progressCount == 10">
+            <div class="progress mb-3" role="progressbar">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: 100%"
+              />
+            </div>
+          </template>
+        </div>
       </template>
       <!-- v-else -->
       <template v-else>
