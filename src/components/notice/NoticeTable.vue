@@ -24,7 +24,7 @@ const props = defineProps({
         <BaseTh
           class="col-2 d-sm-hidden d-md-hidden"
           :scopeStyle="'col'"
-          :message="'조회수'"
+          :message="'작성일'"
         />
       </tr>
     </thead>
@@ -47,7 +47,7 @@ const props = defineProps({
         />
         <BaseTd
           class="d-sm-hidden d-md-hidden fw-light"
-          :message="item?.hits"
+          :message="item?.dateCreate"
           style="font-size: 12px"
         />
       </tr>

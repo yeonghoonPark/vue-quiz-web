@@ -30,13 +30,17 @@ const savedList = reactive({
   title: null,
   content: null,
   author: null,
-  hits: "0",
+  hits: "23.01.12",
   dateCreate: null,
 });
 
 const isNonArticleType = ref(false);
 const isNonContents = ref(false);
 const isAllowed = ref(false);
+
+// options value
+const common = ref(null);
+const request = ref(null);
 
 const saveData = () => {
   console.log("[saveData]");
@@ -52,8 +56,12 @@ const saveData = () => {
     savedList.title &&
     savedList.content
   ) {
+    savedList.articleType === common.value.value ? "common" : "request";
+    savedList.article = savedList.articleType === "common" ? "잡담" : "요청";
+    savedList.author = profile_nickname;
     notice.unshift(savedList);
     isAllowed.value = true;
+    console.log(notice, "notice");
     setTimeout(function () {
       isAllowed.value = false;
       goNoticeView();
@@ -111,8 +119,11 @@ onMounted(() => {
       <BaseDropdown v-model:selectValue="savedList.articleType">
         <template #options>
           <option value="">글 분류 선택</option>
-          <option value="common">잡담</option>
-          <option value="announcement">요청</option>
+          <option v-if="profile_nickname === '운영자'" value="announcement">
+            공지
+          </option>
+          <option ref="common" value="common">잡담</option>
+          <option ref="request" value="request">요청</option>
         </template>
       </BaseDropdown>
       <div class="mb-3">
