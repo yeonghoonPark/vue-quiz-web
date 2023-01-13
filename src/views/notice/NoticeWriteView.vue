@@ -154,10 +154,14 @@ onMounted(() => {
     <div class="d-flex justify-content-end mb-4">
       <BaseButton
         class="btn-outline-dark me-3"
-        :message="'뒤로가기'"
+        :message="'목록'"
         @click="goNoticeView"
       />
-      <BaseButton class="btn-primary" :message="'작성'" @click="saveData" />
+      <BaseButton
+        class="btn-primary"
+        :message="'글쓰기 완료'"
+        @click="saveData"
+      />
     </div>
   </div>
 </template>

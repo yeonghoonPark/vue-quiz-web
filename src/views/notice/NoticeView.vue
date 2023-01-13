@@ -79,7 +79,7 @@ const findItemByNotice = () => {
     });
   } else if (selectValue.value === "author") {
     notice.forEach((item) => {
-      if (item?.author.indexOf(inputValue.value) !== -1) {
+      if (item?.author?.indexOf(inputValue.value) !== -1) {
         if (checkedValue.value === item?.articleType) {
           newNoticeList.push(item);
         } else if (checkedValue.value === "total") {

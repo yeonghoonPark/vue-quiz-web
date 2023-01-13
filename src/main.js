@@ -10,9 +10,11 @@ import router from "@/router";
 
 import "@/assets/css/common.css";
 import "@/assets/css/reset.css";
+import dayjs from "dayjs";
 
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);
+app.use(dayjs);
 
 app.mount("#app");
