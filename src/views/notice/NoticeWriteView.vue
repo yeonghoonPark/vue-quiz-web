@@ -12,6 +12,7 @@ import notice from "@/data/notice";
 import { onMounted, reactive, ref } from "vue";
 
 import { useKakaoStore } from "@/stores/kakao.js";
+import dayjs from "dayjs";
 
 const kakao = useKakaoStore();
 
@@ -30,8 +31,9 @@ const savedList = reactive({
   title: null,
   content: null,
   author: null,
-  hits: "23.01.12",
-  dateCreate: null,
+  hits: "",
+  createdDate: null,
+  editedDate: null,
 });
 
 const isNonArticleType = ref(false);
@@ -56,12 +58,17 @@ const saveData = () => {
     savedList.title &&
     savedList.content
   ) {
+    isAllowed.value = true;
     savedList.articleType === common.value.value ? "common" : "request";
     savedList.article = savedList.articleType === "common" ? "잡담" : "요청";
     savedList.author = profile_nickname;
+    savedList.createdDate = dayjs().format("YY.MM.DD");
+    savedList.editedDate = dayjs().format("YY.MM.DD / HH:mm:ss");
+
     notice.unshift(savedList);
-    isAllowed.value = true;
+
     console.log(notice, "notice");
+
     setTimeout(function () {
       isAllowed.value = false;
       goNoticeView();
@@ -92,8 +99,10 @@ onMounted(() => {
 
 <template>
   <div id="NoticeWriteView" class="user-select-none py-4">
+    <!-- title -->
     <h1 class="text-center mb-5">글쓰기</h1>
 
+    <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
         class="user-select-none"
@@ -115,43 +124,77 @@ onMounted(() => {
       />
     </Teleport>
 
-    <form>
-      <BaseDropdown v-model:selectValue="savedList.articleType">
-        <template #options>
-          <option value="">글 분류 선택</option>
-          <option v-if="profile_nickname === '운영자'" value="announcement">
-            공지
-          </option>
-          <option ref="common" value="common">잡담</option>
-          <option ref="request" value="request">요청</option>
-        </template>
-      </BaseDropdown>
-      <div class="mb-3">
-        <BaseLabel
-          class="text-center"
-          :labelFor="'title'"
-          :labelMessage="'글 제목'"
-        />
-        <BaseInput
-          class=""
-          :id="'title'"
-          maxlength="30"
-          :value="savedList.title"
-          v-model:inputValue="savedList.title"
-        />
+    <!-- form -->
+    <form class="container mb-4">
+      <div class="row align-items-center py-2">
+        <div class="col-3 text-center">
+          <span>작성자</span>
+        </div>
+        <div class="col-9">
+          <span>{{ profile_nickname }}</span>
+        </div>
       </div>
-      <div class="mb-3">
-        <BaseLabel class="" :labelFor="'content'" :labelMessage="'글 내용'" />
-        <BaseTextarea
-          :id="'content'"
-          maxlength="150"
-          :value="savedList.content"
-          v-model:inputValue="savedList.content"
-        />
+
+      <hr />
+
+      <div class="row align-items-center py-2">
+        <div class="col-3 text-center">
+          <span>글 분류</span>
+        </div>
+        <div class="col-9">
+          <BaseDropdown
+            class=""
+            style="width: 6rem"
+            v-model:selectValue="savedList.articleType"
+          >
+            <template #options>
+              <option value="">선택</option>
+              <option v-if="profile_nickname === '운영자'" value="announcement">
+                공지
+              </option>
+              <option ref="common" value="common">잡담</option>
+              <option ref="request" value="request">요청</option>
+            </template>
+          </BaseDropdown>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row align-items-center py-2">
+        <div class="col-3 text-center">
+          <BaseLabel class="" :labelFor="'title'" :labelMessage="'글 제목'" />
+        </div>
+        <div class="col-9">
+          <BaseInput
+            class=""
+            :id="'title'"
+            maxlength="30"
+            :value="savedList.title"
+            v-model:inputValue="savedList.title"
+          />
+        </div>
+      </div>
+      <hr />
+
+      <div class="row align-items-start py-2 mb-4">
+        <div class="col-3 text-center">
+          <BaseLabel class="" :labelFor="'content'" :labelMessage="'글 내용'" />
+        </div>
+        <div class="col-9">
+          <BaseTextarea
+            :id="'content'"
+            :rowsType="'7'"
+            maxlength="150"
+            :value="savedList.content"
+            v-model:inputValue="savedList.content"
+          />
+        </div>
       </div>
     </form>
 
-    <div class="d-flex justify-content-end mb-4">
+    <!-- button-group -->
+    <div class="container d-flex justify-content-end">
       <BaseButton
         class="btn-outline-dark me-3"
         :message="'목록'"

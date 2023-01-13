@@ -41,11 +41,11 @@
   transition: var(--base-transition);
 }
 
-.font-black {
+.font-black .bg-black {
   color: var(--color-black);
 }
 
-.font-pink {
+.font-pink .bg-pink {
   color: var(--color-pink);
 }
 

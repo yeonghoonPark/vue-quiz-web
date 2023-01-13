@@ -6,7 +6,8 @@ const notice = [
     content: "테스트입니다",
     author: "운영자",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -15,7 +16,8 @@ const notice = [
     content: "테스트입니다",
     author: "아무개",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -24,7 +26,8 @@ const notice = [
     content: "테스트입니다",
     author: "석가모니",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "공지",
@@ -33,7 +36,8 @@ const notice = [
     content: "테스트입니다",
     author: "운영자",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -42,7 +46,8 @@ const notice = [
     content: "테스트입니다",
     author: "헤이즈",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -51,7 +56,8 @@ const notice = [
     content: "테스트입니다",
     author: "지저스",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -60,7 +66,8 @@ const notice = [
     content: "테스트입니다",
     author: "빌게이츠",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "요청",
@@ -69,7 +76,8 @@ const notice = [
     content: "테스트입니다",
     author: "온달",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "요청",
@@ -78,7 +86,8 @@ const notice = [
     content: "테스트입니다",
     author: "아인슈타인",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -87,7 +96,8 @@ const notice = [
     content: "테스트입니다",
     author: "세종대왕",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -96,7 +106,8 @@ const notice = [
     content: "테스트입니다",
     author: "갈릴레오 갈릴레이",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -105,7 +116,8 @@ const notice = [
     content: "테스트입니다",
     author: "숫자",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "요청",
@@ -114,7 +126,8 @@ const notice = [
     content: "테스트입니다",
     author: "트럼프",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "요청",
@@ -123,7 +136,8 @@ const notice = [
     content: "테스트입니다",
     author: "Mike",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -132,7 +146,8 @@ const notice = [
     content: "테스트입니다",
     author: "나이팅게일",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -141,7 +156,8 @@ const notice = [
     content: "테스트입니다",
     author: "PSY",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "공지",
@@ -150,7 +166,8 @@ const notice = [
     content: "테스트입니다",
     author: "운영자",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -159,7 +176,8 @@ const notice = [
     content: "테스트입니다",
     author: "간디",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -168,7 +186,8 @@ const notice = [
     content: "테스트입니다",
     author: "스티븐 호킹",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -177,7 +196,8 @@ const notice = [
     content: "테스트입니다",
     author: "영구",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -186,7 +206,8 @@ const notice = [
     content: "테스트입니다",
     author: "크리스토퍼 히라타",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -195,7 +216,8 @@ const notice = [
     content: "테스트입니다",
     author: "박지성",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "잡담",
@@ -204,7 +226,8 @@ const notice = [
     content: "테스트입니다",
     author: "조혜련",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
   {
     article: "공지",
@@ -213,7 +236,8 @@ const notice = [
     content: "테스트입니다",
     author: "운영자",
     hits: "",
-    dateCreate: "23.01.12",
+    createdDate: "23.01.12",
+    editedDate: "",
   },
 ];
 

@@ -47,7 +47,7 @@ const props = defineProps({
         />
         <BaseTd
           class="d-sm-hidden d-md-hidden fw-light"
-          :message="item?.dateCreate"
+          :message="item?.createdDate"
           style="font-size: 12px"
         />
       </tr>

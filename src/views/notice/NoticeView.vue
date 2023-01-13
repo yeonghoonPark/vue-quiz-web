@@ -100,9 +100,10 @@ onMounted(() => {
 
 <template>
   <div id="NoticeView" class="user-select-none py-4">
+    <!-- title -->
     <h1 class="text-center mb-5">게시판</h1>
 
-    <!-- 탭 메뉴 -->
+    <!-- menu -->
     <div
       class="btn-group w-100 mb-4"
       role="group"
@@ -169,10 +170,10 @@ onMounted(() => {
       />
     </div>
 
-    <!-- 테이블 -->
+    <!-- table -->
     <NoticeTable :items="dividedList" class="mb-4" />
 
-    <!-- 인풋 그룹 -->
+    <!-- input-group -->
     <div class="d-flex justify-content-end mb-4">
       <div class="me-3">
         <BaseDropdown v-model:selectValue="selectValue">
@@ -200,7 +201,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 글쓰기 -->
+    <!-- button-group -->
     <div class="d-flex justify-content-end mb-4">
       <BaseButton
         class="btn-primary"
@@ -209,7 +210,7 @@ onMounted(() => {
       />
     </div>
 
-    <!-- 페이지네이션 -->
+    <!-- pagination -->
     <div class="d-flex justify-content-center">
       <BasePagination
         :pageTotalCount="pageCount"

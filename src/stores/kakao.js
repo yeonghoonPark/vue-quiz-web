@@ -6,6 +6,9 @@ export const useKakaoStore = defineStore("kakao", () => {
   const account_email = ref(null);
   const profile_nickname = ref(null);
 
+  // 임시 profile_nickname
+  profile_nickname.value = "임시회원";
+
   const resetUserInfo = () => {
     access_token.value = null;
     account_email.value = null;
