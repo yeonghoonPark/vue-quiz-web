@@ -26,6 +26,7 @@ const goNoticeView = () => {
 };
 
 const savedList = reactive({
+  id: null,
   article: null,
   articleType: "",
   title: null,
@@ -59,8 +60,9 @@ const saveData = () => {
     savedList.content
   ) {
     isAllowed.value = true;
-    savedList.articleType === common.value.value ? "common" : "request";
+    savedList.id = notice.length + 1;
     savedList.article = savedList.articleType === "common" ? "잡담" : "요청";
+    savedList.articleType === common.value.value ? "common" : "request";
     savedList.author = profile_nickname;
     savedList.createdDate = dayjs().format("YY.MM.DD");
     savedList.editedDate = dayjs().format("YY.MM.DD / HH:mm:ss");

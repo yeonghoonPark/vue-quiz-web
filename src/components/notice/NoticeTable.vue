@@ -26,6 +26,7 @@ const props = defineProps({
           :scopeStyle="'col'"
           :message="'작성일'"
         />
+        <BaseTh class="d-none" :scopeStyle="'col'" :message="'id'" />
       </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -40,7 +41,9 @@ const props = defineProps({
             <span class="box py-1 px-3">{{ item?.article }}</span>
           </template>
         </BaseTh>
+
         <BaseTd class="text-start" :message="item?.title" />
+
         <BaseTd
           class="d-sm-hidden d-md-hidden fw-light"
           :message="item?.author"
@@ -48,6 +51,11 @@ const props = defineProps({
         <BaseTd
           class="d-sm-hidden d-md-hidden fw-light"
           :message="item?.createdDate"
+          style="font-size: 12px"
+        />
+        <BaseTd
+          class="d-none fw-light"
+          :message="item?.id"
           style="font-size: 12px"
         />
       </tr>

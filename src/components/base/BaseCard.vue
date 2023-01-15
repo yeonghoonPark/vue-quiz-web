@@ -1,6 +1,4 @@
 <script setup>
-import BaseButton from "@/components/base/BaseButton.vue";
-
 const props = defineProps({
   header: {
     type: String,
@@ -15,8 +13,6 @@ const props = defineProps({
     default: "card-footer",
   },
 });
-
-const emits = defineEmits(["buttonClick", "keydownEsc"]);
 </script>
 
 <template>

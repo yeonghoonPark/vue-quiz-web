@@ -1,5 +1,6 @@
 const notice = [
   {
+    id: 24,
     article: "공지",
     articleType: "announcement",
     title: "테이블 테스트입니다.",
@@ -10,6 +11,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 23,
     article: "잡담",
     articleType: "common",
     title: "코로나 조심들하세요~",
@@ -20,6 +22,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 22,
     article: "잡담",
     articleType: "common",
     title: "오늘 제 생일이에요",
@@ -30,6 +33,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 21,
     article: "공지",
     articleType: "announcement",
     title: "코로나 사태에 따른 임시적 휴업 공지",
@@ -40,6 +44,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 20,
     article: "잡담",
     articleType: "common",
     title: "비도오고 그래서 니 생각이나서",
@@ -50,6 +55,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 19,
     article: "잡담",
     articleType: "common",
     title: "안녕하세요 반갑습니다, 새내기인사",
@@ -60,6 +66,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 18,
     article: "잡담",
     articleType: "common",
     title: "퀴즈가 너무 어렵네요",
@@ -70,6 +77,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 17,
     article: "요청",
     articleType: "request",
     title: "퀴즈 수정 부탁드립니다.",
@@ -80,6 +88,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 16,
     article: "요청",
     articleType: "request",
     title: "문제 추가 요청드립니다.",
@@ -90,6 +99,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 15,
     article: "잡담",
     articleType: "common",
     title: "나랏말싸미 듕궉에 달아",
@@ -100,6 +110,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 14,
     article: "잡담",
     articleType: "common",
     title: "그래도 지구는 돈다",
@@ -110,6 +121,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 13,
     article: "잡담",
     articleType: "common",
     title: "55342",
@@ -120,6 +132,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 12,
     article: "요청",
     articleType: "request",
     title: "퀴즈 답변 수정 요청!!",
@@ -130,6 +143,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 11,
     article: "요청",
     articleType: "request",
     title: "이상한 문제 수정 부탁드려요",
@@ -140,6 +154,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 10,
     article: "잡담",
     articleType: "common",
     title: "날씨가 참 춥네요, 감기 조심하세요",
@@ -150,6 +165,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 9,
     article: "잡담",
     articleType: "common",
     title: "출석체크합니다",
@@ -160,6 +176,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 8,
     article: "공지",
     articleType: "announcement",
     title: "퀴즈 오류 및 수정 요청 받습니다.",
@@ -170,6 +187,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 7,
     article: "잡담",
     articleType: "common",
     title: "코로나 걸렸더니 몸이 너무 아프네요",
@@ -180,6 +198,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 6,
     article: "잡담",
     articleType: "common",
     title: "퀴즈가 생각보다 어렵네요 ㅠㅠ",
@@ -190,6 +209,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 5,
     article: "잡담",
     articleType: "common",
     title: "10문제 다 맞췄어요",
@@ -200,6 +220,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 4,
     article: "잡담",
     articleType: "common",
     title: "study그룹 모집합니다.",
@@ -210,6 +231,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 3,
     article: "잡담",
     articleType: "common",
     title: "축구 동아리 모집합니다",
@@ -220,6 +242,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 2,
     article: "잡담",
     articleType: "common",
     title: "절대 태보해",
@@ -230,6 +253,7 @@ const notice = [
     editedDate: "",
   },
   {
+    id: 1,
     article: "공지",
     articleType: "announcement",
     title: "게시판 오픈",

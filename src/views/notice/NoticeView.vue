@@ -8,7 +8,7 @@ import NoticeTable from "@/components/notice/noticeTable.vue";
 
 import { onMounted, reactive, ref } from "vue";
 import { computed } from "@vue/reactivity";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import notice from "@/data/notice";
 
@@ -61,6 +61,8 @@ const onClickMenu = (value, articleValue) => {
     inputValue.value = "";
     selectValue.value = "title";
   });
+
+  console.log(noticeList.value);
 };
 
 const findItemByNotice = () => {
@@ -91,6 +93,20 @@ const findItemByNotice = () => {
   noticeList.value = [];
   noticeList.value = newNoticeList;
   pagenationState.pageNumber = 0;
+};
+
+const goNoticeDetailView = (id) => {
+  console.log("[goNoticeDetailView]");
+  router.push({
+    name: "NoticeDetailView",
+    params: { id },
+  });
+};
+
+const getId = (e) => {
+  console.log("[getId]");
+  const id = e.target.parentNode.lastChild.innerText;
+  goNoticeDetailView(id);
 };
 
 onMounted(() => {
@@ -171,7 +187,7 @@ onMounted(() => {
     </div>
 
     <!-- table -->
-    <NoticeTable :items="dividedList" class="mb-4" />
+    <NoticeTable :items="dividedList" class="mb-4" @click="getId" />
 
     <!-- input-group -->
     <div class="d-flex justify-content-end mb-4">
