@@ -11,9 +11,9 @@ const { access_token, account_email, profile_nickname } = kakao;
 
 const route = useRoute();
 const router = useRouter();
+
 const selectedItem = ref(null);
 console.log(selectedItem, "셀렉티드");
-
 console.log(route.params.id);
 console.log(notice);
 
@@ -37,7 +37,7 @@ onMounted(() => {
 <template>
   <div id="NoticeDetailView" class="py-4">
     <!-- title -->
-    <h1 class="text-center mb-5">글</h1>
+    <h1 class="text-center mb-5">{{ `'${selectedItem?.author}'` }}님의 글</h1>
 
     <!-- main -->
     <div class="container mb-4">
@@ -46,7 +46,7 @@ onMounted(() => {
           <span>작성자</span>
         </div>
         <div class="col-9">
-          <span>{{ profile_nickname }}</span>
+          <span>{{ selectedItem?.author }}</span>
         </div>
       </div>
 
@@ -71,7 +71,7 @@ onMounted(() => {
         </div>
         <div class="col-9">
           <span>
-            {{ selectedItem.title }}
+            {{ selectedItem?.title }}
           </span>
         </div>
       </div>
@@ -82,14 +82,23 @@ onMounted(() => {
         <div class="col-3 text-center">
           <span>글 내용</span>
         </div>
-        <div class="col-9">
-          {{ selectedItem.content }}
+        <div class="col-9 word-break py-1 overflow-auto" style="height: 230px">
+          {{ selectedItem?.content }}
         </div>
       </div>
 
-      <p></p>
-      <p></p>
-      <p>{{ selectedItem.createdDate }}</p>
+      <div class="d-flex align-items-end flex-column text-muted">
+        <span class="fw-light mb-2" style="font-size: 0.8rem">
+          작성일 {{ selectedItem?.createdDetailDate }}
+        </span>
+        <span
+          v-if="selectedItem.editedDate"
+          class="fw-light"
+          style="font-size: 0.8rem"
+        >
+          수정일 {{ selectedItem?.editedDate }}
+        </span>
+      </div>
     </div>
 
     <!-- button-group -->

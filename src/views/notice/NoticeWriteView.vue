@@ -65,7 +65,8 @@ const saveData = () => {
     savedList.articleType === common.value.value ? "common" : "request";
     savedList.author = profile_nickname;
     savedList.createdDate = dayjs().format("YY.MM.DD");
-    savedList.editedDate = dayjs().format("YY.MM.DD / HH:mm:ss");
+    savedList.createdDetailDate = dayjs().format("YY.MM.DD HH:mm:ss");
+    savedList.editedDate = dayjs().format("YY.MM.DD HH:mm:ss");
 
     notice.unshift(savedList);
 
@@ -186,8 +187,8 @@ onMounted(() => {
         <div class="col-9">
           <BaseTextarea
             :id="'content'"
-            :rowsType="'7'"
-            maxlength="150"
+            :rowsType="'9'"
+            maxlength="500"
             :value="savedList.content"
             v-model:inputValue="savedList.content"
           />
@@ -203,8 +204,8 @@ onMounted(() => {
         @click="goNoticeView"
       />
       <BaseButton
-        class="btn-primary"
-        :message="'글쓰기 완료'"
+        class="btn-outline-primary"
+        :message="'작성'"
         @click="saveData"
       />
     </div>

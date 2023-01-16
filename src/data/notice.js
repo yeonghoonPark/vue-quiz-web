@@ -1,5 +1,18 @@
 const notice = [
   {
+    id: 25,
+    article: "공지",
+    articleType: "announcement",
+    title: "컨텐츠 테스트.",
+    content:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam amet",
+    author: "임시회원",
+    hits: "",
+    createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
+    editedDate: "23.01.12 17:53:01",
+  },
+  {
     id: 24,
     article: "공지",
     articleType: "announcement",
@@ -8,6 +21,7 @@ const notice = [
     author: "운영자",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -19,6 +33,7 @@ const notice = [
     author: "아무개",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -30,6 +45,7 @@ const notice = [
     author: "석가모니",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -41,6 +57,7 @@ const notice = [
     author: "운영자",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -52,6 +69,7 @@ const notice = [
     author: "헤이즈",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -63,6 +81,7 @@ const notice = [
     author: "지저스",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -74,6 +93,7 @@ const notice = [
     author: "빌게이츠",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -85,6 +105,7 @@ const notice = [
     author: "온달",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -96,6 +117,7 @@ const notice = [
     author: "아인슈타인",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -107,6 +129,7 @@ const notice = [
     author: "세종대왕",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -118,6 +141,7 @@ const notice = [
     author: "갈릴레오 갈릴레이",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -129,6 +153,7 @@ const notice = [
     author: "숫자",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -140,6 +165,7 @@ const notice = [
     author: "트럼프",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -151,6 +177,7 @@ const notice = [
     author: "Mike",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -162,6 +189,7 @@ const notice = [
     author: "나이팅게일",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -173,6 +201,7 @@ const notice = [
     author: "PSY",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -184,6 +213,7 @@ const notice = [
     author: "운영자",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -195,6 +225,7 @@ const notice = [
     author: "간디",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -206,6 +237,7 @@ const notice = [
     author: "스티븐 호킹",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -217,6 +249,7 @@ const notice = [
     author: "영구",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -228,6 +261,7 @@ const notice = [
     author: "크리스토퍼 히라타",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -239,6 +273,7 @@ const notice = [
     author: "박지성",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -250,6 +285,7 @@ const notice = [
     author: "조혜련",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
   {
@@ -261,6 +297,7 @@ const notice = [
     author: "운영자",
     hits: "",
     createdDate: "23.01.12",
+    createdDetailDate: "23.01.12 12:22:15",
     editedDate: "",
   },
 ];
