@@ -7,17 +7,18 @@ import quizzes from "@/data/quizzes";
 import { onMounted, onUnmounted, ref } from "vue";
 import { useKakaoStore } from "@/stores/kakao";
 import { useRecordStore } from "@/stores/record";
+import { useAlertStore } from "@/stores/alert";
 import { storeToRefs } from "pinia";
 
-/* state */
 const recordStore = useRecordStore();
 const kakaoStore = useKakaoStore();
+const alertStore = useAlertStore();
 
-// kakaoStore's state
+// kakaoStore's by pinia
 const { access_token, account_email, profile_nickname } =
   storeToRefs(kakaoStore);
 
-// recordStore's state
+// recordStore's by pinia
 const {
   startingPoint,
   minute,
@@ -26,10 +27,12 @@ const {
   correctAnswerNumber,
   timeTaken,
 } = storeToRefs(recordStore);
-
-// recordStore's method
 const { startTimeAttack, stopTimeAttack, resetTimer, getTimeTaken } =
   recordStore;
+
+// alert's by pinia
+const { isRightOrWrong } = storeToRefs(alertStore);
+const { onAlertRightOrWrong } = alertStore;
 
 // 퀴즈 담는 어레이
 const quizArray = ref([]);
@@ -46,7 +49,6 @@ const countInterval = ref(null);
 // alert 관련
 const alertClassType = ref("");
 const alertMessage = ref("");
-const isAlertShow = ref(false);
 
 // click block 관련
 const isBlock = ref(false);
@@ -78,14 +80,6 @@ const onBlockClick = () => {
   setTimeout(function () {
     isBlock.value = false;
   }, 1000);
-};
-
-const onAlert = () => {
-  console.log("[onAlert]");
-  isAlertShow.value = true;
-  setTimeout(function () {
-    isAlertShow.value = false;
-  }, 800);
 };
 
 /**
@@ -160,7 +154,9 @@ const onClickMultipleChoiceView = () => {
       },
       { once: true },
     );
-    item.addEventListener("mouseup", onAlert, { once: true });
+    item.addEventListener("mouseup", onAlertRightOrWrong, {
+      once: true,
+    });
   });
   view2.forEach((item, index) => {
     item.addEventListener(
@@ -176,7 +172,7 @@ const onClickMultipleChoiceView = () => {
       },
       { once: true },
     );
-    item.addEventListener("mouseup", onAlert, { once: true });
+    item.addEventListener("mouseup", onAlertRightOrWrong, { once: true });
   });
   view3.forEach((item, index) => {
     item.addEventListener(
@@ -192,7 +188,7 @@ const onClickMultipleChoiceView = () => {
       },
       { once: true },
     );
-    item.addEventListener("mouseup", onAlert, { once: true });
+    item.addEventListener("mouseup", onAlertRightOrWrong, { once: true });
   });
 };
 
@@ -311,8 +307,8 @@ onUnmounted(() => {
     <!-- 정답, 오답 확인 메세지 -->
     <Teleport to="#alert">
       <BaseAlert
-        class="user-select-none"
-        :isShow="isAlertShow"
+        class=""
+        :isShow="isRightOrWrong"
         :classType="alertClassType"
         :message="alertMessage"
       />

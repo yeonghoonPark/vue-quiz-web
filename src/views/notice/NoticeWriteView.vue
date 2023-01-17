@@ -5,18 +5,21 @@ import BaseInput from "@/components/base/BaseInput.vue";
 import BaseTextarea from "@/components/base/BaseTextarea.vue";
 import BaseDropdown from "@/components/base/BaseDropdown.vue";
 import BaseAlert from "@/components/base/BaseAlert.vue";
-
 import { useRouter } from "vue-router";
-
-import notice from "@/data/notice";
 import { onMounted, reactive, ref } from "vue";
-
 import { useKakaoStore } from "@/stores/kakao.js";
+import { useAlertStore } from "@/stores/alert.js";
+import { storeToRefs } from "pinia";
+import notice from "@/data/notice";
 import dayjs from "dayjs";
 
-const kakao = useKakaoStore();
+const kakaoStore = useKakaoStore();
+const { access_token, account_email, profile_nickname } = kakaoStore;
 
-const { access_token, account_email, profile_nickname } = kakao;
+const alertStore = useAlertStore();
+const { isNonArticleType, isNonContents, isAllowed, chitchat, request } =
+  storeToRefs(alertStore);
+const { onAlertArticleType, onAlertContents } = alertStore;
 
 const router = useRouter();
 
@@ -25,7 +28,7 @@ const goNoticeView = () => {
   router.push({ name: "NoticeView" });
 };
 
-const savedList = reactive({
+const savedItem = reactive({
   id: null,
   article: null,
   articleType: "",
@@ -37,38 +40,30 @@ const savedList = reactive({
   editedDate: null,
 });
 
-const isNonArticleType = ref(false);
-const isNonContents = ref(false);
-const isAllowed = ref(false);
-
-// options value
-const common = ref(null);
-const request = ref(null);
-
 const saveData = () => {
   console.log("[saveData]");
 
-  if (savedList.articleType === "") {
+  if (savedItem.articleType === "") {
     onAlertArticleType();
-  } else if (!savedList.title) {
+  } else if (!savedItem.title) {
     onAlertContents();
-  } else if (!savedList.content) {
+  } else if (!savedItem.content) {
     onAlertContents();
   } else if (
-    savedList.articleType !== "" &&
-    savedList.title &&
-    savedList.content
+    savedItem.articleType !== "" &&
+    savedItem.title &&
+    savedItem.content
   ) {
     isAllowed.value = true;
-    savedList.id = notice.length + 1;
-    savedList.article = savedList.articleType === "common" ? "잡담" : "요청";
-    savedList.articleType === common.value.value ? "common" : "request";
-    savedList.author = profile_nickname;
-    savedList.createdDate = dayjs().format("YY.MM.DD");
-    savedList.createdDetailDate = dayjs().format("YY.MM.DD HH:mm:ss");
-    savedList.editedDate = dayjs().format("YY.MM.DD HH:mm:ss");
+    savedItem.id = notice.length + 1;
+    savedItem.article = savedItem.articleType === "chitchat" ? "잡담" : "요청";
+    savedItem.articleType === chitchat.value.value ? "chitchat" : "request";
+    savedItem.author = profile_nickname;
+    savedItem.createdDate = dayjs().format("YY.MM.DD");
+    savedItem.createdDetailDate = dayjs().format("YY.MM.DD HH:mm:ss");
+    // savedItem.editedDate = dayjs().format("YY.MM.DD HH:mm:ss");
 
-    notice.unshift(savedList);
+    notice.unshift(savedItem);
 
     console.log(notice, "notice");
 
@@ -79,22 +74,6 @@ const saveData = () => {
   }
 };
 
-const onAlertArticleType = () => {
-  console.log("[onAlert]");
-  isNonArticleType.value = true;
-  setTimeout(function () {
-    isNonArticleType.value = false;
-  }, 1500);
-};
-
-const onAlertContents = () => {
-  console.log("[onAlertContents]");
-  isNonContents.value = true;
-  setTimeout(function () {
-    isNonContents.value = false;
-  }, 1500);
-};
-
 onMounted(() => {
   console.log("[onMounted]");
 });
@@ -103,7 +82,7 @@ onMounted(() => {
 <template>
   <div id="NoticeWriteView" class="user-select-none py-4">
     <!-- title -->
-    <h1 class="text-center mb-5">글쓰기</h1>
+    <h1 class="text-center mb-5">글 작성</h1>
 
     <!-- alert -->
     <Teleport to="#alert">
@@ -148,14 +127,14 @@ onMounted(() => {
           <BaseDropdown
             class=""
             style="width: 6rem"
-            v-model:selectValue="savedList.articleType"
+            v-model:selectValue="savedItem.articleType"
           >
             <template #options>
               <option value="">선택</option>
               <option v-if="profile_nickname === '운영자'" value="announcement">
                 공지
               </option>
-              <option ref="common" value="common">잡담</option>
+              <option ref="chitchat" value="chitchat">잡담</option>
               <option ref="request" value="request">요청</option>
             </template>
           </BaseDropdown>
@@ -173,8 +152,8 @@ onMounted(() => {
             class=""
             :id="'title'"
             maxlength="30"
-            :value="savedList.title"
-            v-model:inputValue="savedList.title"
+            :value="savedItem.title"
+            v-model:inputValue="savedItem.title"
           />
         </div>
       </div>
@@ -189,8 +168,8 @@ onMounted(() => {
             :id="'content'"
             :rowsType="'9'"
             maxlength="500"
-            :value="savedList.content"
-            v-model:inputValue="savedList.content"
+            :value="savedItem.content"
+            v-model:inputValue="savedItem.content"
           />
         </div>
       </div>
@@ -205,7 +184,7 @@ onMounted(() => {
       />
       <BaseButton
         class="btn-outline-primary"
-        :message="'작성'"
+        :message="'글 작성완료'"
         @click="saveData"
       />
     </div>

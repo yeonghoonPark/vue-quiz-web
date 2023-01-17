@@ -1,8 +1,8 @@
 const notice = [
   {
     id: 25,
-    article: "공지",
-    articleType: "announcement",
+    article: "잡담",
+    articleType: "chitchat",
     title: "컨텐츠 테스트.",
     content:
       "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam ametLorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vel fuga aliquam rem, nam voluptatibus commodi consectetur minus necessitatibus modi quod, adipisci sequi. Nobis explicabo voluptatem aspernatur praesentium ullam amet",
@@ -27,7 +27,7 @@ const notice = [
   {
     id: 23,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "코로나 조심들하세요~",
     content: "테스트입니다",
     author: "아무개",
@@ -39,7 +39,7 @@ const notice = [
   {
     id: 22,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "오늘 제 생일이에요",
     content: "테스트입니다",
     author: "석가모니",
@@ -63,7 +63,7 @@ const notice = [
   {
     id: 20,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "비도오고 그래서 니 생각이나서",
     content: "테스트입니다",
     author: "헤이즈",
@@ -75,7 +75,7 @@ const notice = [
   {
     id: 19,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "안녕하세요 반갑습니다, 새내기인사",
     content: "테스트입니다",
     author: "지저스",
@@ -87,7 +87,7 @@ const notice = [
   {
     id: 18,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "퀴즈가 너무 어렵네요",
     content: "테스트입니다",
     author: "빌게이츠",
@@ -123,7 +123,7 @@ const notice = [
   {
     id: 15,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "나랏말싸미 듕궉에 달아",
     content: "테스트입니다",
     author: "세종대왕",
@@ -135,7 +135,7 @@ const notice = [
   {
     id: 14,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "그래도 지구는 돈다",
     content: "테스트입니다",
     author: "갈릴레오 갈릴레이",
@@ -147,7 +147,7 @@ const notice = [
   {
     id: 13,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "55342",
     content: "테스트입니다",
     author: "숫자",
@@ -183,7 +183,7 @@ const notice = [
   {
     id: 10,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "날씨가 참 춥네요, 감기 조심하세요",
     content: "테스트입니다",
     author: "나이팅게일",
@@ -195,7 +195,7 @@ const notice = [
   {
     id: 9,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "출석체크합니다",
     content: "테스트입니다",
     author: "PSY",
@@ -219,7 +219,7 @@ const notice = [
   {
     id: 7,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "코로나 걸렸더니 몸이 너무 아프네요",
     content: "테스트입니다",
     author: "간디",
@@ -231,7 +231,7 @@ const notice = [
   {
     id: 6,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "퀴즈가 생각보다 어렵네요 ㅠㅠ",
     content: "테스트입니다",
     author: "스티븐 호킹",
@@ -243,7 +243,7 @@ const notice = [
   {
     id: 5,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "10문제 다 맞췄어요",
     content: "테스트입니다",
     author: "영구",
@@ -255,7 +255,7 @@ const notice = [
   {
     id: 4,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "study그룹 모집합니다.",
     content: "테스트입니다",
     author: "크리스토퍼 히라타",
@@ -267,7 +267,7 @@ const notice = [
   {
     id: 3,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "축구 동아리 모집합니다",
     content: "테스트입니다",
     author: "박지성",
@@ -279,7 +279,7 @@ const notice = [
   {
     id: 2,
     article: "잡담",
-    articleType: "common",
+    articleType: "chitchat",
     title: "절대 태보해",
     content: "테스트입니다",
     author: "조혜련",

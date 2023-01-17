@@ -2,31 +2,39 @@
 import BaseButton from "@/components/base/BaseButton.vue";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import notice from "@/data/notice";
 import { useKakaoStore } from "@/stores/kakao.js";
+import { storeToRefs } from "pinia";
+import notice from "@/data/notice";
 
-const kakao = useKakaoStore();
+const kakaoStore = useKakaoStore();
 
-const { access_token, account_email, profile_nickname } = kakao;
+const { access_token, account_email, profile_nickname } =
+  storeToRefs(kakaoStore);
 
 const route = useRoute();
 const router = useRouter();
 
 const selectedItem = ref(null);
-console.log(selectedItem, "셀렉티드");
-console.log(route.params.id);
-console.log(notice);
+const id = route.params.id;
 
 notice.forEach((item) => {
-  if (item.id === parseInt(route.params.id)) {
+  if (item.id === parseInt(id)) {
     selectedItem.value = item;
-    console.log(selectedItem.value);
+    console.log(selectedItem.value, "셀렉티드");
   }
 });
 
 const goNoticeView = () => {
   console.log("[goNoticeView]");
   router.push({ name: "NoticeView" });
+};
+
+const goNoticeEditView = (id) => {
+  console.log("[goNoticeEditView]");
+  router.push({
+    name: "NoticeEditView",
+    params: { id },
+  });
 };
 
 onMounted(() => {
@@ -111,7 +119,7 @@ onMounted(() => {
       <BaseButton
         class="btn-outline-success me-3"
         :message="'수정'"
-        @click=""
+        @click="goNoticeEditView(id)"
       />
       <BaseButton class="btn-outline-danger" :message="'삭제'" @click="" />
     </div>

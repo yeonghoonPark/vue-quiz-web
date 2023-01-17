@@ -35,6 +35,11 @@ const router = createRouter({
       component: () => import("@/views/notice/NoticeDetailView.vue"),
     },
     {
+      path: "/notice/detail:id/edit",
+      name: "NoticeEditView",
+      component: () => import("@/views/notice/NoticeEditView.vue"),
+    },
+    {
       path: "/quiz",
       name: "QuizView",
       component: () => import("@/views/QuizView.vue"),

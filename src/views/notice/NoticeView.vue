@@ -176,8 +176,8 @@ onMounted(() => {
         name="btnradio"
         :id="'btnradio4'"
         autocomplete="off"
-        :checked="checkedValue === 'common'"
-        @click="onClickMenu('common', '잡담')"
+        :checked="checkedValue === 'chitchat'"
+        @click="onClickMenu('chitchat', '잡담')"
       />
       <BaseLabel
         class="btn btn-outline-dark py-2 fs-5"
@@ -221,7 +221,7 @@ onMounted(() => {
     <div class="d-flex justify-content-end mb-4">
       <BaseButton
         class="btn-primary"
-        :message="'글쓰기'"
+        :message="'글 작성'"
         @click="goNoticeWriteView"
       />
     </div>
