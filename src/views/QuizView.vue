@@ -39,7 +39,7 @@ const quizArray = ref([]);
 const newQuizChildBoxes = ref([]);
 
 // 문제 끝나고 기록이 나오는 알럿
-const isRecordShow = ref(false);
+const isRecordCard = ref(false);
 
 // quiz시작 모달 부분관련
 const isStartShow = ref(false);
@@ -70,7 +70,7 @@ const removeElement = (element) => {
     if (!nextSibling) {
       stopTimeAttack();
       getTimeTaken();
-      isRecordShow.value = true;
+      isRecordCard.value = true;
     }
   }, 1000);
 };
@@ -285,7 +285,7 @@ const onQuizCount = () => {
 
 const resetStates = () => {
   console.log("[resetStates]");
-  isRecordShow.value = false;
+  isRecordCard.value = false;
   correctAnswerNumber.value = 0;
   progressCount.value = 0;
   stopTimeAttack();
@@ -304,7 +304,14 @@ onUnmounted(() => {
 
 <template>
   <div id="QuizView" class="user-select-none">
-    <!-- 정답, 오답 확인 메세지 -->
+    <!-- anti-click overlayers -->
+    <div
+      v-if="isBlock"
+      class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
+      style="z-index: 1"
+    />
+
+    <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
         class=""
@@ -335,12 +342,11 @@ onUnmounted(() => {
       </div>
     </Teleport>
 
-    <!-- 퀴즈 끝나고 결과카드 부분 -->
-    <Teleport to="#recordCard">
-      <!-- v-if="isRecordShow" -->
+    <!-- card -->
+    <Teleport to="#card">
       <div
         class="position-fixed top-50 start-50 translate-middle user-select-none"
-        v-if="isRecordShow"
+        v-if="isRecordCard"
         style="
           width: 100vw;
           height: 100vh;
@@ -348,7 +354,7 @@ onUnmounted(() => {
         "
       >
         <QuizRecordCard
-          v-if="isRecordShow"
+          v-if="isRecordCard"
           style="width: 25rem"
           @buttonClick="resetStates"
           :header="`'${profile_nickname}'님 ${returnText(correctAnswerNumber)}`"
@@ -369,10 +375,7 @@ onUnmounted(() => {
       </div>
     </Teleport>
 
-    <!-- 두번 클릭 방지 layer -->
-    <div v-if="isBlock" class="position-fixed w-100 h-100" style="z-index: 1" />
-
-    <!-- 본문 -->
+    <!-- main -->
     <div
       id="quizBox"
       class="position-fixed top-50 start-50 translate-middle box p-4 z-0"
@@ -399,7 +402,7 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <!-- 프로그레스 -->
+        <!-- progress -->
         <div>
           <template v-if="progressCount == 0">
             <div class="progress mb-3" role="progressbar">

@@ -17,11 +17,13 @@ const kakaoStore = useKakaoStore();
 const { access_token, account_email, profile_nickname } = kakaoStore;
 
 const alertStore = useAlertStore();
-const { isNonArticleType, isNonContents, isAllowed, chitchat, request } =
+const { isNonArticleType, isNonContents, isWrightSuccess, chitchat, request } =
   storeToRefs(alertStore);
 const { onAlertArticleType, onAlertContents } = alertStore;
 
 const router = useRouter();
+
+const isBlock = ref(false);
 
 const goNoticeView = () => {
   console.log("[goNoticeView]");
@@ -44,17 +46,29 @@ const saveData = () => {
   console.log("[saveData]");
 
   if (savedItem.articleType === "") {
+    isBlock.value = true;
+    setTimeout(function () {
+      isBlock.value = false;
+    }, 1500);
     onAlertArticleType();
   } else if (!savedItem.title) {
+    isBlock.value = true;
+    setTimeout(function () {
+      isBlock.value = false;
+    }, 1500);
     onAlertContents();
   } else if (!savedItem.content) {
+    isBlock.value = true;
+    setTimeout(function () {
+      isBlock.value = false;
+    }, 1500);
     onAlertContents();
   } else if (
     savedItem.articleType !== "" &&
     savedItem.title &&
     savedItem.content
   ) {
-    isAllowed.value = true;
+    isWrightSuccess.value = true;
     savedItem.id = notice.length + 1;
     savedItem.article = savedItem.articleType === "chitchat" ? "잡담" : "요청";
     savedItem.articleType === chitchat.value.value ? "chitchat" : "request";
@@ -65,10 +79,10 @@ const saveData = () => {
 
     notice.unshift(savedItem);
 
-    console.log(notice, "notice");
-
+    isBlock.value = true;
     setTimeout(function () {
-      isAllowed.value = false;
+      isBlock.value = false;
+      isWrightSuccess.value = false;
       goNoticeView();
     }, 1500);
   }
@@ -81,8 +95,12 @@ onMounted(() => {
 
 <template>
   <div id="NoticeWriteView" class="user-select-none py-4">
-    <!-- title -->
-    <h1 class="text-center mb-5">글 작성</h1>
+    <!-- anti-click overlayers -->
+    <div
+      v-if="isBlock"
+      class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
+      style="z-index: 1"
+    />
 
     <!-- alert -->
     <Teleport to="#alert">
@@ -100,11 +118,14 @@ onMounted(() => {
       />
       <BaseAlert
         class="user-select-none"
-        :isShow="isAllowed"
+        :isShow="isWrightSuccess"
         :classType="'alert-primary'"
         :message="'글 등록이 완료되었습니다. 😀'"
       />
     </Teleport>
+
+    <!-- title -->
+    <h1 class="text-center mb-5">글 작성</h1>
 
     <!-- form -->
     <form class="container mb-4">

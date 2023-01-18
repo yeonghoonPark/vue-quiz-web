@@ -6,7 +6,10 @@ export const useAlertStore = defineStore("alert", () => {
   const isRightOrWrong = ref(false);
   const isNonArticleType = ref(false);
   const isNonContents = ref(false);
-  const isAllowed = ref(false);
+  const isWrightSuccess = ref(false);
+  const isDeleteSuccess = ref(false);
+  const isEditMismatch = ref(false);
+  const isDeleteMismatch = ref(false);
 
   // options value
   const chitchat = ref(null);
@@ -50,7 +53,10 @@ export const useAlertStore = defineStore("alert", () => {
     isRightOrWrong,
     isNonArticleType,
     isNonContents,
-    isAllowed,
+    isWrightSuccess,
+    isDeleteSuccess,
+    isEditMismatch,
+    isDeleteMismatch,
     chitchat,
     request,
     onAlertRightOrWrong,

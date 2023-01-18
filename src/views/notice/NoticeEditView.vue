@@ -18,7 +18,7 @@ const { access_token, account_email, profile_nickname } =
   storeToRefs(kakaoStore);
 
 const alertStore = useAlertStore();
-const { isNonArticleType, isNonContents, isAllowed, chitchat, request } =
+const { isNonArticleType, isNonContents, isWrightSuccess, chitchat, request } =
   storeToRefs(alertStore);
 const { onAlertArticleType, onAlertContents } = alertStore;
 
@@ -26,10 +26,12 @@ const route = useRoute();
 const router = useRouter();
 
 const editedItem = ref(null);
-const id = route.params.id;
+const id = parseInt(route.params.id);
+
+const isBlock = ref(false);
 
 notice.forEach((item) => {
-  if (item.id === parseInt(id)) {
+  if (item.id === id) {
     editedItem.value = item;
     console.log(editedItem.value, "에딧티드");
   }
@@ -40,34 +42,52 @@ const goNoticeView = () => {
   router.push({ name: "NoticeView" });
 };
 
+const goNoticeDetailView = (id) => {
+  console.log("[goNoticeDetailView]");
+  router.push({
+    name: "NoticeDetailView",
+    params: { id },
+  });
+};
+
 const editData = () => {
   console.log("[editData]");
-
-  if (editedItem.value.articleType === "") {
+  if (editedItem.value?.articleType === "") {
+    isBlock.value = true;
+    setTimeout(function () {
+      isBlock.value = false;
+    }, 1500);
     onAlertArticleType();
-    // onAlert(isNonContents.value);
   } else if (!editedItem.value.title) {
+    isBlock.value = true;
+    setTimeout(function () {
+      isBlock.value = false;
+    }, 1500);
     onAlertContents();
-    // onAlert(isNonContents.value);
   } else if (!editedItem.value.content) {
+    isBlock.value = true;
+    setTimeout(function () {
+      isBlock.value = false;
+    }, 1500);
     onAlertContents();
-    // onAlert(isNonContents.value);
   } else if (
-    editedItem.value.articleType !== "" &&
+    editedItem.value?.articleType !== "" &&
     editedItem.value.title &&
     editedItem.value.content
   ) {
-    isAllowed.value = true;
+    isWrightSuccess.value = true;
     editedItem.value.article =
-      editedItem.value.articleType === "chitchat" ? "잡담" : "요청";
-    editedItem.value.articleType === chitchat.value.value
+      editedItem.value?.articleType === "chitchat" ? "잡담" : "요청";
+    editedItem.value?.articleType === chitchat.value.value
       ? "chitchat"
       : "request";
     editedItem.value.editedDate = dayjs().format("YY.MM.DD HH:mm:ss");
 
+    isBlock.value = true;
     setTimeout(function () {
-      isAllowed.value = false;
-      goNoticeView();
+      isBlock.value = false;
+      isWrightSuccess.value = false;
+      goNoticeDetailView(id);
     }, 1500);
   }
 };
@@ -79,8 +99,12 @@ onMounted(() => {
 
 <template>
   <div id="NoticeEditView" class="user-select-none py-4">
-    <!-- title -->
-    <h1 class="text-center mb-5">글 수정</h1>
+    <!-- anti-click overlayers -->
+    <div
+      v-if="isBlock"
+      class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
+      style="z-index: 1"
+    />
 
     <!-- alert -->
     <Teleport to="#alert">
@@ -98,11 +122,14 @@ onMounted(() => {
       />
       <BaseAlert
         class="user-select-none"
-        :isShow="isAllowed"
+        :isShow="isWrightSuccess"
         :classType="'alert-info'"
         :message="'글 수정이 완료되었습니다. 😀'"
       />
     </Teleport>
+
+    <!-- title -->
+    <h1 class="text-center mb-5">글 수정</h1>
 
     <!-- form -->
     <form class="container mb-4">

@@ -13,7 +13,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(["buttonClick", "keydownEsc"]);
+const emits = defineEmits(["buttonClick"]);
 </script>
 
 <template>
@@ -30,7 +30,6 @@ const emits = defineEmits(["buttonClick", "keydownEsc"]);
         class="btn btn-primary btn-sm"
         :message="'확인'"
         @click="$emit('buttonClick')"
-        @keydown.esc="$emit('keydownEsc')"
       />
     </BaseCard>
   </div>
