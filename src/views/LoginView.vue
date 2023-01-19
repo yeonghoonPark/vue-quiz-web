@@ -1,92 +1,185 @@
 <script setup>
 import BaseButton from "@/components/base/BaseButton.vue";
-import { onMounted, ref, watch } from "vue";
-import { useKakaoStore } from "@/stores/kakao";
+import BaseLabel from "@/components/base/BaseLabel.vue";
+import BaseInput from "@/components/base/BaseInput.vue";
+import BaseAlert from "@/components/base/BaseAlert.vue";
+import { onMounted, reactive, ref, watch } from "vue";
+import { useLoginStore } from "@/stores/login.js";
+import { useAlertStore } from "@/stores/alert.js";
 import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 
-// 토큰 state, 차후 pinia state로 변경
-// const ACCESS_TOKEN = ref(null);
+const loginStore = useLoginStore();
 
-const kakaoStore = useKakaoStore();
+const {
+  access_token,
+  account_email,
+  profile_nickname,
+  userId,
+  userPassword,
+  userNickname,
+  isLoginSuccess,
+  isLoginKakaoSuccess,
+  isBlock,
+} = storeToRefs(loginStore);
+const { onLogin, onLoginWithKakao, onLogoutWithKakao } = loginStore;
 
-// store's state
-const { access_token, account_email, profile_nickname } =
-  storeToRefs(kakaoStore);
-
-// store's method
-const { loginWithKakao, logoutWithKakao } = kakaoStore;
-
-// const getUserInfo = () => {
-//   console.log("[getUserInfo]");
-//   Kakao.API.request({
-//     url: "/v2/user/me",
-//     success: function (response) {
-//       console.log(response, "response");
-//     },
-//     fail: function (error) {
-//       alert(
-//         `카카로 로그인에 실패했습니다. 관리자에게 문의하세요.
-//         ${JSON.stringify(error)}`,
-//       );
-//     },
-//   });
-// };
-
-// const loginWithKakao = () => {
-//   console.log("[loginWithKakao]");
-//   Kakao.Auth.loginForm({
-//     success: function (auth) {
-//       console.log(auth);
-//       console.log(auth.access_token, "auth.access_token");
-
-//       Kakao.Auth.setAccessToken(auth.access_token);
-//       console.log("setAccessToken", "setAccessToken");
-
-//       ACCESS_TOKEN.value = auth.access_token;
-//       console.log(ACCESS_TOKEN.value, "ACCESS_TOKEN.value");
-
-//       getUserInfo();
-//     },
-//     fail: function (error) {
-//       console.log(error);
-//     },
-//   });
-// };
-
-// const logoutWithKakao = () => {
-//   console.log("[logoutWithKakao]");
-//   if (!Kakao.Auth.getAccessToken()) {
-//     console.log("Not logged in.");
-//     return;
-//   }
-//   Kakao.Auth.logout(function () {
-//     ACCESS_TOKEN.value = null;
-//     console.log(`logout ok\nAccessToken = ${Kakao.Auth.getAccessToken()}`);
-//   });
-// };
+const alertStore = useAlertStore();
+const { isNonContents } = storeToRefs(alertStore);
 
 onMounted(() => {
-  // console.log(access_token.value, "밸류");
+  console.log("[onMounted]");
 });
 </script>
 
 <template>
-  <div id="LoginView">
-    <BaseButton
-      v-if="!access_token"
-      class="btn btn-warning btn-sm"
-      :message="'Kakao Login'"
-      @click="loginWithKakao"
+  <div id="LoginView" class="py-4">
+    <!-- anti-click overlayers -->
+    <div
+      v-if="isBlock"
+      class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
+      style="z-index: 1"
     />
 
-    <BaseButton
-      v-else
-      class="btn btn-primary btn-sm"
-      :message="'Logout'"
-      @click="logoutWithKakao"
-    />
-    <h1>access_token: {{ access_token }}</h1>
-    <h1>account_email: {{ account_email }}</h1>
-    <h1>profile_nickname: {{ profile_nickname }}</h1>
+    <template v-if="!profile_nickname">
+      <!-- alert -->
+      <Teleport to="#alert">
+        <BaseAlert
+          :isShow="isNonContents"
+          :classType="'alert-dark'"
+          :message="'빈칸 없이 입력해주세요. 😐'"
+        />
+        <BaseAlert
+          :isShow="isLoginSuccess"
+          :classType="'alert-primary'"
+          :message="`로그인에 성공하였습니다. 😀`"
+        />
+        <BaseAlert
+          :isShow="isLoginKakaoSuccess"
+          :classType="'alert-warning'"
+          :message="`카카오로그인에 성공하였습니다. 😀`"
+        />
+      </Teleport>
+
+      <!-- title -->
+      <h1 class="text-center mb-5">로그인</h1>
+
+      <!-- form -->
+      <form class="container mb-5 pt-5">
+        <div class="row align-items-center py-2 mb-1">
+          <div class="col-3 text-center">
+            <BaseLabel class="" :labelFor="'userId'" :labelMessage="'아이디'" />
+          </div>
+          <div class="col-9 w-50">
+            <BaseInput
+              class=""
+              :type="'email'"
+              :id="'userId'"
+              maxlength="35"
+              placeholder="이메일을 입력해주세요"
+              :value="userId"
+              v-model:inputValue="userId"
+            />
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row align-items-center py-2 mb-1">
+          <div class="col-3 text-center">
+            <BaseLabel
+              class=""
+              :labelFor="'userPassword'"
+              :labelMessage="'비밀번호'"
+            />
+          </div>
+          <div class="col-9 w-50">
+            <BaseInput
+              class=""
+              :type="'password'"
+              :id="'userPassword'"
+              placeholder="비밀번호를 입력해주세요"
+              :value="userPassword"
+              v-model:inputValue="userPassword"
+            />
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row align-items-center py-2 mb-1">
+          <div class="col-3 text-center">
+            <BaseLabel
+              class=""
+              :labelFor="'userNickname'"
+              :labelMessage="'닉네임'"
+            />
+          </div>
+          <div class="col-9 w-50">
+            <BaseInput
+              class=""
+              :id="'userNickname'"
+              maxlength="16"
+              placeholder="닉네임을 입력해주세요"
+              :value="userNickname"
+              v-model:inputValue="userNickname"
+            />
+          </div>
+        </div>
+      </form>
+
+      <!-- button-group -->
+      <div class="container d-flex flex-column align-items-center">
+        <BaseButton
+          style="width: 30%"
+          class="btn-primary mb-3"
+          :message="'로그인'"
+          @click="onLogin"
+        />
+        <BaseButton
+          style="width: 30%"
+          class="kakao"
+          :message="'카카오'"
+          @click="onLoginWithKakao"
+        />
+      </div>
+    </template>
+
+    <template v-else>
+      <!-- title -->
+      <h1 class="text-center mb-5">마이룸</h1>
+
+      <div class="container text-center mb-5 pt-5">
+        <div class="row align-items-center py-2 mb-1">
+          <div class="col-3 text-center">
+            <span>아이디</span>
+          </div>
+          <div class="col-9 w-50">
+            <span>{{ account_email }}</span>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row align-items-center py-2 mb-1">
+          <div class="col-3 text-center">
+            <span>닉네임</span>
+          </div>
+          <div class="col-9 w-50">
+            <span>{{ profile_nickname }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- button-group -->
+      <div class="container d-flex flex-column align-items-center">
+        <BaseButton
+          style="width: 30%"
+          class="btn-primary"
+          :message="'로그아웃'"
+          @click="onLogoutWithKakao"
+        />
+      </div>
+    </template>
   </div>
 </template>

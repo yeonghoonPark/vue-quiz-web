@@ -22,7 +22,7 @@ export const useAlertStore = defineStore("alert", () => {
   //     a = false;
   //     console.log(a);
   //     console.log(isNonContents.value);
-  //   }, 1500);
+  //   }, 1000);
   // };
 
   const onAlertRightOrWrong = () => {
@@ -30,7 +30,7 @@ export const useAlertStore = defineStore("alert", () => {
     isRightOrWrong.value = true;
     setTimeout(function () {
       isRightOrWrong.value = false;
-    }, 800);
+    }, 1000);
   };
 
   const onAlertArticleType = () => {
@@ -38,7 +38,7 @@ export const useAlertStore = defineStore("alert", () => {
     isNonArticleType.value = true;
     setTimeout(function () {
       isNonArticleType.value = false;
-    }, 1500);
+    }, 1000);
   };
 
   const onAlertContents = () => {
@@ -46,7 +46,7 @@ export const useAlertStore = defineStore("alert", () => {
     isNonContents.value = true;
     setTimeout(function () {
       isNonContents.value = false;
-    }, 1500);
+    }, 1000);
   };
 
   return {

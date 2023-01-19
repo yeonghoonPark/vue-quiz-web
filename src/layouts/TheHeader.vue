@@ -1,23 +1,36 @@
 <script setup>
 import { useRouter } from "vue-router";
-import { useKakaoStore } from "@/stores/kakao";
+import { useLoginStore } from "@/stores/login";
 import { storeToRefs } from "pinia";
 import IconHamburger from "@/components/icons/IconHamburger.vue";
+import IconPeopleCircle from "@/components/icons/IconPeopleCircle.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 
+import BaseAlert from "@/components/base/BaseAlert.vue";
+
 const router = useRouter();
-const kakaoStore = useKakaoStore();
+const loginStore = useLoginStore();
 
-const { access_token, account_email, profile_nickname } =
-  storeToRefs(kakaoStore);
+const { access_token, account_email, profile_nickname, isLogoutSuccess } =
+  storeToRefs(loginStore);
 
-const { logoutWithKakao } = kakaoStore;
+const { onLogoutWithKakao } = loginStore;
 
 const goLoginView = () => router.push({ name: "LoginView" });
 const goHomeView = () => router.push({ name: "HomeView" });
 </script>
 
 <template>
+  <!-- alert -->
+  <Teleport to="#alert">
+    <BaseAlert
+      :isShow="isLogoutSuccess"
+      :classType="'alert-primary'"
+      :message="'로그아웃에 성공하였습니다. 😀'"
+    />
+  </Teleport>
+
+  <!-- header -->
   <header id="header" class="fixed-top">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark px-4 py-1">
       <div class="container-xxl">
@@ -83,18 +96,28 @@ const goHomeView = () => router.push({ name: "HomeView" });
             </li>
           </ul>
           <div class="d-flex" role="search">
-            <BaseButton
-              v-if="!access_token"
-              class="btn btn-md btn-outline-light my-2"
-              :message="'Login'"
-              @click="goLoginView"
-            />
-            <BaseButton
-              v-else
-              class="btn btn-md btn-outline-light my-2"
-              :message="'Logout'"
-              @click="logoutWithKakao"
-            />
+            <div v-if="!profile_nickname" class="">
+              <BaseButton
+                class="btn btn-md btn-outline-light my-2"
+                :message="'Login'"
+                @click="goLoginView"
+              />
+            </div>
+            <div v-else class="d-md-flex align-items-center pointer">
+              <div
+                class="my-2 me-4"
+                style="color: var(--color-pink)"
+                @click="goLoginView"
+              >
+                <IconPeopleCircle class="me-2" />
+                <span>{{ profile_nickname }}</span>
+              </div>
+              <BaseButton
+                class="btn btn-md btn-outline-light my-2"
+                :message="'Logout'"
+                @click="onLogoutWithKakao"
+              />
+            </div>
           </div>
         </div>
       </div>

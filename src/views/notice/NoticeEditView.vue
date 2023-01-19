@@ -7,15 +7,15 @@ import BaseDropdown from "@/components/base/BaseDropdown.vue";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, toRef } from "vue";
-import { useKakaoStore } from "@/stores/kakao.js";
+import { useLoginStore } from "@/stores/login.js";
 import { useAlertStore } from "@/stores/alert.js";
 import { storeToRefs } from "pinia";
 import notice from "@/data/notice";
 import dayjs from "dayjs";
 
-const kakaoStore = useKakaoStore();
+const loginStore = useLoginStore();
 const { access_token, account_email, profile_nickname } =
-  storeToRefs(kakaoStore);
+  storeToRefs(loginStore);
 
 const alertStore = useAlertStore();
 const { isNonArticleType, isNonContents, isWrightSuccess, chitchat, request } =
@@ -56,19 +56,19 @@ const editData = () => {
     isBlock.value = true;
     setTimeout(function () {
       isBlock.value = false;
-    }, 1500);
+    }, 1000);
     onAlertArticleType();
   } else if (!editedItem.value.title) {
     isBlock.value = true;
     setTimeout(function () {
       isBlock.value = false;
-    }, 1500);
+    }, 1000);
     onAlertContents();
   } else if (!editedItem.value.content) {
     isBlock.value = true;
     setTimeout(function () {
       isBlock.value = false;
-    }, 1500);
+    }, 1000);
     onAlertContents();
   } else if (
     editedItem.value?.articleType !== "" &&
@@ -88,7 +88,7 @@ const editData = () => {
       isBlock.value = false;
       isWrightSuccess.value = false;
       goNoticeDetailView(id);
-    }, 1500);
+    }, 1000);
   }
 };
 
@@ -109,19 +109,16 @@ onMounted(() => {
     <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
-        class="user-select-none"
         :isShow="isNonArticleType"
         :classType="'alert-warning'"
         :message="'글 분류를 선택해주세요. 😅'"
       />
       <BaseAlert
-        class="user-select-none"
         :isShow="isNonContents"
         :classType="'alert-dark'"
         :message="'제목과 내용을 입력해주세요. 😐'"
       />
       <BaseAlert
-        class="user-select-none"
         :isShow="isWrightSuccess"
         :classType="'alert-info'"
         :message="'글 수정이 완료되었습니다. 😀'"

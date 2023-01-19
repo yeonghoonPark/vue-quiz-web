@@ -4,14 +4,14 @@ import BaseCard from "@/components/base/BaseCard.vue";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useKakaoStore } from "@/stores/kakao.js";
+import { useLoginStore } from "@/stores/login.js";
 import { useAlertStore } from "@/stores/alert.js";
 import { storeToRefs } from "pinia";
 import notice from "@/data/notice";
 
-const kakaoStore = useKakaoStore();
+const loginStore = useLoginStore();
 const { access_token, account_email, profile_nickname } =
-  storeToRefs(kakaoStore);
+  storeToRefs(loginStore);
 
 const alertStore = useAlertStore();
 const { isDeleteSuccess, isEditMismatch, isDeleteMismatch } =
@@ -53,7 +53,7 @@ const onEditButtonClick = () => {
     setTimeout(function () {
       isBlock.value = false;
       isEditMismatch.value = false;
-    }, 1500);
+    }, 1000);
   }
 };
 
@@ -68,7 +68,7 @@ const showDeleteCard = () => {
     setTimeout(function () {
       isBlock.value = false;
       isDeleteMismatch.value = false;
-    }, 1500);
+    }, 1000);
   }
 };
 
@@ -82,7 +82,7 @@ const deleteSelectedItem = () => {
       setTimeout(function () {
         isDeleteSuccess.value = false;
         goNoticeView();
-      }, 1500);
+      }, 1000);
     }
   });
 };
@@ -104,21 +104,21 @@ onMounted(() => {
     <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
-        class="user-select-none text-center"
+        class="text-center"
         :isShow="isDeleteSuccess"
         :classType="'alert-info'"
         :message="'글 삭제가 완료되었습니다. 😀'"
       />
       <BaseAlert
-        class="user-select-none text-center"
+        class="text-center"
         :isShow="isEditMismatch"
-        :classType="'alert-warning'"
+        :classType="'alert-danger'"
         :message="'작성자만 수정 가능합니다. 😅'"
       />
       <BaseAlert
-        class="user-select-none text-center"
+        class="text-center"
         :isShow="isDeleteMismatch"
-        :classType="'alert-warning'"
+        :classType="'alert-danger'"
         :message="'작성자만 삭제 가능합니다. 😅'"
       />
     </Teleport>

@@ -5,18 +5,18 @@ import BaseButton from "@/components/base/BaseButton.vue";
 import QuizRecordCard from "@/components/quiz/QuizRecordCard.vue";
 import quizzes from "@/data/quizzes";
 import { onMounted, onUnmounted, ref } from "vue";
-import { useKakaoStore } from "@/stores/kakao";
+import { useLoginStore } from "@/stores/login";
 import { useRecordStore } from "@/stores/record";
 import { useAlertStore } from "@/stores/alert";
 import { storeToRefs } from "pinia";
 
 const recordStore = useRecordStore();
-const kakaoStore = useKakaoStore();
+const loginStore = useLoginStore();
 const alertStore = useAlertStore();
 
-// kakaoStore's by pinia
+// loginStore's by pinia
 const { access_token, account_email, profile_nickname } =
-  storeToRefs(kakaoStore);
+  storeToRefs(loginStore);
 
 // recordStore's by pinia
 const {
@@ -314,7 +314,6 @@ onUnmounted(() => {
     <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
-        class=""
         :isShow="isRightOrWrong"
         :classType="alertClassType"
         :message="alertMessage"
