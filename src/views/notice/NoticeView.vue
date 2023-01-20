@@ -1,4 +1,5 @@
 <script setup>
+import BaseCard from "@/components/base/BaseCard.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BasePagination from "@/components/base/BasePagination.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
@@ -9,8 +10,13 @@ import NoticeTable from "@/components/notice/noticeTable.vue";
 import { onMounted, reactive, ref } from "vue";
 import { computed } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
-
+import { useLoginStore } from "@/stores/login";
 import notice from "@/data/notice";
+import { storeToRefs } from "pinia";
+
+const loginStore = useLoginStore();
+const { access_token, account_email, profile_nickname } =
+  storeToRefs(loginStore);
 
 const router = useRouter();
 
@@ -22,11 +28,24 @@ const checkedValue = ref("total");
 const inputValue = ref(null);
 const selectValue = ref("title");
 
+const isNonUser = ref(false);
+// const isBlock = ref(false);
+
 noticeList.value = notice;
+
+const goLoginView = () => {
+  console.log("[goLoginView]");
+  router.push({ name: "LoginView" });
+};
 
 const goNoticeWriteView = () => {
   console.log("[goNoticeWriteView]");
-  router.push({ name: "NoticeWriteView" });
+  if (!profile_nickname.value) {
+    // isBlock.value = true;
+    isNonUser.value = true;
+  } else {
+    router.push({ name: "NoticeWriteView" });
+  }
 };
 
 const pageCount = computed(() => {
@@ -105,8 +124,13 @@ const goNoticeDetailView = (id) => {
 
 const getId = (e) => {
   console.log("[getId]");
-  const id = e.target.parentNode.lastChild.innerText;
-  goNoticeDetailView(id);
+  if (!profile_nickname.value) {
+    // isBlock.value = true;
+    isNonUser.value = true;
+  } else {
+    const id = e.target.parentNode.lastChild.innerText;
+    goNoticeDetailView(id);
+  }
 };
 
 onMounted(() => {
@@ -116,6 +140,42 @@ onMounted(() => {
 
 <template>
   <div id="NoticeView" class="user-select-none py-4">
+    <!-- card -->
+    <Teleport to="#card">
+      <div
+        v-if="isNonUser"
+        class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
+        style="z-index: 1"
+      />
+      <div
+        v-if="isNonUser"
+        class="position-fixed top-50 start-50 translate-middle"
+        style="z-index: 2"
+      >
+        <BaseCard class="text-center">
+          <template #header>
+            <h5 class="">알림</h5>
+          </template>
+          <h6 class="card-title p-2 mb-3">
+            로그인 후 글 작성과 열람이 가능합니다.
+            <br />
+            <br />
+            로그인페이지로 이동하시겠습니까?
+          </h6>
+          <BaseButton
+            class="btn-outline-primary me-3"
+            :message="'확인'"
+            @click="goLoginView"
+          />
+          <BaseButton
+            class="btn-outline-danger"
+            :message="'취소'"
+            @click="isNonUser = false"
+          />
+        </BaseCard>
+      </div>
+    </Teleport>
+
     <!-- title -->
     <h1 class="text-center mb-5">게시판</h1>
 

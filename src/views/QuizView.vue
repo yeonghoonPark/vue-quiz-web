@@ -2,9 +2,11 @@
 /* import */
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
+import BaseCard from "@/components/base/BaseCard.vue";
 import QuizRecordCard from "@/components/quiz/QuizRecordCard.vue";
 import quizzes from "@/data/quizzes";
 import { onMounted, onUnmounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import { useLoginStore } from "@/stores/login";
 import { useRecordStore } from "@/stores/record";
 import { useAlertStore } from "@/stores/alert";
@@ -34,12 +36,17 @@ const { startTimeAttack, stopTimeAttack, resetTimer, getTimeTaken } =
 const { isRightOrWrong } = storeToRefs(alertStore);
 const { onAlertRightOrWrong } = alertStore;
 
+const router = useRouter();
+
 // 퀴즈 담는 어레이
 const quizArray = ref([]);
 const newQuizChildBoxes = ref([]);
 
 // 문제 끝나고 기록이 나오는 알럿
 const isRecordCard = ref(false);
+
+// 로그인 없이 퀴즈 이용하는 경우 나오는 카드
+const isLoginCard = ref(false);
 
 // quiz시작 모달 부분관련
 const isStartShow = ref(false);
@@ -50,13 +57,15 @@ const countInterval = ref(null);
 const alertClassType = ref("");
 const alertMessage = ref("");
 
-// click block 관련
-const isBlock = ref(false);
-
 // progress bar 관련
 const progressCount = ref(0);
 
 /* function */
+const goLoginView = () => {
+  console.log("[goLoginView]");
+  router.push({ name: "LoginView" });
+};
+
 /**
  * 태그를 삭제하고 다음형제의 클래스네임 "hidden"을 제거하여 디스플레이를 조정해주는 함수
  * @param {any} element
@@ -72,14 +81,7 @@ const removeElement = (element) => {
       getTimeTaken();
       isRecordCard.value = true;
     }
-  }, 1000);
-};
-
-const onBlockClick = () => {
-  isBlock.value = true;
-  setTimeout(function () {
-    isBlock.value = false;
-  }, 1000);
+  }, 1100);
 };
 
 /**
@@ -149,7 +151,6 @@ const onClickMultipleChoiceView = () => {
           quizArray.value[index]?.correct,
         );
         removeElement(newQuizChildBoxes.value[index]);
-        onBlockClick();
         progressCount.value++;
       },
       { once: true },
@@ -167,7 +168,6 @@ const onClickMultipleChoiceView = () => {
           quizArray.value[index]?.correct,
         );
         removeElement(newQuizChildBoxes.value[index]);
-        onBlockClick();
         progressCount.value++;
       },
       { once: true },
@@ -183,7 +183,6 @@ const onClickMultipleChoiceView = () => {
           quizArray.value[index]?.correct,
         );
         removeElement(newQuizChildBoxes.value[index]);
-        onBlockClick();
         progressCount.value++;
       },
       { once: true },
@@ -217,7 +216,8 @@ const createHTMLString = (itemList, index) => {
       <li class="my-2">
         <span class="
           multiple_choice_view2 
-          box-radius hover 
+          box-radius 
+          hover 
           fs-5 
           p-1 
           px-2 
@@ -268,19 +268,24 @@ const returnText = (correctAnswerNumber) => {
 
 const onQuizCount = () => {
   console.log("[onQuizCount]");
-  isStartShow.value = true;
-  countInterval.value = setInterval(function () {
-    startCount.value--;
-    if (startCount.value === 0) {
-      startCount.value = "Go!!";
-      clearInterval(countInterval.value);
-    }
-  }, 1000);
-  setTimeout(function () {
-    isStartShow.value = false;
-    startCount.value = 3;
-    displayItems(), startTimeAttack();
-  }, 4000);
+  if (!profile_nickname.value) {
+    console.log("사용자 없음");
+    isLoginCard.value = true;
+  } else {
+    isStartShow.value = true;
+    countInterval.value = setInterval(function () {
+      startCount.value--;
+      if (startCount.value === 0) {
+        startCount.value = "Go!!";
+        clearInterval(countInterval.value);
+      }
+    }, 1000);
+    setTimeout(function () {
+      isStartShow.value = false;
+      startCount.value = 3;
+      displayItems(), startTimeAttack();
+    }, 4000);
+  }
 };
 
 const resetStates = () => {
@@ -304,13 +309,6 @@ onUnmounted(() => {
 
 <template>
   <div id="QuizView" class="user-select-none">
-    <!-- anti-click overlayers -->
-    <div
-      v-if="isBlock"
-      class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
-      style="z-index: 1"
-    />
-
     <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
@@ -343,34 +341,75 @@ onUnmounted(() => {
 
     <!-- card -->
     <Teleport to="#card">
+      <!-- login-card -->
       <div
-        class="position-fixed top-50 start-50 translate-middle user-select-none"
-        v-if="isRecordCard"
-        style="
-          width: 100vw;
-          height: 100vh;
-          background-color: rgba(0, 0, 0, 0.3);
-        "
+        v-if="isLoginCard"
+        class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
+        style="z-index: 1"
+      />
+      <div
+        v-if="isLoginCard"
+        class="position-fixed top-50 start-50 translate-middle"
+        style="z-index: 2"
       >
-        <QuizRecordCard
-          v-if="isRecordCard"
-          style="width: 25rem"
-          @buttonClick="resetStates"
-          :header="`'${profile_nickname}'님 ${returnText(correctAnswerNumber)}`"
-          :title="`'${profile_nickname}'님의 결과`"
-        >
-          <template #content>
-            <p class="text-start">
-              {{ `맞춘 갯수: ${correctAnswerNumber} 문제` }}
-            </p>
-            <p class="text-start">
-              {{ `소요 시간: ${minute}:${second}.${millisecond}` }}
-            </p>
-            <p class="text-start">
-              {{ `등수: 미정` }}
-            </p>
+        <BaseCard class="text-center">
+          <template #header>
+            <h5 class="">알림</h5>
           </template>
-        </QuizRecordCard>
+          <h6 class="card-title p-2 mb-3">
+            로그인 후 퀴즈이용이 가능합니다.
+            <br />
+            <br />
+            로그인페이지로 이동하시겠습니까?
+          </h6>
+          <BaseButton
+            class="btn-outline-primary me-3"
+            :message="'확인'"
+            @click="goLoginView"
+          />
+          <BaseButton
+            class="btn-outline-danger"
+            :message="'취소'"
+            @click="isLoginCard = false"
+          />
+        </BaseCard>
+      </div>
+
+      <!-- record-card -->
+      <div
+        v-if="isRecordCard"
+        class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
+        style="z-index: 1"
+      />
+      <div
+        v-if="isRecordCard"
+        class="position-fixed top-50 start-50 translate-middle"
+        style="z-index: 2"
+      >
+        <BaseCard class="text-center user-select-none">
+          <template #header>
+            <h5 class="">
+              {{ `'${profile_nickname}'님 ${returnText(correctAnswerNumber)}` }}
+            </h5>
+          </template>
+          <h6 class="card-title p-2 mb-3">
+            {{ `'${profile_nickname}'님의 결과` }}
+          </h6>
+          <p class="text-start">
+            {{ `맞춘 갯수: ${correctAnswerNumber} 문제` }}
+          </p>
+          <p class="text-start">
+            {{ `소요 시간: ${minute}:${second}.${millisecond}` }}
+          </p>
+          <p class="text-start">
+            {{ `등수: 미정` }}
+          </p>
+          <BaseButton
+            class="btn btn-primary"
+            :message="'확인'"
+            @click="resetStates"
+          />
+        </BaseCard>
       </div>
     </Teleport>
 

@@ -23,7 +23,6 @@ const router = useRouter();
 const selectedItem = ref(null);
 const id = parseInt(route.params.id);
 
-const isBlock = ref(false);
 const isDeleteCard = ref(false);
 
 notice.forEach((item) => {
@@ -48,10 +47,8 @@ const onEditButtonClick = () => {
   if (profile_nickname.value === selectedItem.value.author) {
     goNoticeEditView(id);
   } else {
-    isBlock.value = true;
     isEditMismatch.value = true;
     setTimeout(function () {
-      isBlock.value = false;
       isEditMismatch.value = false;
     }, 1000);
   }
@@ -60,13 +57,10 @@ const onEditButtonClick = () => {
 const showDeleteCard = () => {
   console.log("[showDeleteCard]");
   if (profile_nickname.value === selectedItem.value.author) {
-    isBlock.value = true;
     isDeleteCard.value = true;
   } else {
-    isBlock.value = true;
     isDeleteMismatch.value = true;
     setTimeout(function () {
-      isBlock.value = false;
       isDeleteMismatch.value = false;
     }, 1000);
   }
@@ -94,13 +88,6 @@ onMounted(() => {
 
 <template>
   <div id="NoticeDetailView" class="py-4">
-    <!-- anti-click overlayers -->
-    <div
-      v-if="isBlock"
-      class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
-      style="z-index: 1"
-    />
-
     <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
@@ -127,6 +114,11 @@ onMounted(() => {
     <Teleport to="#card">
       <div
         v-if="isDeleteCard"
+        class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
+        style="z-index: 1"
+      />
+      <div
+        v-if="isDeleteCard"
         class="position-fixed top-50 start-50 translate-middle"
         style="z-index: 2"
       >
@@ -148,7 +140,7 @@ onMounted(() => {
           <BaseButton
             class="btn-outline-danger"
             :message="'취소'"
-            @click="(isDeleteCard = false), (isBlock = false)"
+            @click="isDeleteCard = false"
           />
         </BaseCard>
       </div>

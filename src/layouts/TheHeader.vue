@@ -104,11 +104,7 @@ const goHomeView = () => router.push({ name: "HomeView" });
               />
             </div>
             <div v-else class="d-md-flex align-items-center pointer">
-              <div
-                class="my-2 me-4"
-                style="color: var(--color-pink)"
-                @click="goLoginView"
-              >
+              <div class="my-2 me-4" style="color: var(--color-pink)" @click="">
                 <IconPeopleCircle class="me-2" />
                 <span>{{ profile_nickname }}</span>
               </div>

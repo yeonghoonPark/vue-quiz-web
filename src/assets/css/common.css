@@ -59,6 +59,10 @@
   background-color: var(--color-light-violet);
 }
 
+.hover:active {
+  background-color: var(--color-pink);
+}
+
 .kakao {
   background-color: var(--color-kakao);
 }

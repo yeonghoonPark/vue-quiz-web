@@ -28,7 +28,7 @@ const router = useRouter();
 const editedItem = ref(null);
 const id = parseInt(route.params.id);
 
-const isBlock = ref(false);
+// const isBlock = ref(false);
 
 notice.forEach((item) => {
   if (item.id === id) {
@@ -53,21 +53,21 @@ const goNoticeDetailView = (id) => {
 const editData = () => {
   console.log("[editData]");
   if (editedItem.value?.articleType === "") {
-    isBlock.value = true;
+    // isBlock.value = true;
     setTimeout(function () {
-      isBlock.value = false;
+      // isBlock.value = false;
     }, 1000);
     onAlertArticleType();
   } else if (!editedItem.value.title) {
-    isBlock.value = true;
+    // isBlock.value = true;
     setTimeout(function () {
-      isBlock.value = false;
+      // isBlock.value = false;
     }, 1000);
     onAlertContents();
   } else if (!editedItem.value.content) {
-    isBlock.value = true;
+    // isBlock.value = true;
     setTimeout(function () {
-      isBlock.value = false;
+      // isBlock.value = false;
     }, 1000);
     onAlertContents();
   } else if (
@@ -83,9 +83,9 @@ const editData = () => {
       : "request";
     editedItem.value.editedDate = dayjs().format("YY.MM.DD HH:mm:ss");
 
-    isBlock.value = true;
+    // isBlock.value = true;
     setTimeout(function () {
-      isBlock.value = false;
+      // isBlock.value = false;
       isWrightSuccess.value = false;
       goNoticeDetailView(id);
     }, 1000);
@@ -99,18 +99,11 @@ onMounted(() => {
 
 <template>
   <div id="NoticeEditView" class="user-select-none py-4">
-    <!-- anti-click overlayers -->
-    <div
-      v-if="isBlock"
-      class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
-      style="z-index: 1"
-    />
-
     <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
         :isShow="isNonArticleType"
-        :classType="'alert-warning'"
+        :classType="'alert-dark'"
         :message="'글 분류를 선택해주세요. 😅'"
       />
       <BaseAlert

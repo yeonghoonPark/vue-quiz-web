@@ -6,8 +6,8 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 import { onMounted, reactive, ref, watch } from "vue";
 import { useLoginStore } from "@/stores/login.js";
 import { useAlertStore } from "@/stores/alert.js";
-import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 
 const loginStore = useLoginStore();
 
@@ -26,6 +26,8 @@ const { onLogin, onLoginWithKakao, onLogoutWithKakao } = loginStore;
 
 const alertStore = useAlertStore();
 const { isNonContents } = storeToRefs(alertStore);
+
+const router = useRouter();
 
 onMounted(() => {
   console.log("[onMounted]");
@@ -76,7 +78,7 @@ onMounted(() => {
               :type="'email'"
               :id="'userId'"
               maxlength="35"
-              placeholder="이메일을 입력해주세요"
+              placeholder="이메일 또는 아이디를 입력해주세요"
               :value="userId"
               v-model:inputValue="userId"
             />
@@ -138,46 +140,15 @@ onMounted(() => {
         />
         <BaseButton
           style="width: 30%"
-          class="kakao"
+          class="kakao mb-3"
           :message="'카카오'"
           @click="onLoginWithKakao"
         />
-      </div>
-    </template>
-
-    <template v-else>
-      <!-- title -->
-      <h1 class="text-center mb-5">마이룸</h1>
-
-      <div class="container text-center mb-5 pt-5">
-        <div class="row align-items-center py-2 mb-1">
-          <div class="col-3 text-center">
-            <span>아이디</span>
-          </div>
-          <div class="col-9 w-50">
-            <span>{{ account_email }}</span>
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="row align-items-center py-2 mb-1">
-          <div class="col-3 text-center">
-            <span>닉네임</span>
-          </div>
-          <div class="col-9 w-50">
-            <span>{{ profile_nickname }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- button-group -->
-      <div class="container d-flex flex-column align-items-center">
         <BaseButton
           style="width: 30%"
-          class="btn-primary"
-          :message="'로그아웃'"
-          @click="onLogoutWithKakao"
+          class="btn-outline-dark"
+          :message="'뒤로'"
+          @click="router.go(-1)"
         />
       </div>
     </template>

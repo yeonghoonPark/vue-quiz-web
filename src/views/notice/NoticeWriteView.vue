@@ -23,8 +23,6 @@ const { onAlertArticleType, onAlertContents } = alertStore;
 
 const router = useRouter();
 
-const isBlock = ref(false);
-
 const goNoticeView = () => {
   console.log("[goNoticeView]");
   router.push({ name: "NoticeView" });
@@ -46,21 +44,21 @@ const saveData = () => {
   console.log("[saveData]");
 
   if (savedItem.articleType === "") {
-    isBlock.value = true;
+    // isBlock.value = true;
     setTimeout(function () {
-      isBlock.value = false;
+      // isBlock.value = false;
     }, 1000);
     onAlertArticleType();
   } else if (!savedItem.title) {
-    isBlock.value = true;
+    // isBlock.value = true;
     setTimeout(function () {
-      isBlock.value = false;
+      // isBlock.value = false;
     }, 1000);
     onAlertContents();
   } else if (!savedItem.content) {
-    isBlock.value = true;
+    // isBlock.value = true;
     setTimeout(function () {
-      isBlock.value = false;
+      // isBlock.value = false;
     }, 1000);
     onAlertContents();
   } else if (
@@ -79,9 +77,9 @@ const saveData = () => {
 
     notice.unshift(savedItem);
 
-    isBlock.value = true;
+    // isBlock.value = true;
     setTimeout(function () {
-      isBlock.value = false;
+      // isBlock.value = false;
       isWrightSuccess.value = false;
       goNoticeView();
     }, 1000);
@@ -95,13 +93,6 @@ onMounted(() => {
 
 <template>
   <div id="NoticeWriteView" class="user-select-none py-4">
-    <!-- anti-click overlayers -->
-    <div
-      v-if="isBlock"
-      class="position-fixed top-0 start-0 w-100 h-100 user-select-none"
-      style="z-index: 1"
-    />
-
     <!-- alert -->
     <Teleport to="#alert">
       <BaseAlert
