@@ -3,7 +3,7 @@ const props = defineProps({
   // row || col
   scopeStyle: {
     type: String,
-    required: true,
+    required: false,
   },
   message: {
     type: [String, Number],

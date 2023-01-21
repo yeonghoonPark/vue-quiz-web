@@ -3,14 +3,15 @@
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseCard from "@/components/base/BaseCard.vue";
-import QuizRecordCard from "@/components/quiz/QuizRecordCard.vue";
-import quizzes from "@/data/quizzes";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLoginStore } from "@/stores/login";
 import { useRecordStore } from "@/stores/record";
 import { useAlertStore } from "@/stores/alert";
 import { storeToRefs } from "pinia";
+import quizzes from "@/data/quizzes";
+import ranking from "@/data/ranking";
+import { computed } from "@vue/reactivity";
 
 const recordStore = useRecordStore();
 const loginStore = useLoginStore();
@@ -28,6 +29,7 @@ const {
   millisecond,
   correctAnswerNumber,
   timeTaken,
+  alignedRankList,
 } = storeToRefs(recordStore);
 const { startTimeAttack, stopTimeAttack, resetTimer, getTimeTaken } =
   recordStore;
@@ -60,6 +62,17 @@ const alertMessage = ref("");
 // progress bar 관련
 const progressCount = ref(0);
 
+// ranking 관련
+const newRankingItem = reactive({
+  nickname: null,
+  correctAnswerNumber: null,
+  minute: null,
+  second: null,
+  millisecond: null,
+});
+
+const newRank = ref(null);
+
 /* function */
 const goLoginView = () => {
   console.log("[goLoginView]");
@@ -79,9 +92,46 @@ const removeElement = (element) => {
     if (!nextSibling) {
       stopTimeAttack();
       getTimeTaken();
+      pushNewRankingItem();
+      computeNewRankingList();
       isRecordCard.value = true;
     }
   }, 1100);
+};
+
+const pushNewRankingItem = () => {
+  console.log("[pushNewRankingItem]");
+  newRankingItem.nickname = profile_nickname.value;
+  newRankingItem.correctAnswerNumber = String(correctAnswerNumber.value);
+  newRankingItem.minute = minute.value;
+  newRankingItem.second = second.value;
+  newRankingItem.millisecond = millisecond.value;
+  ranking.push(newRankingItem);
+};
+
+const computeNewRankingList = () => {
+  console.log("[computeNewRankingList]");
+  alignedRankList.value = ranking.sort(function (a, b) {
+    let aTimeTaken = a.minute + a.second + a.millisecond;
+    let bTimeTaken = b.minute + b.second + b.millisecond;
+    if (a.correctAnswerNumber === b.correctAnswerNumber) {
+      return aTimeTaken - bTimeTaken;
+    } else {
+      return b.correctAnswerNumber - a.correctAnswerNumber;
+    }
+  });
+
+  alignedRankList.value.forEach((item, index) => {
+    if (
+      item.nickname === profile_nickname.value &&
+      item.correctAnswerNumber === String(correctAnswerNumber.value) &&
+      item.minute === minute.value &&
+      item.second === second.value &&
+      item.millisecond === millisecond.value
+    ) {
+      newRank.value = index + 1;
+    }
+  });
 };
 
 /**
@@ -200,14 +250,14 @@ const createHTMLString = (itemList, index) => {
     <ol>
       <li class="my-2">
         <span class="
-          multiple_choice_view1 
-          box-radius 
-          hover 
-          fs-5 
-          p-1 
-          px-2 
-          transition 
-          pointer 
+          multiple_choice_view1
+          box-radius
+          hover
+          fs-5
+          p-1
+          px-2
+          transition
+          pointer
           user-select-none"
         >
           ① ${itemList?.multiple_choice_view1}
@@ -215,14 +265,14 @@ const createHTMLString = (itemList, index) => {
       </li>
       <li class="my-2">
         <span class="
-          multiple_choice_view2 
-          box-radius 
-          hover 
-          fs-5 
-          p-1 
-          px-2 
-          transition 
-          pointer 
+          multiple_choice_view2
+          box-radius
+          hover
+          fs-5
+          p-1
+          px-2
+          transition
+          pointer
           user-select-none"
         >
           ② ${itemList.multiple_choice_view2}
@@ -230,14 +280,14 @@ const createHTMLString = (itemList, index) => {
       </li>
       <li class="my-2">
         <span class="
-          multiple_choice_view3 
-          box-radius 
-          hover 
-          fs-5 
-          p-1 
-          px-2 
-          transition 
-          pointer 
+          multiple_choice_view3
+          box-radius
+          hover
+          fs-5
+          p-1
+          px-2
+          transition
+          pointer
           user-select-none"
         >
           ③ ${itemList.multiple_choice_view3}
@@ -402,11 +452,20 @@ onUnmounted(() => {
             {{ `소요 시간: ${minute}:${second}.${millisecond}` }}
           </p>
           <p class="text-start">
-            {{ `등수: 미정` }}
+            <template v-if="newRank < 11">
+              {{ `순위: ${newRank}` }}
+              <BaseButton
+                v-if="newRank < 11"
+                class="btn btn-outline-primary btn-sm"
+                :message="'확인'"
+                @click="router.push({ name: 'RankingView' }), resetStates()"
+              />
+            </template>
+            <template v-else> 순위: 없음</template>
           </p>
           <BaseButton
-            class="btn btn-primary"
-            :message="'확인'"
+            class="btn btn-outline-success"
+            :message="'재도전'"
             @click="resetStates"
           />
         </BaseCard>

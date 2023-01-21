@@ -9,6 +9,9 @@ export const useRecordStore = defineStore("record", () => {
   const millisecond = ref("00");
   const timerInterval = ref(null);
 
+  // 등수
+  const alignedRankList = ref(null);
+
   // 정답 수
   const correctAnswerNumber = ref(0);
 
@@ -75,6 +78,7 @@ export const useRecordStore = defineStore("record", () => {
     millisecond,
     correctAnswerNumber,
     timeTaken,
+    alignedRankList,
     startTimeAttack,
     stopTimeAttack,
     resetTimer,
