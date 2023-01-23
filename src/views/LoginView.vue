@@ -31,6 +31,8 @@ const router = useRouter();
 
 onMounted(() => {
   console.log("[onMounted]");
+  const userIdInput = document.getElementById("userId");
+  userIdInput.focus();
 });
 </script>
 

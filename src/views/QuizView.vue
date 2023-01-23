@@ -596,8 +596,8 @@ onUnmounted(() => {
         <div class="text-center">
           <h4 class="fs-1 mb-4">준비되셨나요?</h4>
           <BaseButton
-            class="btn-primary btn-lg"
-            :message="'Start'"
+            class="btn-primary btn-lg my-2"
+            :message="'시작'"
             @click="onQuizCount"
           />
         </div>

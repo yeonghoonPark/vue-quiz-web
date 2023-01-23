@@ -39,7 +39,7 @@ const setBackgoundType = (rank) => {
     <!-- title -->
     <h1 class="text-center mb-5">순위</h1>
 
-    <div class="overflow-auto mb-4 user-select-none" style="height: 500px">
+    <div class="overflow-auto mb-4 user-select-none" style="height: 468px">
       <table class="table align-middle text-center">
         <thead class="sticky-top box-bg">
           <tr>
@@ -72,10 +72,11 @@ const setBackgoundType = (rank) => {
 
             <BaseTd class="" :message="item?.nickname" />
             <BaseTd class="" :message="item?.correctAnswerNumber" />
-            <BaseTd
-              class="d-sm-hidden d-md-hidden"
-              :message="`${item?.minute}:${item?.second}:${item?.millisecond}`"
-            />
+
+            <td class="d-sm-hidden d-md-hidden">
+              {{ `${item?.minute}:${item?.second}:` }}
+              <span class="font-pink">{{ `${item?.millisecond}` }}</span>
+            </td>
           </tr>
         </tbody>
       </table>
