@@ -6,17 +6,16 @@ import BaseInput from "@/components/base/BaseInput.vue";
 import BaseLabel from "@/components/base/BaseLabel.vue";
 import BaseDropdown from "@/components/base/BaseDropdown.vue";
 import NoticeTable from "@/components/notice/noticeTable.vue";
-
 import { onMounted, reactive, ref } from "vue";
 import { computed } from "@vue/reactivity";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useLoginStore } from "@/stores/login";
-import notice from "@/data/notice";
 import { storeToRefs } from "pinia";
+import notice from "@/data/notice";
 
+//#region state
 const loginStore = useLoginStore();
-const { access_token, account_email, profile_nickname } =
-  storeToRefs(loginStore);
+const { profile_nickname } = storeToRefs(loginStore);
 
 const router = useRouter();
 
@@ -29,19 +28,14 @@ const inputValue = ref(null);
 const selectValue = ref("title");
 
 const isNonUser = ref(false);
-// const isBlock = ref(false);
+//#endregion state
 
+//#region function
 noticeList.value = notice;
-
-const goLoginView = () => {
-  console.log("[goLoginView]");
-  router.push({ name: "LoginView" });
-};
 
 const goNoticeWriteView = () => {
   console.log("[goNoticeWriteView]");
   if (!profile_nickname.value) {
-    // isBlock.value = true;
     isNonUser.value = true;
   } else {
     router.push({ name: "NoticeWriteView" });
@@ -80,8 +74,6 @@ const onClickMenu = (value, articleValue) => {
     inputValue.value = "";
     selectValue.value = "title";
   });
-
-  console.log(noticeList.value);
 };
 
 const findItemByNotice = () => {
@@ -125,13 +117,13 @@ const goNoticeDetailView = (id) => {
 const getId = (e) => {
   console.log("[getId]");
   if (!profile_nickname.value) {
-    // isBlock.value = true;
     isNonUser.value = true;
   } else {
     const id = e.target.parentNode.lastChild.innerText;
     goNoticeDetailView(id);
   }
 };
+//#endregion function
 
 onMounted(() => {
   console.log("[onMounted]");
@@ -150,7 +142,7 @@ onMounted(() => {
       <div
         v-if="isNonUser"
         class="position-fixed top-50 start-50 translate-middle"
-        style="z-index: 2"
+        style="min-width: 348px; z-index: 2"
       >
         <BaseCard class="text-center">
           <template #header>
@@ -165,7 +157,7 @@ onMounted(() => {
           <BaseButton
             class="btn-outline-primary me-3"
             :message="'확인'"
-            @click="goLoginView"
+            @click="router.push({ name: 'LoginView' })"
           />
           <BaseButton
             class="btn-outline-danger"

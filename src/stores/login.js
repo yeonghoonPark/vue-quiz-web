@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { useAlertStore } from "./alert";
 
 export const useLoginStore = defineStore("login", () => {
+  //#region state
   const router = useRouter();
   const alertStore = useAlertStore();
   const { onAlertContents } = alertStore;
@@ -19,10 +20,9 @@ export const useLoginStore = defineStore("login", () => {
   const userId = ref(null);
   const userPassword = ref(null);
   const userNickname = ref(null);
+  //#endregion state
 
-  // 임시 profile_nickname
-  // profile_nickname.value = "임시회원임시회원임시회원임시회원";
-
+  //#region function
   const resetUserInfo = () => {
     console.log("[resetUserInfo]");
     access_token.value = null;
@@ -110,6 +110,7 @@ export const useLoginStore = defineStore("login", () => {
       }, 1000);
     }
   };
+  //#endregion function
 
   return {
     access_token,

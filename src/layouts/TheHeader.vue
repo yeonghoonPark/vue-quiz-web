@@ -2,18 +2,17 @@
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseCard from "@/components/base/BaseCard.vue";
-import { useRouter } from "vue-router";
-import { useLoginStore } from "@/stores/login";
-import { storeToRefs } from "pinia";
 import IconHamburger from "@/components/icons/IconHamburger.vue";
 import IconPeopleCircle from "@/components/icons/IconPeopleCircle.vue";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useLoginStore } from "@/stores/login";
+import { storeToRefs } from "pinia";
 
 const router = useRouter();
 const loginStore = useLoginStore();
 
-const { access_token, account_email, profile_nickname, isLogoutSuccess } =
-  storeToRefs(loginStore);
+const { profile_nickname, isLogoutSuccess } = storeToRefs(loginStore);
 
 const { onLogoutWithKakao } = loginStore;
 
@@ -26,7 +25,7 @@ const isHelpCard = ref(false);
     <BaseAlert
       :isShow="isLogoutSuccess"
       :classType="'alert-primary'"
-      :message="'로그아웃에 성공하였습니다. 😀'"
+      :message="'로그아웃에 성공하였습니다.'"
     />
   </Teleport>
 

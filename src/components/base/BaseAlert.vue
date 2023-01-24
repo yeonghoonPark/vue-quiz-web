@@ -23,7 +23,8 @@ const props = defineProps({
       style="z-index: 1"
     />
     <div
-      class="position-fixed top-50 start-50 translate-middle user-select-none"
+      class="position-fixed top-50 start-50 translate-middle text-center user-select-none"
+      style="min-width: 264px"
     >
       <Transition name="slide">
         <div v-if="isShow" role="alert" class="alert fs-5" :class="classType">

@@ -196,6 +196,106 @@ const quizzes = [
     multiple_choice_view3: "남은 양 측정",
     correct: "잘 섞이라고",
   },
+  {
+    count: "21",
+    genre: "",
+    question:
+      "유교의 도덕적 사상에서 기본이 되는 3가지의 강령과 5가지의 인륜은 무엇이라고 하나요?",
+    multiple_choice_view1: "삼강오륜",
+    multiple_choice_view2: "삼천리",
+    multiple_choice_view3: "삼한사온",
+    correct: "삼강오륜",
+  },
+  {
+    count: "22",
+    genre: "",
+    question:
+      "그리스 신화에서 나오는 타이탄족 이아페토스의 아들이며 '먼저 생각하는 사람' 이라는 뜻의 이름인 인물은 누구일까요?",
+    multiple_choice_view1: "헤라클레스",
+    multiple_choice_view2: "아테나",
+    multiple_choice_view3: "프로메테우스",
+    correct: "프로메테우스",
+  },
+  {
+    count: "23",
+    genre: "",
+    question:
+      "한 입 크기로 만든 중국의 만두로 3,000년 전 중국 남부 광동지방에서 만들어 먹기 시작한 이 음식의 이름은 무엇일까요?",
+    multiple_choice_view1: "딤채",
+    multiple_choice_view2: "딤섬",
+    multiple_choice_view3: "딤딤",
+    correct: "딤섬",
+  },
+  {
+    count: "24",
+    genre: "",
+    question:
+      "1627년(인조) 만주에 본거를 둔 후금의 침입으로 일어난 조선과 후금 사이의 전쟁은 무엇일까요?",
+    multiple_choice_view1: "정묘호란",
+    multiple_choice_view2: "임진왜란",
+    multiple_choice_view3: "병인양요",
+    correct: "정묘호란",
+  },
+  {
+    count: "25",
+    genre: "",
+    question:
+      "노벨상 분야는 총6개로 '생리의학상', '물리학상', '화학상', '문학상', '경제학상', 그리고 나머지 ○○○이 있습니다, 이것은 무엇일까요?",
+    multiple_choice_view1: "대상",
+    multiple_choice_view2: "평화상",
+    multiple_choice_view3: "개근상",
+    correct: "평화상",
+  },
+  {
+    count: "26",
+    genre: "",
+    question:
+      "용액의 산성, 염기성을 판단하는데 쓰이는 종이의 이름으로 산성은 붉은색, 염기성은 푸른색을 띠우는 이 종이의 이름은?",
+    multiple_choice_view1: "리트머스 종이",
+    multiple_choice_view2: "프링글스 종이",
+    multiple_choice_view3: "리트리버 종이",
+    correct: "리트머스 종이",
+  },
+  {
+    count: "27",
+    genre: "",
+    question:
+      "신축 건물안에서 거주자들이 느끼는 건강상 문제 및 불쾌감을 이르는 이 용어의 정확한 명칭은 무엇일까요?",
+    multiple_choice_view1: "새집증후군",
+    multiple_choice_view2: "헌집증후군",
+    multiple_choice_view3: "신축증후군",
+    correct: "새집증후군",
+  },
+  {
+    count: "28",
+    genre: "",
+    question:
+      "눈 앞에 먼지나 벌레같은 무언가가 떠다니는 것처럼 느끼는 증상이며, 시선위치에 따라 따라다니기도 하는 이 증상은 무엇일까요?",
+    multiple_choice_view1: "비염증",
+    multiple_choice_view2: "비문증",
+    multiple_choice_view3: "안구건조증",
+    correct: "비문증",
+  },
+  {
+    count: "29",
+    genre: "",
+    question:
+      "전설에 나오는 신령스러운 새이며 죽음과 부활을 반복하여 불사조라고도 불리는 이 전설의 새는 무엇일까요?",
+    multiple_choice_view1: "주작",
+    multiple_choice_view2: "피닉스",
+    multiple_choice_view3: "호아킨 피닉스",
+    correct: "피닉스",
+  },
+  {
+    count: "30",
+    genre: "",
+    question:
+      "이탈리아 베네치아 시내에 있는 운하를 운항하는 배로 이탈리아 말로 '흔들리다'라는 뜻의 이것은 무엇일까요?",
+    multiple_choice_view1: "아망떼(amante)",
+    multiple_choice_view2: "곤도라(gondola)",
+    multiple_choice_view3: "피오꼬(fioco)",
+    correct: "곤도라(gondola)",
+  },
 ];
 
 export default quizzes;

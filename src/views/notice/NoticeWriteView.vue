@@ -6,15 +6,16 @@ import BaseTextarea from "@/components/base/BaseTextarea.vue";
 import BaseDropdown from "@/components/base/BaseDropdown.vue";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import { useRouter } from "vue-router";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive } from "vue";
 import { useLoginStore } from "@/stores/login.js";
 import { useAlertStore } from "@/stores/alert.js";
 import { storeToRefs } from "pinia";
 import notice from "@/data/notice";
 import dayjs from "dayjs";
 
+//#region state
 const loginStore = useLoginStore();
-const { access_token, account_email, profile_nickname } = loginStore;
+const { profile_nickname } = loginStore;
 
 const alertStore = useAlertStore();
 const { isNonArticleType, isNonContents, isWrightSuccess, chitchat, request } =
@@ -22,11 +23,6 @@ const { isNonArticleType, isNonContents, isWrightSuccess, chitchat, request } =
 const { onAlertArticleType, onAlertContents } = alertStore;
 
 const router = useRouter();
-
-const goNoticeView = () => {
-  console.log("[goNoticeView]");
-  router.push({ name: "NoticeView" });
-};
 
 const savedItem = reactive({
   id: null,
@@ -39,27 +35,20 @@ const savedItem = reactive({
   createdDate: null,
   editedDate: null,
 });
+//#endregion state
 
+//#region function
 const saveData = () => {
   console.log("[saveData]");
 
   if (savedItem.articleType === "") {
-    // isBlock.value = true;
-    setTimeout(function () {
-      // isBlock.value = false;
-    }, 1000);
+    setTimeout(function () {}, 1000);
     onAlertArticleType();
   } else if (!savedItem.title) {
-    // isBlock.value = true;
-    setTimeout(function () {
-      // isBlock.value = false;
-    }, 1000);
+    setTimeout(function () {}, 1000);
     onAlertContents();
   } else if (!savedItem.content) {
-    // isBlock.value = true;
-    setTimeout(function () {
-      // isBlock.value = false;
-    }, 1000);
+    setTimeout(function () {}, 1000);
     onAlertContents();
   } else if (
     savedItem.articleType !== "" &&
@@ -73,18 +62,16 @@ const saveData = () => {
     savedItem.author = profile_nickname;
     savedItem.createdDate = dayjs().format("YY.MM.DD");
     savedItem.createdDetailDate = dayjs().format("YY.MM.DD HH:mm:ss");
-    // savedItem.editedDate = dayjs().format("YY.MM.DD HH:mm:ss");
 
     notice.unshift(savedItem);
 
-    // isBlock.value = true;
     setTimeout(function () {
-      // isBlock.value = false;
       isWrightSuccess.value = false;
-      goNoticeView();
+      router.push({ name: "NoticeView" });
     }, 1000);
   }
 };
+//#endregion function
 
 onMounted(() => {
   console.log("[onMounted]");
@@ -98,17 +85,17 @@ onMounted(() => {
       <BaseAlert
         :isShow="isNonArticleType"
         :classType="'alert-dark'"
-        :message="'글 분류를 선택해주세요. 😅'"
+        :message="'글 분류를 선택해주세요.'"
       />
       <BaseAlert
         :isShow="isNonContents"
         :classType="'alert-dark'"
-        :message="'제목과 내용을 입력해주세요. 😐'"
+        :message="'제목과 내용을 입력해주세요.'"
       />
       <BaseAlert
         :isShow="isWrightSuccess"
         :classType="'alert-primary'"
-        :message="'글 등록이 완료되었습니다. 😀'"
+        :message="'글 등록이 완료되었습니다.'"
       />
     </Teleport>
 
@@ -189,7 +176,7 @@ onMounted(() => {
       <BaseButton
         class="btn-outline-dark me-3"
         :message="'목록'"
-        @click="goNoticeView"
+        @click="router.push({ name: 'NoticeView' })"
       />
       <BaseButton
         class="btn-outline-primary"

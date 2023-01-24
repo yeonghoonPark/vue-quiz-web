@@ -1,5 +1,4 @@
 <script setup>
-/* import */
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseCard from "@/components/base/BaseCard.vue";
@@ -11,58 +10,45 @@ import { useAlertStore } from "@/stores/alert";
 import { storeToRefs } from "pinia";
 import quizzes from "@/data/quizzes";
 import ranking from "@/data/ranking";
-import { computed } from "@vue/reactivity";
+
+//#region state
+const loginStore = useLoginStore();
+const { profile_nickname } = storeToRefs(loginStore);
 
 const recordStore = useRecordStore();
-const loginStore = useLoginStore();
-const alertStore = useAlertStore();
-
-// loginStore's by pinia
-const { access_token, account_email, profile_nickname } =
-  storeToRefs(loginStore);
-
-// recordStore's by pinia
 const {
   startingPoint,
   minute,
   second,
   millisecond,
   correctAnswerNumber,
-  timeTaken,
+
   alignedRankList,
 } = storeToRefs(recordStore);
 const { startTimeAttack, stopTimeAttack, resetTimer, getTimeTaken } =
   recordStore;
 
-// alert's by pinia
+const alertStore = useAlertStore();
 const { isRightOrWrong } = storeToRefs(alertStore);
 const { onAlertRightOrWrong } = alertStore;
 
 const router = useRouter();
 
-// 퀴즈 담는 어레이
 const quizArray = ref([]);
 const newQuizChildBoxes = ref([]);
 
-// 문제 끝나고 기록이 나오는 알럿
 const isRecordCard = ref(false);
-
-// 로그인 없이 퀴즈 이용하는 경우 나오는 카드
 const isLoginCard = ref(false);
 
-// quiz시작 모달 부분관련
 const isStartShow = ref(false);
 const startCount = ref(3);
 const countInterval = ref(null);
 
-// alert 관련
 const alertClassType = ref("");
 const alertMessage = ref("");
 
-// progress bar 관련
 const progressCount = ref(0);
 
-// ranking 관련
 const newRankingItem = reactive({
   nickname: null,
   correctAnswerNumber: null,
@@ -72,13 +58,9 @@ const newRankingItem = reactive({
 });
 
 const newRank = ref(null);
+//#endregion state
 
-/* function */
-const goLoginView = () => {
-  console.log("[goLoginView]");
-  router.push({ name: "LoginView" });
-};
-
+//#region function
 /**
  * 태그를 삭제하고 다음형제의 클래스네임 "hidden"을 제거하여 디스플레이를 조정해주는 함수
  * @param {any} element
@@ -141,18 +123,13 @@ const computeNewRankingList = () => {
  */
 const countCorrectAnswers = (clickedView, correct) => {
   console.log("[countCorrectAnswers]");
-  console.log(`선택 = ${clickedView}\n정답 = ${correct}`);
-  clickedView === correct
-    ? console.log("*정답입니다.")
-    : console.log("*틀렸습니다.");
-
   if (clickedView === correct) {
     correctAnswerNumber.value++;
     alertClassType.value = "alert-success";
-    alertMessage.value = "정답입니다. 😊";
+    alertMessage.value = "정답입니다.";
   } else {
     alertClassType.value = "alert-danger";
-    alertMessage.value = "오답이에요. 😡";
+    alertMessage.value = "오답입니다.";
   }
 };
 
@@ -298,21 +275,21 @@ const createHTMLString = (itemList, index) => {
 };
 
 const returnText = (correctAnswerNumber) => {
-  // 0~1문제
+  // 0 ~ 1
   if (correctAnswerNumber < 2) {
-    return `...위로의 말을 전합니다. 💩`;
-    // 2~5문제
+    return `...위로의 말을 전합니다.`;
+    // 2 ~ 5
   } else if (correctAnswerNumber > 1 && correctAnswerNumber < 6) {
-    return `조금 더 분발해주세요 😭`;
-    // 6~7문제
+    return `조금 더 분발해주세요`;
+    // 6 ~ 7
   } else if (correctAnswerNumber > 5 && correctAnswerNumber < 8) {
-    return `상식이 뛰어나시군요? 😁`;
-    // 8~9문제
+    return `상식이 뛰어나시군요?`;
+    // 8 ~ 9
   } else if (correctAnswerNumber > 7 && correctAnswerNumber < 10) {
-    return `훌륭해요!! 똑똑하시군요!? 😎`;
-    // 10문제
+    return `훌륭해요!!`;
+    // 10
   } else {
-    return `축하합니다!! 완벽해요 🤩`;
+    return `축하합니다!!`;
   }
 };
 
@@ -346,6 +323,7 @@ const resetStates = () => {
   stopTimeAttack();
   resetTimer();
 };
+//#endregion function
 
 onMounted(() => {
   console.log("[onMounted]");
@@ -400,7 +378,7 @@ onUnmounted(() => {
       <div
         v-if="isLoginCard"
         class="position-fixed top-50 start-50 translate-middle"
-        style="z-index: 2"
+        style="min-width: 348px; z-index: 2"
       >
         <BaseCard class="text-center">
           <template #header>
@@ -415,7 +393,7 @@ onUnmounted(() => {
           <BaseButton
             class="btn-outline-primary me-3"
             :message="'확인'"
-            @click="goLoginView"
+            @click="router.push({ name: 'LoginView' })"
           />
           <BaseButton
             class="btn-outline-danger"
@@ -434,7 +412,7 @@ onUnmounted(() => {
       <div
         v-if="isRecordCard"
         class="position-fixed top-50 start-50 translate-middle"
-        style="z-index: 2"
+        style="min-width: 348px; z-index: 2"
       >
         <BaseCard class="text-center user-select-none">
           <template #header>
@@ -445,15 +423,19 @@ onUnmounted(() => {
           <h6 class="card-title p-2 mb-3">
             {{ `'${profile_nickname}'님의 결과` }}
           </h6>
-          <p class="text-start">
-            {{ `맞춘 갯수: ${correctAnswerNumber} 문제` }}
+          <p class="text-start mb-4">
+            {{ `맞춘 갯수: `
+            }}<span class="font-pink">{{ `${correctAnswerNumber}` }}</span>
+            {{ `문제` }}
           </p>
-          <p class="text-start">
-            {{ `소요 시간: ${minute}:${second}.${millisecond}` }}
+          <p class="text-start mb-4">
+            {{ `소요 시간: ${minute}:${second}.`
+            }}<span class="font-pink">{{ `${millisecond}` }}</span>
           </p>
-          <p class="text-start">
+          <p class="text-start mb-4">
             <template v-if="newRank < 11">
-              {{ `순위: ${newRank}` }}
+              {{ `순위: ` }}<span class="font-pink">{{ `${newRank}` }}</span>
+              {{ `등` }}
               <BaseButton
                 v-if="newRank < 11"
                 class="btn btn-outline-primary btn-sm"
@@ -472,7 +454,7 @@ onUnmounted(() => {
       </div>
     </Teleport>
 
-    <!-- main -->
+    <!-- quiz -->
     <div
       id="quizBox"
       class="position-fixed top-50 start-50 translate-middle box p-4 z-0"
@@ -605,5 +587,3 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped></style>

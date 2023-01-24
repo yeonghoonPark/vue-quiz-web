@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useAlertStore = defineStore("alert", () => {
-  // alert boolean type var
+  //#region state
   const isRightOrWrong = ref(false);
   const isNonArticleType = ref(false);
   const isNonContents = ref(false);
@@ -11,20 +11,11 @@ export const useAlertStore = defineStore("alert", () => {
   const isEditMismatch = ref(false);
   const isDeleteMismatch = ref(false);
 
-  // options value
   const chitchat = ref(null);
   const request = ref(null);
+  //#endregion state
 
-  // const onAlert = (a) => {
-  //   a = true;
-  //   console.log(isNonContents.value);
-  //   setTimeout(function () {
-  //     a = false;
-  //     console.log(a);
-  //     console.log(isNonContents.value);
-  //   }, 1000);
-  // };
-
+  //#region function
   const onAlertRightOrWrong = () => {
     console.log("[onAlertRightOrWrong]");
     isRightOrWrong.value = true;
@@ -48,6 +39,7 @@ export const useAlertStore = defineStore("alert", () => {
       isNonContents.value = false;
     }, 1000);
   };
+  //#endregion function
 
   return {
     isRightOrWrong,

@@ -2,16 +2,20 @@
 import BaseTh from "@/components/base/BaseTh.vue";
 import BaseTd from "@/components/base/BaseTh.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useRecordStore } from "@/stores/record";
 import { storeToRefs } from "pinia";
 import ranking from "@/data/ranking";
 
+//#region state
 const recordStore = useRecordStore();
 const { alignedRankList } = storeToRefs(recordStore);
 
 const router = useRouter();
+//#endregion state
 
+//#region function
 alignedRankList.value = ranking.sort(function (a, b) {
   let aTimeTaken = a.minute + a.second + a.millisecond;
   let bTimeTaken = b.minute + b.second + b.millisecond;
@@ -32,6 +36,11 @@ const setBackgoundType = (rank) => {
     return "bg-bronze";
   }
 };
+//#endregion function
+
+onMounted(() => {
+  console.log("[onMounted]");
+});
 </script>
 
 <template>
@@ -39,9 +48,10 @@ const setBackgoundType = (rank) => {
     <!-- title -->
     <h1 class="text-center mb-5">순위</h1>
 
+    <!-- table -->
     <div class="overflow-auto mb-4 user-select-none" style="height: 468px">
       <table class="table align-middle text-center">
-        <thead class="sticky-top box-bg">
+        <thead class="sticky-top bg-dark text-white">
           <tr>
             <BaseTh class="col-1" :scopeStyle="'col'" :message="'순위'" />
             <BaseTh class="col-4" :scopeStyle="'col'" :message="'닉네임'" />
@@ -74,8 +84,8 @@ const setBackgoundType = (rank) => {
             <BaseTd class="" :message="item?.correctAnswerNumber" />
 
             <td class="d-sm-hidden d-md-hidden">
-              {{ `${item?.minute}:${item?.second}:` }}
-              <span class="font-pink">{{ `${item?.millisecond}` }}</span>
+              {{ `${item?.minute}:${item?.second}.`
+              }}<span class="font-pink">{{ `${item?.millisecond}` }}</span>
             </td>
           </tr>
         </tbody>

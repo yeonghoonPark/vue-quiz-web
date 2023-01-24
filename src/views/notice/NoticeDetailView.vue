@@ -9,9 +9,9 @@ import { useAlertStore } from "@/stores/alert.js";
 import { storeToRefs } from "pinia";
 import notice from "@/data/notice";
 
+//#region state
 const loginStore = useLoginStore();
-const { access_token, account_email, profile_nickname } =
-  storeToRefs(loginStore);
+const { profile_nickname } = storeToRefs(loginStore);
 
 const alertStore = useAlertStore();
 const { isDeleteSuccess, isEditMismatch, isDeleteMismatch } =
@@ -24,15 +24,12 @@ const selectedItem = ref(null);
 const id = parseInt(route.params.id);
 
 const isDeleteCard = ref(false);
+//#endregion state
 
+//#region function
 notice.forEach((item) => {
   if (item.id === id) selectedItem.value = item;
 });
-
-const goNoticeView = () => {
-  console.log("[goNoticeView]");
-  router.push({ name: "NoticeView" });
-};
 
 const goNoticeEditView = (id) => {
   console.log("[goNoticeEditView]");
@@ -75,11 +72,12 @@ const deleteSelectedItem = () => {
       notice.splice(item, 1);
       setTimeout(function () {
         isDeleteSuccess.value = false;
-        goNoticeView();
+        router.push({ name: "NoticeView" });
       }, 1000);
     }
   });
 };
+//#endregion function
 
 onMounted(() => {
   console.log("[onMounted]");
@@ -94,19 +92,19 @@ onMounted(() => {
         class="text-center"
         :isShow="isDeleteSuccess"
         :classType="'alert-info'"
-        :message="'글 삭제가 완료되었습니다. 😀'"
+        :message="'글 삭제가 완료되었습니다.'"
       />
       <BaseAlert
         class="text-center"
         :isShow="isEditMismatch"
         :classType="'alert-danger'"
-        :message="'작성자만 수정 가능합니다. 😅'"
+        :message="'작성자만 수정 가능합니다.'"
       />
       <BaseAlert
         class="text-center"
         :isShow="isDeleteMismatch"
         :classType="'alert-danger'"
-        :message="'작성자만 삭제 가능합니다. 😅'"
+        :message="'작성자만 삭제 가능합니다.'"
       />
     </Teleport>
 
@@ -216,7 +214,7 @@ onMounted(() => {
       <BaseButton
         class="btn-outline-dark me-3"
         :message="'목록'"
-        @click="goNoticeView"
+        @click="router.push({ name: 'NoticeView' })"
       />
       <BaseButton
         class="btn-outline-success me-3"

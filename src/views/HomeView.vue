@@ -1,7 +1,6 @@
 <script setup>
 import BaseButton from "@/components/base/BaseButton.vue";
 import { useRouter } from "vue-router";
-
 const router = useRouter();
 </script>
 
@@ -26,7 +25,6 @@ const router = useRouter();
     </div>
     <!-- button-group -->
     <div
-      class=""
       style="
         position: fixed;
         top: 70%;
@@ -42,5 +40,3 @@ const router = useRouter();
     </div>
   </div>
 </template>
-
-<style scoped></style>

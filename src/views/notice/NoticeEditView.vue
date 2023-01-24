@@ -6,16 +6,16 @@ import BaseTextarea from "@/components/base/BaseTextarea.vue";
 import BaseDropdown from "@/components/base/BaseDropdown.vue";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref, toRef } from "vue";
+import { onMounted, ref } from "vue";
 import { useLoginStore } from "@/stores/login.js";
 import { useAlertStore } from "@/stores/alert.js";
 import { storeToRefs } from "pinia";
 import notice from "@/data/notice";
 import dayjs from "dayjs";
 
+//#region state
 const loginStore = useLoginStore();
-const { access_token, account_email, profile_nickname } =
-  storeToRefs(loginStore);
+const { profile_nickname } = storeToRefs(loginStore);
 
 const alertStore = useAlertStore();
 const { isNonArticleType, isNonContents, isWrightSuccess, chitchat, request } =
@@ -27,20 +27,15 @@ const router = useRouter();
 
 const editedItem = ref(null);
 const id = parseInt(route.params.id);
+//#endregion state
 
-// const isBlock = ref(false);
-
+//#region function
 notice.forEach((item) => {
   if (item.id === id) {
     editedItem.value = item;
     console.log(editedItem.value, "에딧티드");
   }
 });
-
-const goNoticeView = () => {
-  console.log("[goNoticeView]");
-  router.push({ name: "NoticeView" });
-};
 
 const goNoticeDetailView = (id) => {
   console.log("[goNoticeDetailView]");
@@ -53,22 +48,13 @@ const goNoticeDetailView = (id) => {
 const editData = () => {
   console.log("[editData]");
   if (editedItem.value?.articleType === "") {
-    // isBlock.value = true;
-    setTimeout(function () {
-      // isBlock.value = false;
-    }, 1000);
+    setTimeout(function () {}, 1000);
     onAlertArticleType();
   } else if (!editedItem.value.title) {
-    // isBlock.value = true;
-    setTimeout(function () {
-      // isBlock.value = false;
-    }, 1000);
+    setTimeout(function () {}, 1000);
     onAlertContents();
   } else if (!editedItem.value.content) {
-    // isBlock.value = true;
-    setTimeout(function () {
-      // isBlock.value = false;
-    }, 1000);
+    setTimeout(function () {}, 1000);
     onAlertContents();
   } else if (
     editedItem.value?.articleType !== "" &&
@@ -83,14 +69,13 @@ const editData = () => {
       : "request";
     editedItem.value.editedDate = dayjs().format("YY.MM.DD HH:mm:ss");
 
-    // isBlock.value = true;
     setTimeout(function () {
-      // isBlock.value = false;
       isWrightSuccess.value = false;
       goNoticeDetailView(id);
     }, 1000);
   }
 };
+//#endregion function
 
 onMounted(() => {
   console.log("[onMounted]");
@@ -104,17 +89,17 @@ onMounted(() => {
       <BaseAlert
         :isShow="isNonArticleType"
         :classType="'alert-dark'"
-        :message="'글 분류를 선택해주세요. 😅'"
+        :message="'글 분류를 선택해주세요.'"
       />
       <BaseAlert
         :isShow="isNonContents"
         :classType="'alert-dark'"
-        :message="'제목과 내용을 입력해주세요. 😐'"
+        :message="'제목과 내용을 입력해주세요.'"
       />
       <BaseAlert
         :isShow="isWrightSuccess"
         :classType="'alert-info'"
-        :message="'글 수정이 완료되었습니다. 😀'"
+        :message="'글 수정이 완료되었습니다.'"
       />
     </Teleport>
 
@@ -195,7 +180,7 @@ onMounted(() => {
       <BaseButton
         class="btn-outline-dark me-3"
         :message="'목록'"
-        @click="goNoticeView"
+        @click="router.push({ name: 'NoticeView' })"
       />
 
       <BaseButton class="btn-info" :message="'글 수정완료'" @click="editData" />

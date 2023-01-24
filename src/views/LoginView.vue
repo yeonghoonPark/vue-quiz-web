@@ -3,31 +3,25 @@ import BaseButton from "@/components/base/BaseButton.vue";
 import BaseLabel from "@/components/base/BaseLabel.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import { onMounted, reactive, ref, watch } from "vue";
+import { onMounted } from "vue";
 import { useLoginStore } from "@/stores/login.js";
 import { useAlertStore } from "@/stores/alert.js";
-import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 
+//#region state
 const loginStore = useLoginStore();
-
 const {
-  access_token,
-  account_email,
-  profile_nickname,
   userId,
   userPassword,
   userNickname,
   isLoginSuccess,
   isLoginKakaoSuccess,
-  isBlock,
 } = storeToRefs(loginStore);
-const { onLogin, onLoginWithKakao, onLogoutWithKakao } = loginStore;
+const { onLogin, onLoginWithKakao } = loginStore;
 
 const alertStore = useAlertStore();
 const { isNonContents } = storeToRefs(alertStore);
-
-const router = useRouter();
+//#endregion state
 
 onMounted(() => {
   console.log("[onMounted]");
@@ -43,17 +37,17 @@ onMounted(() => {
       <BaseAlert
         :isShow="isNonContents"
         :classType="'alert-dark'"
-        :message="'빈칸 없이 입력해주세요. 😐'"
+        :message="'빈칸 없이 입력해주세요.'"
       />
       <BaseAlert
         :isShow="isLoginSuccess"
         :classType="'alert-primary'"
-        :message="`로그인에 성공하였습니다. 😀`"
+        :message="`로그인에 성공하였습니다.`"
       />
       <BaseAlert
         :isShow="isLoginKakaoSuccess"
         :classType="'alert-warning'"
-        :message="`카카오로그인에 성공하였습니다. 😀`"
+        :message="`카카오로그인에 성공하였습니다.`"
       />
     </Teleport>
 
@@ -78,9 +72,7 @@ onMounted(() => {
           />
         </div>
       </div>
-
       <hr />
-
       <div class="row align-items-center py-2 mb-1">
         <div class="col-3 text-center">
           <BaseLabel
@@ -100,9 +92,7 @@ onMounted(() => {
           />
         </div>
       </div>
-
       <hr />
-
       <div class="row align-items-center py-2 mb-1">
         <div class="col-3 text-center">
           <BaseLabel
