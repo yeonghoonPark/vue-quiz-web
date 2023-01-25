@@ -99,7 +99,7 @@ const isHelpCard = ref(false);
         <RouterLink to="/" class="pe-3" @click="isHelpCard = false">
           <img
             class="img"
-            src="@/assets/images/logo.png"
+            src="../../public/assets/images/logo.png"
             alt="logo"
             style="width: 120px"
           />

@@ -25,6 +25,7 @@ const emits = defineEmits(["update:inputValue"]);
     :class="formControl"
     :type="inputType"
     :id="ariaLabel"
+    :name="ariaLabel"
     @input="$emit('update:inputValue', $event.target.value)"
   />
 </template>

@@ -8,8 +8,8 @@ import { createPinia } from "pinia";
 import App from "@/App.vue";
 import router from "@/router";
 
-import "@/assets/css/common.css";
-import "@/assets/css/reset.css";
+import "../public/assets/css/common.css";
+import "../public/assets/css/reset.css";
 import dayjs from "dayjs";
 
 const app = createApp(App);
