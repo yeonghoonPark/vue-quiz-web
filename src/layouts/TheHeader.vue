@@ -41,7 +41,7 @@ const isHelpCard = ref(false);
       class="position-fixed top-50 start-50 translate-middle"
       style="z-index: 2"
     >
-      <BaseCard class="text-center user-select-none">
+      <BaseCard class="text-center user-select-none" style="min-width: 264px">
         <template #header>
           <h5 class="">도움말</h5>
         </template>

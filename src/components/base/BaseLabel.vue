@@ -6,7 +6,7 @@ const props = defineProps({
   },
   labelMessage: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 </script>

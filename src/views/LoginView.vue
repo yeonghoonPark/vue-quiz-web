@@ -57,63 +57,52 @@ onMounted(() => {
     <!-- form -->
     <form class="container mb-5 pt-5">
       <div class="row align-items-center py-2 mb-1">
-        <div class="col-3 text-center">
-          <BaseLabel class="" :labelFor="'userId'" :labelMessage="'아이디'" />
-        </div>
-        <div class="col-9 w-50">
-          <BaseInput
-            class=""
-            :type="'email'"
-            :id="'userId'"
-            :name="'userId'"
-            maxlength="35"
-            placeholder="이메일 또는 아이디를 입력해주세요"
-            :value="userId"
-            v-model:inputValue="userId"
-          />
-        </div>
+        <BaseLabel
+          class="col-3 text-center"
+          :labelFor="'userId'"
+          :labelMessage="'아이디'"
+        />
+        <BaseInput
+          class="col-9 w-50"
+          :type="'email'"
+          :id="'userId'"
+          maxlength="35"
+          placeholder="이메일 또는 아이디를 입력해주세요"
+          :value="userId"
+          v-model:inputValue="userId"
+        />
       </div>
       <hr />
       <div class="row align-items-center py-2 mb-1">
-        <div class="col-3 text-center">
-          <BaseLabel
-            class=""
-            :labelFor="'userPassword'"
-            :labelMessage="'비밀번호'"
-          />
-        </div>
-        <div class="col-9 w-50">
-          <BaseInput
-            class=""
-            :type="'password'"
-            :id="'userPassword'"
-            :name="'userPassword'"
-            placeholder="비밀번호를 입력해주세요"
-            :value="userPassword"
-            v-model:inputValue="userPassword"
-          />
-        </div>
+        <BaseLabel
+          class="col-3 text-center"
+          :labelFor="'userPassword'"
+          :labelMessage="'비밀번호'"
+        />
+        <BaseInput
+          class="col-9 w-50"
+          :type="'password'"
+          :id="'userPassword'"
+          placeholder="비밀번호를 입력해주세요"
+          :value="userPassword"
+          v-model:inputValue="userPassword"
+        />
       </div>
       <hr />
       <div class="row align-items-center py-2 mb-1">
-        <div class="col-3 text-center">
-          <BaseLabel
-            class=""
-            :labelFor="'userNickname'"
-            :labelMessage="'닉네임'"
-          />
-        </div>
-        <div class="col-9 w-50">
-          <BaseInput
-            class=""
-            :id="'userNickname'"
-            :name="'userNickname'"
-            maxlength="16"
-            placeholder="닉네임을 입력해주세요"
-            :value="userNickname"
-            v-model:inputValue="userNickname"
-          />
-        </div>
+        <BaseLabel
+          class="col-3 text-center"
+          :labelFor="'userNickname'"
+          :labelMessage="'닉네임'"
+        />
+        <BaseInput
+          class="col-9 w-50"
+          :id="'userNickname'"
+          maxlength="16"
+          placeholder="닉네임을 입력해주세요"
+          :value="userNickname"
+          v-model:inputValue="userNickname"
+        />
       </div>
     </form>
 

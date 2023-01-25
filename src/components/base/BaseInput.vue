@@ -6,7 +6,7 @@ const props = defineProps({
     default: "form-control",
     required: false,
   },
-  ariaLabel: {
+  id: {
     type: String,
     required: false,
   },
@@ -24,8 +24,7 @@ const emits = defineEmits(["update:inputValue"]);
   <input
     :class="formControl"
     :type="inputType"
-    :id="ariaLabel"
-    :name="ariaLabel"
+    :id="id"
     @input="$emit('update:inputValue', $event.target.value)"
   />
 </template>
