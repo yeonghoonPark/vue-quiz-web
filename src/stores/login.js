@@ -35,7 +35,7 @@ export const useLoginStore = defineStore("login", () => {
     Kakao.API.request({
       url: "/v2/user/me",
       success: function (response) {
-        console.log(response, "response");
+        // console.log(response, "response");
         isLoginKakaoSuccess.value = true;
         setTimeout(function () {
           router.push({ name: "HomeView" });
